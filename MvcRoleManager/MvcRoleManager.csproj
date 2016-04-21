@@ -212,6 +212,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Scripts\app.js" />
+    <Content Include="App_Scripts\Controllers\RoleController.js" />
+    <Content Include="App_Scripts\Services\controllerService.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
@@ -257,8 +259,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Security\Models\" />
-    <Folder Include="Areas\Security\Views\Shared\" />
     <Folder Include="Properties\" />
+    <Folder Include="www\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -267,6 +269,9 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Areas\Security\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Security\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Security\Views\RoleManager\PartialIndex.cshtml" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>

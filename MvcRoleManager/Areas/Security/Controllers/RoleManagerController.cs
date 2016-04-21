@@ -13,5 +13,10 @@ namespace MvcRoleManager.Web.Areas.Security.Controllers
         {
             return View();
         }
+
+        public ActionResult PartialIndex()
+        {
+            return View();
+        }
     }
 }

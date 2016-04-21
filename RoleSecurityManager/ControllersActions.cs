@@ -4,39 +4,82 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Mvc;
+using System.Configuration;
 
 namespace MvcRoleManager.Security
 {
-    public class ProjectController
+
+    public interface IMvcController
     {
-        public ProjectController(string controllerName, string controllerType)
+        string ControllerName { get; set; }
+        string ControllerType { get; set; }
+        string Description { get; set; }
+        List<MvcAction> ActionCollection { get; set; }
+
+    }
+    public class MvcController : IMvcController
+    {
+        public MvcController(string controllerName, string controllerType)
         {
             this.ControllerName = controllerName;
             this.ControllerType = controllerType;
-            this.ActionCollection = new List<string>();
+            this.ActionCollection = new List<MvcAction>();
         }
-        public string ControllerName { get; private set; }
-        public string ControllerType { get; private set; }
-        public List<string> ActionCollection { get; private set; }
+        public string ControllerName { get; set; }
+        public string ControllerType { get; set; }
+        public string Description { get; set; }
+        public List<MvcAction> ActionCollection { get; set; }
 
     }
+
+    public interface IMvcAction
+    {
+        string ActionName { get; set; }
+        string Description { get; set; }
+    }
+
+    public class MvcAction : IMvcAction
+    {
+        public string ActionName { get; set; }
+        public string Description { get; set; }
+    }
+
     public class ControllersActions
     {
+        private string _dllPath;
+        private Assembly _assembly;
+
+        public ControllersActions()
+        {
+            _dllPath = ConfigurationManager.AppSettings["ControllersAssembly"];
+            this._assembly = Assembly.LoadFrom(this._dllPath);
+        }
+
+        public ControllersActions(string dllPath)
+        {
+            this._dllPath = dllPath;
+            this._assembly = Assembly.LoadFrom(this._dllPath);
+        }
+
+        public ControllersActions(Assembly assembly)
+        {
+            this._assembly = assembly;
+        }
         //string dllPath = HttpContext.Current.Server.MapPath("~/bin/" + "MvcRoleManager.Web.dll");
-        public List<ProjectController> GetControllers(string dllPath)
+        public List<MvcController> GetControllers()
         {
             ControllersActions ca = new ControllersActions();
 
-            var DLL = Assembly.LoadFrom(dllPath);
+            var controllerActionList = _assembly.GetTypes()
+                .Where(c => c.BaseType == typeof(Controller) || c.BaseType == typeof(ApiController))
+                .Select(b => new MvcController(b.Name, b.BaseType.Name)).ToList();
 
-            var controllerActionList = DLL.GetTypes()
-                .Where(c => c.FullName.Contains("Controller"))
-                .ToList();
-
-            List<ProjectController> controllerList = controllerActionList.Where(c => c.Name.Contains("Controller")).Select(b => new ProjectController(b.Name, b.BaseType.Name)).ToList();
-
-            var controlleractionlist = DLL.GetTypes()
-                    .SelectMany(type => type.GetMethods((BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public)))
+            var controlleractionlist = _assembly.GetTypes()
+                .Where(type => type.CustomAttributes.Any(c => c.AttributeType != typeof(System.Web.Http.AllowAnonymousAttribute)
+                                                           || c.AttributeType != typeof(System.Web.Mvc.AllowAnonymousAttribute)))
+                    .SelectMany(type => type.GetMethods((BindingFlags.Instance | BindingFlags.Public)))
                     .Select(x => new
                     {
                         Controller = x.DeclaringType.Name,
@@ -44,11 +87,11 @@ namespace MvcRoleManager.Security
                         ReturnType = x.ReturnType
                         //, Attributes = String.Join(",", x.GetCustomAttributes().Select(a => a.GetType().Name.Replace("Attribute", ""))) 
                     })
-                    .Where(c => c.ReturnType.FullName != null && c.ReturnType.FullName.Contains("ActionResult"))
+                    .Where(c => c.ReturnType.FullName != null && c.ReturnType.BaseType == typeof(ActionResult))
                     .ToList();
 
-            controlleractionlist.ForEach(x => { controllerList.Where(c => c.ControllerName == x.Controller).FirstOrDefault().ActionCollection.Add(x.Action); });
-            return controllerList;
+            controlleractionlist.ForEach(x => { controllerActionList.Where(c => c.ControllerName == x.Controller).FirstOrDefault().ActionCollection.Add(x.Action); });
+            return controllerActionList;
         }
     }
 }
