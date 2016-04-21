@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace MvcRoleManager.Areas.Security
+namespace MvcRoleManager.Web.Areas.Security
 {
     public class SecurityAreaRegistration : AreaRegistration 
     {
