@@ -225,14 +225,35 @@
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-sanitize\angular-sanitize.js" />
+    <Content Include="Scripts\angular-sanitize\angular-sanitize.min.js" />
+    <Content Include="Scripts\angular-sanitize\index.js" />
+    <Content Include="Scripts\angular-schema-form\dist\bootstrap-decorator.js" />
+    <Content Include="Scripts\angular-schema-form\dist\bootstrap-decorator.min.js" />
+    <Content Include="Scripts\angular-schema-form\dist\schema-form.js" />
+    <Content Include="Scripts\angular-schema-form\dist\schema-form.min.js" />
+    <Content Include="Scripts\angular-schema-form\jslicense.html" />
+    <Content Include="Scripts\angular-schema-form\src\directives\array.js" />
+    <Content Include="Scripts\angular-schema-form\src\directives\changed.js" />
+    <Content Include="Scripts\angular-schema-form\src\directives\field.js" />
+    <Content Include="Scripts\angular-schema-form\src\directives\message.js" />
+    <Content Include="Scripts\angular-schema-form\src\directives\newArray.js" />
+    <Content Include="Scripts\angular-schema-form\src\directives\schema-form.js" />
+    <Content Include="Scripts\angular-schema-form\src\directives\schema-validate.js" />
+    <Content Include="Scripts\angular-schema-form\src\module.js" />
+    <Content Include="Scripts\angular-schema-form\src\services\builder.js" />
+    <Content Include="Scripts\angular-schema-form\src\services\decorators.js" />
+    <Content Include="Scripts\angular-schema-form\src\services\errors.js" />
+    <Content Include="Scripts\angular-schema-form\src\services\schema-form.js" />
+    <Content Include="Scripts\angular-schema-form\src\services\Select.js" />
+    <Content Include="Scripts\angular-schema-form\src\services\validator.js" />
+    <Content Include="Scripts\angular-schema-form\src\sfPath.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -240,8 +261,12 @@
     <Content Include="Areas\Security\Views\web.config" />
     <Content Include="Areas\Security\Views\RoleManager\Index.cshtml" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\objectpath\index.js" />
+    <Content Include="Scripts\objectpath\lib\ObjectPath.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\tv4\tv4.async-jquery.js" />
+    <Content Include="Scripts\tv4\tv4.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -263,7 +288,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Security\Models\" />
     <Folder Include="Properties\" />
-    <Folder Include="www\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -274,8 +298,26 @@
     </Content>
     <Content Include="Areas\Security\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Security\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Security\Views\RoleManager\PartialIndex.cshtml" />
+    <Content Include="RoleManager\ControllersActions.html" />
     <None Include="Project_Readme.html" />
+    <Content Include="Scripts\angular-sanitize\.bower.json" />
+    <Content Include="Scripts\angular-sanitize\angular-sanitize.min.js.map" />
+    <Content Include="Scripts\angular-sanitize\bower.json" />
+    <Content Include="Scripts\angular-sanitize\package.json" />
+    <Content Include="Scripts\angular-sanitize\README.md" />
+    <Content Include="Scripts\angular-schema-form\.bower.json" />
+    <Content Include="Scripts\angular-schema-form\bower.json" />
+    <Content Include="Scripts\angular-schema-form\CONTRIBUTING.md" />
+    <Content Include="Scripts\angular-schema-form\dist\WHERE_IS_BOOTSTRAP_DECORATOR.md" />
+    <Content Include="Scripts\angular-schema-form\README.md" />
+    <Content Include="Scripts\angular-schema-form\src\directives\WHERE_ARE_THE_DECORATORS.md" />
+    <Content Include="Scripts\objectpath\.bower.json" />
+    <Content Include="Scripts\objectpath\bower.json" />
+    <Content Include="Scripts\objectpath\license" />
+    <Content Include="Scripts\objectpath\package.json" />
+    <Content Include="Scripts\objectpath\readme.md" />
+    <Content Include="Scripts\tv4\.bower.json" />
+    <Content Include="Scripts\tv4\bower.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MvcRoleManager.Security\MvcRoleManager.Security.csproj">
