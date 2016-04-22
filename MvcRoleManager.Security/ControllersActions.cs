@@ -53,7 +53,12 @@ namespace MvcRoleManager.Security
 
         public ControllersActions()
         {
-            _dllPath = ConfigurationManager.AppSettings["ControllersAssembly"];
+            //Get executing assembly path, but remove "file://" prefix;
+            _dllPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(6);
+
+            _dllPath +="\\"+ ConfigurationManager.AppSettings["ControllersAssembly"];
+            if (!_dllPath.EndsWith(".dll"))
+                _dllPath += ".dll";
             this._assembly = Assembly.LoadFrom(this._dllPath);
         }
 
@@ -90,7 +95,7 @@ namespace MvcRoleManager.Security
                     .Where(c => c.ReturnType.FullName != null && c.ReturnType.BaseType == typeof(ActionResult))
                     .ToList();
 
-            controlleractionlist.ForEach(x => { controllerActionList.Where(c => c.ControllerName == x.Controller).FirstOrDefault().ActionCollection.Add(x.Action); });
+            //controlleract/*ionlist.ForEach(x => { controllerActionList.Where(c => c.ControllerName == x.Controller).FirstOrDefault().ActionCollection.Add(x.Action); });
             return controllerActionList;
         }
     }

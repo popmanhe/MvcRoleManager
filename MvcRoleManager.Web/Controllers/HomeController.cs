@@ -8,14 +8,16 @@ using System.Web.Mvc;
 
 namespace MvcRoleManager.Controllers
 {
-   [ControllerDescription("")][Authorize]
+    [Security.Attributes.Description("")]
+    [Authorize]
     public class HomeController : Controller
     {
-        [ActionDescription("")]
+        [Security.Attributes.Description("")]
         [AllowAnonymous]
         public ActionResult Index()
         {
-            ControllersActions ca = new ControllersActions(Server.MapPath("~/bin/" + "MvcRoleManager.Web.dll"));
+            
+            ControllersActions ca = new ControllersActions();
             List <MvcController> pclist = ca.GetControllers();
             ViewBag.Title = "Home Page";
 

@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiAuthoraiztion.cs" />
+    <Compile Include="Attributes\ControllerDescriptionAttribute.cs" />
     <Compile Include="AuthorizationManager.cs" />
     <Compile Include="ControllersActions.cs" />
     <Compile Include="MvcAuthoraiztion.cs" />
