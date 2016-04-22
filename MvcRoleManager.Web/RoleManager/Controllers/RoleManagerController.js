@@ -1,4 +1,5 @@
-﻿;(function(){
+﻿'use strict';
+; (function () {
     var app = angular.module('RoleManager');
     app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
         //
@@ -7,14 +8,14 @@
         //
         // Now set up the states
         $stateProvider
-          .state('controlleraction', {
+          .state('controllers', {
               url: "/",
               templateUrl: "/RoleManager/partials/Controllers.html",
-              controller: 'ProfileController'
+              controller: 'ControllersCtrl'
           });
     }]);
 
-    app.controller('ProfileController', function ($scope) {
+    app.controller('ControllersCtrl', function ($scope) {
         $scope.text = "hello world!";
     });
 })();

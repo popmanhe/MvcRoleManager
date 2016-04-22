@@ -18,7 +18,7 @@ namespace MvcRoleManager.Controllers
         {
             
             ControllersActions ca = new ControllersActions();
-            List <MvcController> pclist = ca.GetControllers();
+            List <MvcController> pclist = ca.GetControllers(true);
             ViewBag.Title = "Home Page";
 
             return View();
