@@ -1,9 +1,9 @@
 ﻿'use strict';
 ; (function () {
-    var app = angular.module('');
+    var app = angular.module('RoleManager');
 
     app.config(['$provide', function ($provide) {
-        $provide.factory('accountService', ['$http', function ($http) {
+        $provide.factory('RoleManagerService', ['$http', function ($http) {
 
             var service = {};
 
