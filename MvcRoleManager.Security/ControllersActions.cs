@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Configuration;
+using MvcRoleManager.Security.Attributes;
 
 namespace MvcRoleManager.Security
 {
@@ -102,16 +103,16 @@ namespace MvcRoleManager.Security
                 this._types = this._assembly.GetTypes();
 
             var actions = _types
-                .Where(type => type.CustomAttributes.Any(c => (c.AttributeType != typeof(System.Web.Http.AllowAnonymousAttribute)
-                                                           || c.AttributeType != typeof(System.Web.Mvc.AllowAnonymousAttribute))
-                                                           && (c.AttributeType != typeof(System.Web.Http.NonActionAttribute)
-                                                           || c.AttributeType != typeof(System.Web.Mvc.NonActionAttribute))))
                     .SelectMany(type => type.GetMethods((BindingFlags.Instance | BindingFlags.Public)))
-                    .Where(m => m.DeclaringType.Name == controller.ControllerName)
+                    .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_") && (m.DeclaringType.Name == controller.ControllerName) && !m.CustomAttributes.Any(c =>
+                                                                   c.AttributeType == typeof(System.Web.Http.AllowAnonymousAttribute)
+                                                            || c.AttributeType == typeof(System.Web.Mvc.AllowAnonymousAttribute)
+                                                           || c.AttributeType == typeof(System.Web.Http.NonActionAttribute)
+                                                           || c.AttributeType == typeof(System.Web.Mvc.NonActionAttribute)))
                     .Select(x => new MvcAction
                     {
                         ActionName = x.Name,
-                        Description = "",
+                        Description = x.GetCustomAttribute<DescriptionAttribute>() != null ? x.GetCustomAttribute<DescriptionAttribute>().Title : "",
                         ReturnType = x.ReturnType.ToString()
                     }).ToList();
 

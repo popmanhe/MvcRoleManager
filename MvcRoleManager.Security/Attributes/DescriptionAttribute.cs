@@ -21,14 +21,4 @@ namespace MvcRoleManager.Security.Attributes
             _title = title;
         }
     }
-
-    public static class Extensions
-    {
-        public static string GetDescription(this MemberInfo target)
-        {
-            return target.GetCustomAttributes(typeof(DescriptionAttribute), true)
-                .Cast<DescriptionAttribute>().Select(d => d.Title)
-                .SingleOrDefault() ?? target.Name;
-        }
-    }
 }

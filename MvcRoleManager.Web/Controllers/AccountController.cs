@@ -36,7 +36,7 @@ namespace MvcRoleManager.Controllers
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
         }
-
+       
         public ApplicationUserManager UserManager
         {
             get
@@ -54,6 +54,7 @@ namespace MvcRoleManager.Controllers
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
+        [Security.Attributes.Description("Get user information")]
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
