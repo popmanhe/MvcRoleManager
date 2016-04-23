@@ -13,8 +13,8 @@
 
             service.showJSONMessage = showJSONMessage;
 
-            service.getUserProfile = function (callback) {
-                $http.get('/api/Account/GetUserProfile').then(
+            service.getControllers = function (callback) {
+                $http.get('/api/RoleManager/GetControllers').then(
                     function (result) {//success
                         callback(result.data);
                   }

@@ -16,10 +16,11 @@ using Microsoft.Owin.Security.OAuth;
 using MvcRoleManager.Models;
 using MvcRoleManager.Providers;
 using MvcRoleManager.Results;
+using MvcRoleManager.Security.Attributes;
 
 namespace MvcRoleManager.Controllers
 {
-    [Authorize]
+    [Authorize][Description("Manage account via web apis")]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {

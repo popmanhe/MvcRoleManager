@@ -1,3 +1,29 @@
-﻿<div>
-    {{text}}
+﻿<div class="alert alert-info" role="alert"><i class="glyphicon glyphicon-hand-right" aria-hidden="true"></i> Assign actions to roles</div>
+<div ng-repeat="ctrl in Controllers">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <h4>Controller: {{ctrl.ControllerName}}</h4>
+            <p>{{ctrl.Description}}</p>
+        </div>
+
+        <!-- Table -->
+        <table class="table table-striped" ng-show="ctrl.ActionCollection.length>0">
+            <thead>
+                <tr>
+                    <th>Action Name</th>
+                    <th>Description</th>
+                    <th>Roles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="act in ctrl.ActionCollection">
+                    <td>{{act.ActionName}}</td>
+                    <td>{{act.Description}}</td>
+                    <td><a href ng-click="assigntoRoles()"> Assign </a></td>
+                </tr>
+            </tbody>
+        </table>
+        <p ng-show="ctrl.ActionCollection.length==0">No action in this controller</p>
+    </div>
 </div>

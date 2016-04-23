@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
+using System.Web.Http.Dispatcher;
+using MvcRoleManager.Security.Model;
 
 namespace MvcRoleManager
 {
@@ -14,6 +16,9 @@ namespace MvcRoleManager
         {
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
+            //Register web apis in external assembly
+            config.Services.Replace(typeof(IAssembliesResolver), new AssembliesResolver());
+
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 

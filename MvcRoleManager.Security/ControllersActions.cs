@@ -8,50 +8,10 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Configuration;
 using MvcRoleManager.Security.Attributes;
+using MvcRoleManager.Security.Model;
 
 namespace MvcRoleManager.Security
 {
-
-    public interface IMvcController
-    {
-        string ControllerName { get; set; }
-        string ControllerType { get; set; }
-        string Description { get; set; }
-        string ReturnType { get; set; }
-        List<MvcAction> ActionCollection { get; set; }
-
-    }
-    public class MvcController : IMvcController
-    {
-        public MvcController(string controllerName, string controllerType)
-        {
-            this.ControllerName = controllerName;
-            this.ControllerType = controllerType;
-            this.ActionCollection = new List<MvcAction>();
-        }
-        public string ControllerName { get; set; }
-        public string ControllerType { get; set; }
-        public string Description { get; set; }
-        public string ReturnType { get; set; }
-        public List<MvcAction> ActionCollection { get; set; }
-
-    }
-
-    public interface IMvcAction
-    {
-        string ActionName { get; set; }
-        string Description { get; set; }
-        string ReturnType { get; set; }
-    }
-
-    public class MvcAction : IMvcAction
-    {
-        public string ActionName { get; set; }
-        public string Description { get; set; }
-
-        public string ReturnType { get; set; }
-    }
-
     public class ControllersActions
     {
         private string _dllPath;
@@ -80,7 +40,11 @@ namespace MvcRoleManager.Security
         {
             this._assembly = assembly;
         }
-
+        /// <summary>
+        /// Get controllers from specified assembly
+        /// </summary>
+        /// <param name="includeActions">Indicates whether action methods should be  included in the result</param>
+        /// <returns></returns>
         public List<MvcController> GetControllers(bool includeActions = false)
         {
             if (_types == null)
@@ -88,7 +52,14 @@ namespace MvcRoleManager.Security
 
             this._controllers = _types
                 .Where(c => c.BaseType == typeof(Controller) || c.BaseType == typeof(ApiController))
-                .Select(b => new MvcController(b.Name, b.BaseType.Name)).ToList();
+                .Select(b => new MvcController()
+                {
+                    ControllerName = b.Name.Substring(0, b.Name.Length - 10),
+                    DeclareTypeName = b.Name,
+                    Description = b.GetCustomAttribute<DescriptionAttribute>() != null ? b.GetCustomAttribute<DescriptionAttribute>().Title : "",
+                    ControllerType = b.BaseType.Name
+                })
+                   .ToList();
 
             if (includeActions)
             {
@@ -104,7 +75,7 @@ namespace MvcRoleManager.Security
 
             var actions = _types
                     .SelectMany(type => type.GetMethods((BindingFlags.Instance | BindingFlags.Public)))
-                    .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_") && (m.DeclaringType.Name == controller.ControllerName) && !m.CustomAttributes.Any(c =>
+                    .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_") && (m.DeclaringType.Name == controller.DeclareTypeName) && !m.CustomAttributes.Any(c =>
                                                                    c.AttributeType == typeof(System.Web.Http.AllowAnonymousAttribute)
                                                             || c.AttributeType == typeof(System.Web.Mvc.AllowAnonymousAttribute)
                                                            || c.AttributeType == typeof(System.Web.Http.NonActionAttribute)
