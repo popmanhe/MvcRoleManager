@@ -117,7 +117,7 @@ namespace MvcRoleManager.Controllers
         }
 
         // POST api/Account/ChangePassword
-        [Route("ChangePassword")]
+        [Route("ChangePassword")][Description("Change password")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -137,7 +137,7 @@ namespace MvcRoleManager.Controllers
         }
 
         // POST api/Account/SetPassword
-        [Route("SetPassword")]
+        [Route("SetPassword")][Description("Set password")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
             if (!ModelState.IsValid)

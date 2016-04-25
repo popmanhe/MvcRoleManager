@@ -22,17 +22,16 @@
             $scope.Controllers = data;
         });
 
-        $scope.assigntoRoles = function () {
-
+        $scope.assigntoRoles = function (ctrl, act) {
             var modalInstance = $uibModal.open({
                 animation: false,
-                backdrop:true,
+                backdrop: true,
                 templateUrl: basePath + 'roles.html',
                 controller: 'RolesCtrl',
                 size: 'lg',
                 resolve: {
-                    items: function () {
-                        return $scope.items;
+                    item: function () {
+                        return { controller: ctrl, action: act };
                     }
                 }
             });
@@ -45,5 +44,16 @@
         };
     }]);
     //Show roles and assign to an action
-    app.controller('RolesCtrl', ['$scope', function ($scope) { }]);
+    app.controller('RolesCtrl', ['$scope', '$uibModalInstance', 'item',
+        function ($scope, $uibModalInstance, item) {
+            $scope.item = item;
+
+            $scope.ok = function () {
+                $uibModalInstance.close();
+            };
+
+            $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+            };
+        }]);
 })();

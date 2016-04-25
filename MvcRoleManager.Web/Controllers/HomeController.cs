@@ -13,8 +13,7 @@ namespace MvcRoleManager.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        [Security.Attributes.Description("")]
-        [AllowAnonymous]
+        [Security.Attributes.Description("Home page")]
         public ActionResult Index()
         {
             
