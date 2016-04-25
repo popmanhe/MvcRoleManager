@@ -1,4 +1,4 @@
-# MvcRoleManager
+# Mvc Role Manager
 
 This project is using Asp.net MVC, Identity framework, Owin, Web Api2 and Angular.js.
 
