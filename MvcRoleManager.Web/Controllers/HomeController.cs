@@ -14,9 +14,9 @@ namespace MvcRoleManager.Controllers
     public class HomeController : Controller
     {
         [Security.Attributes.Description("Home page")]
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            
             ControllersActions ca = new ControllersActions();
             List <MvcController> pclist = ca.GetControllers(true);
             ViewBag.Title = "Home Page";

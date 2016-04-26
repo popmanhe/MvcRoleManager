@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using ServerUtility = System.Web.HttpServerUtility;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Configuration;
@@ -21,10 +23,12 @@ namespace MvcRoleManager.Security
 
         public ControllersActions()
         {
+            _dllPath = HttpContext.Current.Server.MapPath("\\" + ConfigurationManager.AppSettings["ControllersAssembly"]);
             //Get executing assembly path, but remove "file://" prefix;
-            _dllPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(6);
+            //_dllPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+            //_dllPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(6);
 
-            _dllPath += "\\" + ConfigurationManager.AppSettings["ControllersAssembly"];
+            //_dllPath += "\\" + ConfigurationManager.AppSettings["ControllersAssembly"];
             if (!_dllPath.EndsWith(".dll"))
                 _dllPath += ".dll";
             this._assembly = Assembly.LoadFrom(this._dllPath);
