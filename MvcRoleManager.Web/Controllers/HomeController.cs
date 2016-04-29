@@ -23,5 +23,21 @@ namespace MvcRoleManager.Controllers
 
             return View();
         }
+        [AllowAnonymous]
+        [Route("{id:int}")]
+        //[ActionName("Edit")]
+        public ActionResult Edit(int id)
+        { 
+            return View();
+        }
+       
+        [AllowAnonymous]
+        [HttpGet]
+        //[Route("{name}")]
+        //[ActionName("Edit")]
+        public ActionResult Edit(string name)
+        {
+            return View();
+        }
     }
 }

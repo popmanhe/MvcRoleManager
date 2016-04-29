@@ -314,6 +314,7 @@
     <Content Include="Scripts\tv4\.bower.json" />
     <Content Include="Scripts\tv4\bower.json" />
     <Content Include="RoleManager\index.html" />
+    <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MvcRoleManager.Security\MvcRoleManager.Security.csproj">

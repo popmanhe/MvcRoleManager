@@ -20,5 +20,11 @@ namespace MvcRoleManager.Security.Model
         public string Description { get; set; }
 
         public string ReturnType { get; set; }
+        //public string Attribute { get; set; }
+        public string CustomAttributes { get; set; }
+        public string ActionMethodType { get; set; }
+
+        //public List<System.Reflection.CustomAttributeData> GetCustomAttributesData { get; set; }
+        public string GetCustomAttributesData { get; set; }
     }
 }

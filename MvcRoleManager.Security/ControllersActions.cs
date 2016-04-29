@@ -23,14 +23,14 @@ namespace MvcRoleManager.Security
 
         public ControllersActions()
         {
-            _dllPath = HttpContext.Current.Server.MapPath("\\" + ConfigurationManager.AppSettings["ControllersAssembly"]);
+            _dllPath = HttpContext.Current.Server.MapPath("\\bin\\" + ConfigurationManager.AppSettings["ControllersAssembly"] + ".dll");
             //Get executing assembly path, but remove "file://" prefix;
             //_dllPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
             //_dllPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(6);
 
             //_dllPath += "\\" + ConfigurationManager.AppSettings["ControllersAssembly"];
-            if (!_dllPath.EndsWith(".dll"))
-                _dllPath += ".dll";
+            //if (!_dllPath.EndsWith(".dll"))
+            //    _dllPath += ".dll";
             this._assembly = Assembly.LoadFrom(this._dllPath);
         }
 
@@ -79,20 +79,45 @@ namespace MvcRoleManager.Security
 
             var actions = _types
                     .SelectMany(type => type.GetMethods((BindingFlags.Instance | BindingFlags.Public)))
-                    .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_") && (m.DeclaringType.Name == controller.DeclareTypeName) && !m.CustomAttributes.Any(c =>
-                                                                   c.AttributeType == typeof(System.Web.Http.AllowAnonymousAttribute)
+                    .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_") && (m.DeclaringType.Name == controller.DeclareTypeName)
+                        && !m.CustomAttributes.Any(c => 
+                            c.AttributeType == typeof(System.Web.Http.AllowAnonymousAttribute)
                                                             || c.AttributeType == typeof(System.Web.Mvc.AllowAnonymousAttribute)
                                                            || c.AttributeType == typeof(System.Web.Http.NonActionAttribute)
-                                                           || c.AttributeType == typeof(System.Web.Mvc.NonActionAttribute)))
+                                                           || c.AttributeType == typeof(System.Web.Mvc.NonActionAttribute)
+                                                           || c.AttributeType == typeof(System.Web.Mvc.RouteAttribute)
+                                                           ))
+                                                           //.ToList();
                     .Select(x => new MvcAction
                     {
                         ActionName = x.Name,
                         Description = x.GetCustomAttribute<DescriptionAttribute>() != null ? x.GetCustomAttribute<DescriptionAttribute>().Title : "",
-                        ReturnType = x.ReturnType.ToString()
+                        ReturnType = x.ReturnType.ToString(),
+
+                        // Get HttpMethodAttribute
+                        ActionMethodType =
+                            (x.GetCustomAttributesData().Where(c =>
+                                c.AttributeType == typeof(System.Web.Http.HttpGetAttribute)
+                                || c.AttributeType == typeof(System.Web.Http.HttpPostAttribute)
+                                || c.AttributeType == typeof(System.Web.Http.HttpDeleteAttribute)
+                                || c.AttributeType == typeof(System.Web.Http.HttpPutAttribute)
+                                || c.AttributeType == typeof(System.Web.Http.HttpHeadAttribute)).Count() > 0) ?
+                                                x.GetCustomAttributesData().Where(c => 
+                                                    c.AttributeType == typeof(System.Web.Http.HttpGetAttribute)
+                                                    || c.AttributeType == typeof(System.Web.Http.HttpPostAttribute)
+                                                    || c.AttributeType == typeof(System.Web.Http.HttpDeleteAttribute)
+                                                    || c.AttributeType == typeof(System.Web.Http.HttpPutAttribute)
+                                                    || c.AttributeType == typeof(System.Web.Http.HttpHeadAttribute)).FirstOrDefault().AttributeType.Name.Replace("Attribute", "").ToString() : "",
+                        
+                        // Get RouteAttribute arguments
+                        GetCustomAttributesData = x.GetCustomAttributesData()
+                                                    .Where(c => c.AttributeType.Name == "RouteAttribute")
+                                                    .FirstOrDefault()
+                                                    .ConstructorArguments
+                                                    .FirstOrDefault().Value.ToString()
                     }).ToList();
 
             controller.ActionCollection = actions;
-
             return actions;
         }
 
