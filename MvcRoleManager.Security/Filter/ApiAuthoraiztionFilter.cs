@@ -6,10 +6,10 @@ using System.Web.Http;
 
 namespace RoleSecurityManager.Security
 {
-    public class ApiAuthorization: AuthorizeAttribute
+    public class ApiAuthoraiztionFilter : AuthorizeAttribute
     {
 
-        public ApiAuthorization()
+        public ApiAuthoraiztionFilter()
         {
             
         }

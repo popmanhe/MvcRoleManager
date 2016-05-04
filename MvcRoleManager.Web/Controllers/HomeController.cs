@@ -2,6 +2,7 @@
 using MvcRoleManager.Security.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -9,33 +10,34 @@ using System.Web.Mvc;
 
 namespace MvcRoleManager.Controllers
 {
-    [Security.Attributes.Description("")]
+    [Description("")]
     [Authorize]
     public class HomeController : Controller
     {
-        [Security.Attributes.Description("Home page")]
+        [Description("Home page")]
         [AllowAnonymous]
         public ActionResult Index()
         {
-            ControllersActions ca = new ControllersActions();
-            List <MvcController> pclist = ca.GetControllers(true);
+            //ControllersActions ca = new ControllersActions();
+            //List <MvcController> pclist = ca.GetControllers(true);
             ViewBag.Title = "Home Page";
 
             return View();
         }
-        [AllowAnonymous]
-        [Route("{id:int}")]
+        //[AllowAnonymous]
+        [Route("edit/{id:int}")]
+        [HttpGet]
         //[ActionName("Edit")]
         public ActionResult Edit(int id)
         { 
             return View();
         }
        
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet]
-        //[Route("{name}")]
+        [Route("edit/{id:datetime}")]
         //[ActionName("Edit")]
-        public ActionResult Edit(string name)
+        public ActionResult Edit(DateTime name)
         {
             return View();
         }

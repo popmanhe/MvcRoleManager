@@ -11,6 +11,7 @@ namespace MvcRoleManager.Security.Api
    public class RoleManagerController: ApiController
     {
         private ControllersActions _controllersActions = new ControllersActions ();
+      [AllowAnonymous]
         public List<MvcController> GetControllers() {
             return this._controllersActions.GetControllers(true);
         }

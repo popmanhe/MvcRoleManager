@@ -9,8 +9,8 @@ using ServerUtility = System.Web.HttpServerUtility;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Configuration;
-using MvcRoleManager.Security.Attributes;
 using MvcRoleManager.Security.Model;
+using System.ComponentModel;
 
 namespace MvcRoleManager.Security
 {
@@ -60,7 +60,7 @@ namespace MvcRoleManager.Security
                 {
                     ControllerName = b.Name.Substring(0, b.Name.Length - 10),
                     DeclareTypeName = b.Name,
-                    Description = b.GetCustomAttribute<DescriptionAttribute>() != null ? b.GetCustomAttribute<DescriptionAttribute>().Title : "",
+                    Description = b.GetCustomAttribute<DescriptionAttribute>() != null ? b.GetCustomAttribute<DescriptionAttribute>().Description : "",
                     ControllerType = b.BaseType.Name
                 })
                    .ToList();
@@ -80,45 +80,38 @@ namespace MvcRoleManager.Security
             var actions = _types
                     .SelectMany(type => type.GetMethods((BindingFlags.Instance | BindingFlags.Public)))
                     .Where(m => !m.Name.StartsWith("get_") && !m.Name.StartsWith("set_") && (m.DeclaringType.Name == controller.DeclareTypeName)
-                        && !m.CustomAttributes.Any(c => 
+                        && !m.CustomAttributes.Any(c =>
                             c.AttributeType == typeof(System.Web.Http.AllowAnonymousAttribute)
                                                             || c.AttributeType == typeof(System.Web.Mvc.AllowAnonymousAttribute)
                                                            || c.AttributeType == typeof(System.Web.Http.NonActionAttribute)
                                                            || c.AttributeType == typeof(System.Web.Mvc.NonActionAttribute)
                                                            || c.AttributeType == typeof(System.Web.Mvc.RouteAttribute)
-                                                           ))
-                                                           //.ToList();
-                    .Select(x => new MvcAction
-                    {
-                        ActionName = x.Name,
-                        Description = x.GetCustomAttribute<DescriptionAttribute>() != null ? x.GetCustomAttribute<DescriptionAttribute>().Title : "",
-                        ReturnType = x.ReturnType.ToString(),
+                                                           ));
+            if (actions.Count() > 0)
+            {
+                controller.ActionCollection = actions.Select(x => new MvcAction
+                {
+                    ControllerName=controller.ControllerName,
+                    ActionName = x.Name,
+                    Description = x.GetCustomAttribute<DescriptionAttribute>() != null ? x.GetCustomAttribute<DescriptionAttribute>().Description : "",
+                    ReturnType = x.ReturnType.ToString(),
+                    // Get HttpMethodAttribute
+                    ActionMethodType = x.GetCustomAttributesData().Where(c =>
+                                                   c.AttributeType == typeof(System.Web.Http.HttpGetAttribute)
+                                                   || c.AttributeType == typeof(System.Web.Http.HttpPostAttribute)
+                                                   || c.AttributeType == typeof(System.Web.Http.HttpDeleteAttribute)
+                                                   || c.AttributeType == typeof(System.Web.Http.HttpPutAttribute)
+                                                   || c.AttributeType == typeof(System.Web.Http.HttpHeadAttribute))
+                                                   .Select(a=>a.AttributeType.Name.Replace("Attribute", "").ToString()).ToList(),
+                    // Get RouteAttribute arguments
+                    RouteAttribute = x.GetCustomAttributesData()
+                                                   .Where(c => c.AttributeType.Name == "RouteAttribute")
+                                                   .Select(r=>r.ConstructorArguments.FirstOrDefault()!=null? r.ConstructorArguments.FirstOrDefault().Value.ToString():"").ToList()
+                }).ToList();
 
-                        // Get HttpMethodAttribute
-                        ActionMethodType =
-                            (x.GetCustomAttributesData().Where(c =>
-                                c.AttributeType == typeof(System.Web.Http.HttpGetAttribute)
-                                || c.AttributeType == typeof(System.Web.Http.HttpPostAttribute)
-                                || c.AttributeType == typeof(System.Web.Http.HttpDeleteAttribute)
-                                || c.AttributeType == typeof(System.Web.Http.HttpPutAttribute)
-                                || c.AttributeType == typeof(System.Web.Http.HttpHeadAttribute)).Count() > 0) ?
-                                                x.GetCustomAttributesData().Where(c => 
-                                                    c.AttributeType == typeof(System.Web.Http.HttpGetAttribute)
-                                                    || c.AttributeType == typeof(System.Web.Http.HttpPostAttribute)
-                                                    || c.AttributeType == typeof(System.Web.Http.HttpDeleteAttribute)
-                                                    || c.AttributeType == typeof(System.Web.Http.HttpPutAttribute)
-                                                    || c.AttributeType == typeof(System.Web.Http.HttpHeadAttribute)).FirstOrDefault().AttributeType.Name.Replace("Attribute", "").ToString() : "",
-                        
-                        // Get RouteAttribute arguments
-                        GetCustomAttributesData = x.GetCustomAttributesData()
-                                                    .Where(c => c.AttributeType.Name == "RouteAttribute")
-                                                    .FirstOrDefault()
-                                                    .ConstructorArguments
-                                                    .FirstOrDefault().Value.ToString()
-                    }).ToList();
-
-            controller.ActionCollection = actions;
-            return actions;
+                return controller.ActionCollection;
+            }
+            return null;
         }
 
 

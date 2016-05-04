@@ -8,7 +8,7 @@ namespace MvcRoleManager
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new MvcAuthorization());
+            filters.Add(new MvcAuthoraiztionFilter());
             filters.Add(new HandleErrorAttribute());
         }
     }

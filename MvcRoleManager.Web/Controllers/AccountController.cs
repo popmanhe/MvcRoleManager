@@ -16,11 +16,11 @@ using Microsoft.Owin.Security.OAuth;
 using MvcRoleManager.Models;
 using MvcRoleManager.Providers;
 using MvcRoleManager.Results;
-using MvcRoleManager.Security.Attributes;
+using System.ComponentModel;
 
 namespace MvcRoleManager.Controllers
 {
-    [Authorize][Description("Manage account via web apis")]
+    [Description("Manage account via web apis")]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
@@ -53,9 +53,9 @@ namespace MvcRoleManager.Controllers
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         // GET api/Account/UserInfo
-        [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+        //[HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        [Security.Attributes.Description("Get user information")]
+        [Description("Get user information")]
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
