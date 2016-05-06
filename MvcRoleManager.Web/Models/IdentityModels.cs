@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Entity;
+using MvcRoleManager.Web.Models;
 
 namespace MvcRoleManager.Models
 {
@@ -29,5 +31,7 @@ namespace MvcRoleManager.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<RoleUser> RoleUsers { get; set; }
     }
 }

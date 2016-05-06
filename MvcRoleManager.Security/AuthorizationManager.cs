@@ -8,7 +8,7 @@ namespace RoleSecurityManager.Security
 {
    internal class AuthorizationManager
     {
-        public static string[] GetRoles(string controllerName, string actionName)
+        public static string[] GetRoles(string actionIdentifier)
         {
             return new string[] { };
         }

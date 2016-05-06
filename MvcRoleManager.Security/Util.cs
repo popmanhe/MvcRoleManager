@@ -10,9 +10,9 @@ namespace MvcRoleManager.Security
 {
   public  class Util
     {
-        public static async Task<string>  EncryptedActionAsync(object action)
+        public static string  EncryptedAction(object action)
         {
-            string serializedAction = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(action));
+            string serializedAction =  JsonConvert.SerializeObject(action);
          
             byte[] inputBytes = Encoding.UTF8.GetBytes(serializedAction);
 

@@ -19,8 +19,8 @@ namespace RoleSecurityManager.Security
             string controllerName = actionContext.ControllerContext.Controller.ToString();
             string actionName = actionContext.ActionDescriptor.ActionName;
           
-           this.Roles
-               = string.Join(",",AuthorizationManager.GetRoles(controllerName, actionName));
+           //this.Roles
+           //    = string.Join(",",AuthorizationManager.GetRoles(controllerName, actionName));
 
             base.OnAuthorization(actionContext);
         }

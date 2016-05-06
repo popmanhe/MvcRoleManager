@@ -7,7 +7,7 @@ namespace RoleSecurityManager.Security
     public class MvcAuthoraiztionFilter : AuthorizeAttribute 
     {
 
-        private string encryptedAction;
+        private MvcAction _action;
         
 
         public MvcAuthoraiztionFilter()
@@ -17,7 +17,8 @@ namespace RoleSecurityManager.Security
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            this.Roles =  string.Join(",",AuthorizationManager.GetRoles(encryptedAction));
+            string encrypted =  _action.GetEncryptedCode();
+            this.Roles =  string.Join(",",AuthorizationManager.GetRoles(encrypted));
  
             return base.AuthorizeCore(httpContext);
 
@@ -27,12 +28,11 @@ namespace RoleSecurityManager.Security
 
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
-            var action = new MvcAction();
-            action.ControllerName = filterContext.Controller.ToString();
-            action.ActionName = filterContext.ActionDescriptor.ActionName;
-            action.RouteAttribute = filterContext.RouteData.Route;
-            encryptedAction = Util.EncryptAction(action);
-
+            _action = new MvcAction();
+            _action.ControllerName = filterContext.Controller.ToString();
+            _action.ActionName = filterContext.ActionDescriptor.ActionName;
+            //action.RouteAttribute = filterContext.RouteData.Route;
+           
             base.OnAuthorization(filterContext);
         }
     }

@@ -21,7 +21,7 @@ namespace MvcRoleManager
             config.Services.Replace(typeof(IAssembliesResolver), new AssembliesResolver());
 
             config.SuppressDefaultHostAuthentication();
-            //config.Filters.Add(new ApiAuthoraiztionFilter());
+            config.Filters.Add(new ApiAuthoraiztionFilter());
 
             // Web API routes
             config.MapHttpAttributeRoutes();

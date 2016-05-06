@@ -94,7 +94,7 @@ namespace MvcRoleManager.Security
                     ControllerName=controller.ControllerName,
                     ActionName = x.Name,
                     Description = x.GetCustomAttribute<DescriptionAttribute>() != null ? x.GetCustomAttribute<DescriptionAttribute>().Description : "",
-                    ReturnType = x.ReturnType.ToString(),
+                    //ReturnType = x.ReturnType.ToString(),
                     // Get HttpMethodAttribute
                     ActionMethodType = x.GetCustomAttributesData().Where(c =>
                                                    c.AttributeType == typeof(System.Web.Http.HttpGetAttribute)

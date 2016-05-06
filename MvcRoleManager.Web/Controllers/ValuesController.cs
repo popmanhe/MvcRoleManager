@@ -7,25 +7,25 @@ using System.Web.Http;
 
 namespace MvcRoleManager.Controllers
 {
-    //[Authorize]
-    [RoutePrefix("api/value")]
+   
+    [RoutePrefix("api/values")]
     public class ValuesController : ApiController
     {
         // GET api/values
         [Route("getvalue")]
         //       [Route("getvalue1")]
         [HttpGet][HttpPost]
-        public IEnumerable<string> GetV()
+        public IEnumerable<string> GetV(int id)
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "value1", "value2", id.ToString() };
         }
 
         // GET api/values/5
       
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //public string Get(int id)
+        //{
+        //    return id.ToString();
+        //}
 
         // POST api/values
         public void Post([FromBody]string value)
