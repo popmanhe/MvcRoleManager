@@ -1,30 +1,17 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MvcRoleManager.Security.Model
 {
-
-    public interface IMvcAction
-    {
-        string ActionName { get; set; }
-        string Description { get; set; }
-        //string ReturnType { get; set; }
-    }
-
-    public class MvcAction : IMvcAction
+    public class MvcAction
     {
         public string ActionName { get; set; }
         public string Description { get; set; }
-        //public string ReturnType { get; set; }
-        //public string Attribute { get; set; }
-        public string CustomAttributes { get; set; }
-        public List<string> ActionMethodType { get; set; }
+        /// <summary>
+        /// Used to identify an action when more than one action in a controller  have the same name
+        /// </summary>
+        public IEnumerable<string> ParametersTypes { get; set; }
+        public string ReturnType { get; set; }
 
-        //public List<System.Reflection.CustomAttributeData> GetCustomAttributesData { get; set; }
-        public List<string> RouteAttribute { get; set; }
+        public List<string> Roles { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace MvcRoleManager.Controllers
+namespace MvcRoleManager.Web.Controllers
 {
    
     [RoutePrefix("api/values")]

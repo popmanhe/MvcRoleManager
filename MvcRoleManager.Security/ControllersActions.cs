@@ -82,28 +82,16 @@ namespace MvcRoleManager.Security
                             c.AttributeType == typeof(System.Web.Http.AllowAnonymousAttribute)
                                                             || c.AttributeType == typeof(System.Web.Mvc.AllowAnonymousAttribute)
                                                            || c.AttributeType == typeof(System.Web.Http.NonActionAttribute)
-                                                           || c.AttributeType == typeof(System.Web.Mvc.NonActionAttribute)
-                                                           || c.AttributeType == typeof(System.Web.Mvc.RouteAttribute)
-                                                           ));
+                                                           || c.AttributeType == typeof(System.Web.Mvc.NonActionAttribute) )
+                                                           );
             if (actions.Count() > 0)
             {
                 controller.ActionCollection = actions.Select(x => new MvcAction
                 {
                     ActionName = x.Name,
-                    Description = x.GetCustomAttribute<DescriptionAttribute>() != null ? x.GetCustomAttribute<DescriptionAttribute>().Description : "",
-                    //ReturnType = x.ReturnType.ToString(),
-                    // Get HttpMethodAttribute
-                    ActionMethodType = x.GetCustomAttributesData().Where(c =>
-                                                   c.AttributeType == typeof(System.Web.Http.HttpGetAttribute)
-                                                   || c.AttributeType == typeof(System.Web.Http.HttpPostAttribute)
-                                                   || c.AttributeType == typeof(System.Web.Http.HttpDeleteAttribute)
-                                                   || c.AttributeType == typeof(System.Web.Http.HttpPutAttribute)
-                                                   || c.AttributeType == typeof(System.Web.Http.HttpHeadAttribute))
-                                                   .Select(a=>a.AttributeType.Name.Replace("Attribute", "").ToString()).ToList(),
-                    // Get RouteAttribute arguments
-                    RouteAttribute = x.GetCustomAttributesData()
-                                                   .Where(c => c.AttributeType.Name == "RouteAttribute")
-                                                   .Select(r=>r.ConstructorArguments.FirstOrDefault()!=null? r.ConstructorArguments.FirstOrDefault().Value.ToString():"").ToList()
+                    Description = x.GetCustomAttribute<DescriptionAttribute>()?.Description,
+                    ReturnType = x.ReturnType.ToString(),
+                    ParametersTypes = x.GetParameters().Select(p => p.ParameterType.ToString())
                 }).ToList();
 
                 return controller.ActionCollection;
