@@ -288,6 +288,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Properties\" />
+    <Folder Include="RoleManager\permissions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

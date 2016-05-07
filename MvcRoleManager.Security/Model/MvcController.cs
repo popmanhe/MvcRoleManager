@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Web;
 
@@ -29,6 +30,7 @@ namespace MvcRoleManager.Security.Model
         public string ControllerType { get; set; }
         public string Description { get; set; }
         public string ReturnType { get; set; }
+       [JsonProperty("Actions")]
         public List<MvcAction> ActionCollection { get; set; }
 
     }

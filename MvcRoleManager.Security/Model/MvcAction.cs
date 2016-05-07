@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,16 +10,13 @@ namespace MvcRoleManager.Security.Model
 
     public interface IMvcAction
     {
-        string ControllerName { get; set; }
         string ActionName { get; set; }
         string Description { get; set; }
         //string ReturnType { get; set; }
     }
 
-   [Serializable]
     public class MvcAction : IMvcAction
     {
-        public string ControllerName { get; set; }
         public string ActionName { get; set; }
         public string Description { get; set; }
         //public string ReturnType { get; set; }

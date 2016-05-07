@@ -5,12 +5,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using ServerUtility = System.Web.HttpServerUtility;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Configuration;
 using MvcRoleManager.Security.Model;
 using System.ComponentModel;
+using MvcRoleManager.Security.Store;
 
 namespace MvcRoleManager.Security
 {
@@ -20,18 +20,15 @@ namespace MvcRoleManager.Security
         private Assembly _assembly;
         private List<MvcController> _controllers;
         private Type[] _types;
+        private IRolePermissionStore _rolePermissionStore;
 
         public ControllersActions()
         {
             _dllPath = HttpContext.Current.Server.MapPath("\\bin\\" + ConfigurationManager.AppSettings["ControllersAssembly"] + ".dll");
-            //Get executing assembly path, but remove "file://" prefix;
-            //_dllPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-            //_dllPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(6);
-
-            //_dllPath += "\\" + ConfigurationManager.AppSettings["ControllersAssembly"];
-            //if (!_dllPath.EndsWith(".dll"))
-            //    _dllPath += ".dll";
             this._assembly = Assembly.LoadFrom(this._dllPath);
+
+            //will use autofac to inject later
+            this._rolePermissionStore = new FileRolePermissionStore();
         }
 
         public ControllersActions(string dllPath)
@@ -70,6 +67,7 @@ namespace MvcRoleManager.Security
                 _controllers.ForEach(c => this.GetActions(c));
             }
 
+            this._rolePermissionStore.SaveActionPermissions(_controllers);
             return this._controllers;
         }
         public List<MvcAction> GetActions(MvcController controller)
@@ -91,7 +89,6 @@ namespace MvcRoleManager.Security
             {
                 controller.ActionCollection = actions.Select(x => new MvcAction
                 {
-                    ControllerName=controller.ControllerName,
                     ActionName = x.Name,
                     Description = x.GetCustomAttribute<DescriptionAttribute>() != null ? x.GetCustomAttribute<DescriptionAttribute>().Description : "",
                     //ReturnType = x.ReturnType.ToString(),
