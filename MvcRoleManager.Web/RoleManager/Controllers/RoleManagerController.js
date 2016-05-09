@@ -36,19 +36,47 @@
                 }
             });
 
+
             modalInstance.result.then(function (selectedItem) {
                 $scope.selected = selectedItem;
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
+
+        $scope.saveActionPermissions = function () {
+            RoleManagerService.saveActionPermissions($scope.Controllers);
+        };
+
     }]);
     //Show roles and assign to an action
-    app.controller('RolesCtrl', ['$scope', '$uibModalInstance', 'item',
-        function ($scope, $uibModalInstance, item) {
+    app.controller('RolesCtrl', ['$scope', '$uibModalInstance', 'item', 'RoleManagerService',
+        function ($scope, $uibModalInstance, item, RoleManagerService) {
             $scope.item = item;
 
+            //$scope.getRoles = function () {
+            RoleManagerService.getRoles(function (result) {
+                $scope.roles = result.data;
+                $scope.roles.forEach(function (role) {
+                    role.checked = false;
+                    if ($scope.item.action.Roles != null) {
+                        $scope.item.action.Roles.forEach(function (actionRole) {
+                            if (actionRole.Id == role.Id) {
+                                role.checked = true;
+                            }
+                        });
+                    }
+                });
+            });
+            //};
             $scope.ok = function () {
+                var $this = this;
+                $this.item.action.Roles = [];
+                $this.roles.forEach(function (role) {
+                    if (role.checked) {
+                        $this.item.action.Roles.push(role);
+                    }
+                });
                 $uibModalInstance.close();
             };
 

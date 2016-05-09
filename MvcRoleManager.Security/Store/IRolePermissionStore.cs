@@ -21,14 +21,5 @@ namespace MvcRoleManager.Security.Store
         List<string> GetRoles(MethodInfo method);
 
     }
-
-    public class RoleActions
-    {
-        public string ControllerName { get; set; }
-        public string ActionName { get; set; }
-        public string ActionJson { get; set; }
-        public string Roles { get; set; }
-    }
-
 }
 

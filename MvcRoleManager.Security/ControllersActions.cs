@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -86,7 +84,7 @@ namespace MvcRoleManager.Security
                                                            );
             if (actions.Count() > 0)
             {
-                controller.ActionCollection = actions.Select(x => new MvcAction
+                controller.Actions = actions.Select(x => new MvcAction
                 {
                     ActionName = x.Name,
                     Description = x.GetCustomAttribute<DescriptionAttribute>()?.Description,
@@ -94,7 +92,7 @@ namespace MvcRoleManager.Security
                     ParametersTypes = x.GetParameters().Select(p => p.ParameterType.ToString())
                 }).ToList();
 
-                return controller.ActionCollection;
+                return controller.Actions;
             }
             return null;
         }

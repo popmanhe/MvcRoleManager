@@ -14,7 +14,7 @@ namespace MvcRoleManager.Security.Model
         {
             this.ControllerName = controllerName;
             this.ControllerType = controllerType;
-            this.ActionCollection = new List<MvcAction>();
+            this.Actions = new List<MvcAction>();
         }
         /// <summary>
         /// Controller name
@@ -29,9 +29,8 @@ namespace MvcRoleManager.Security.Model
         /// </summary>
         public string ControllerType { get; set; }
         public string Description { get; set; }
-        public string ReturnType { get; set; }
        [JsonProperty("Actions")]
-        public List<MvcAction> ActionCollection { get; set; }
+        public List<MvcAction> Actions { get; set; }
 
     }
 }

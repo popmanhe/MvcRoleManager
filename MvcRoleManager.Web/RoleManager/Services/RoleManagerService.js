@@ -43,7 +43,24 @@
                 )
             }
 
-            service.saveUserProfile = function () { };
+            service.getRoles = function (callback) {
+                $http.get('/api/rolemanager/getroles')
+                .then(
+                function (result) {
+                    callback(result);
+                },
+                function () { }
+                )
+            };
+            service.saveActionPermissions = function (controllers, callback) {
+                $http.post('/api/rolemanager/SaveActionPermissions', controllers)
+               .then(
+               function (result) {
+                   callback(result);
+               },
+               function () { }
+               )
+            };
 
             return service;
 

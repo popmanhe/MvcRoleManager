@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MvcRoleManager.Web</RootNamespace>
     <AssemblyName>MvcRoleManager.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -205,12 +205,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="DAL\GenericRepository.cs" />
-    <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\RoleUser.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
@@ -322,6 +318,10 @@
     <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MvcRoleManager.DAL\MvcRoleManager.DAL.csproj">
+      <Project>{f5978108-a47c-4c64-83ed-d83bff845453}</Project>
+      <Name>MvcRoleManager.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MvcRoleManager.Security\MvcRoleManager.Security.csproj">
       <Project>{221faaec-fad5-4b7a-bab4-84e9f9bea3f7}</Project>
       <Name>MvcRoleManager.Security</Name>

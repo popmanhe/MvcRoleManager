@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq.Expressions;
 
-namespace MvcRoleManager.Web.DAL
+namespace MvcRoleManager.DAL
 {
     public class GenericRepository<TEntity> where TEntity : class
     {
