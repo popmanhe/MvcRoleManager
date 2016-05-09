@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using MvcRoleManager.DAL;
 
 namespace MvcRoleManager.Models
 {
@@ -20,7 +21,7 @@ namespace MvcRoleManager.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public  class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -31,41 +32,16 @@ namespace MvcRoleManager.Models
         {
             return new ApplicationDbContext();
         }
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
+
+        static ApplicationDbContext() {
 #if DEBUG
+            //database will only be created when tables are used.
             Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
 #else
             Database.SetInitializer<ApplicationDbContext>(null);
 #endif
-            base.OnModelCreating(modelBuilder);
         }
-    }
-
-    public class MyInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
-    {
-        public override void InitializeDatabase(ApplicationDbContext context)
-        {
-            if (!context.Database.Exists())
-            {
-                // if database did not exist before - create it
-                context.Database.Create();
-            }
-            else
-            {
-                // query to check if MigrationHistory table is present in the database 
-                var migrationHistoryTableExists = ((IObjectContextAdapter)context).ObjectContext.ExecuteStoreQuery<int>(
-                string.Format(
-                  "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '{0}'",
-                  "MvcRoleManager"));
-
-                // if MigrationHistory table is not there (which is the case first time we run) - create it
-                if (migrationHistoryTableExists.FirstOrDefault() == 0)
-                {
-                    context.Database.Delete();
-                    context.Database.Create();
-                }
-            }
-        }
+       
+        public DbSet<ActionRolePermission> ActionRolePermissions { get; set; }
     }
 }

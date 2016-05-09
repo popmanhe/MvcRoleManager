@@ -107,6 +107,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bso\RoleManagerBso.cs" />
     <Compile Include="Filter\ApiHostAuthenticationFilter.cs" />
     <Compile Include="Filter\ApiAuthoraiztionFilter.cs" />
     <Compile Include="Api\RoleManager.cs" />

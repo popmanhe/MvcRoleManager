@@ -13,31 +13,39 @@ using MvcRoleManager.DAL;
 using System.Web;
 using MvcRoleManager.Models;
 using Microsoft.AspNet.Identity.Owin;
+using MvcRoleManager.Security.Bso;
 
 namespace MvcRoleManager.Security.Api
 {
-  [RoutePrefix("api/rolemanager")        ]
-    public class RoleManagerController: ApiController
+    [RoutePrefix("api/rolemanager")]
+    public class RoleManagerController : ApiController
     {
-        private ControllersActions _controllersActions = new ControllersActions ();
-       
-        private UnitOfWork unitOfWork = new UnitOfWork(ApplicationDbContext.Create()); 
-      [AllowAnonymous]
-        public List<MvcController> GetControllers() {
-            return this._controllersActions.GetControllers(true);
+        private RoleManagerBso _roleManagerBso;
+        protected RoleManagerBso RoleManagerBso
+        {
+            get
+            {
+                this._roleManagerBso = this._roleManagerBso ?? new RoleManagerBso();
+                return this._roleManagerBso;
+            }
+        }
+
+        [AllowAnonymous]
+        public List<MvcController> GetControllers()
+        {
+            return RoleManagerBso.GetControllers();
         }
 
         [AllowAnonymous]
         public List<IdentityRole> GetRoles()
         {
-            var roles = unitOfWork.Repository<IdentityRole>().Get().OrderBy(r=>r.Name);
-            return roles.ToList();
+            return RoleManagerBso.GetRoles();
         }
 
- [AllowAnonymous]
-        public Task<bool> SaveActionPermissions()
+        [AllowAnonymous]
+        public Task<bool> SaveActionPermissions(List<MvcController> controllers)
         {
-            return null;
+            return RoleManagerBso.SaveActionPermissions(controllers);
         }
     }
 }
