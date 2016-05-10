@@ -5,7 +5,7 @@
 <div class="modal-body">
     <div class="row">
         <div class="col-md-6" ng-repeat="role in roles">
-            <input type="checkbox"  ng-model="role.checked"/>
+            <input type="checkbox"  ng-model="role.checked" ng-click="item.action.modified = true"/>
             {{role.Name}}
         </div>
     </div>

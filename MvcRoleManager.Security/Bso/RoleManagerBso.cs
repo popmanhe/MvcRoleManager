@@ -54,7 +54,7 @@ namespace MvcRoleManager.Security.BSO
                 .FirstOrDefault().Roles;
             }
 
-            return null;
+            return string.Empty;
         }
 
         public Task<int> SaveActionRoles(List<MvcController> controllers)

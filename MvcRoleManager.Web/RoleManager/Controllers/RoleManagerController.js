@@ -17,7 +17,8 @@
           });
     }]);
     //Get all controllers and actions
-    app.controller('ControllersCtrl', ['$scope', '$uibModal', '$log', 'RoleManagerService', function ($scope, $uibModal, $log, RoleManagerService) {
+    app.controller('ControllersCtrl', ['$scope', '$uibModal', '$log', 'RoleManagerService',
+        function ($scope, $uibModal, $log, RoleManagerService) {
         RoleManagerService.getControllers(function (data) {
             $scope.Controllers = data;
         });
@@ -38,7 +39,7 @@
 
 
             modalInstance.result.then(function (selectedItem) {
-                $scope.selected = selectedItem;
+               // $scope.selected = selectedItem;
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -71,12 +72,14 @@
             //};
             $scope.ok = function () {
                 var $this = this;
-                $this.item.action.Roles = [];
-                $this.roles.forEach(function (role) {
-                    if (role.checked) {
-                        $this.item.action.Roles.push(role);
-                    }
-                });
+                if ($this.item.action.modified) {
+                    $this.item.action.Roles = [];
+                    $this.roles.forEach(function (role) {
+                        if (role.checked) {
+                            $this.item.action.Roles.push(role);
+                        }
+                    });
+                }
                 $uibModalInstance.close();
             };
 
