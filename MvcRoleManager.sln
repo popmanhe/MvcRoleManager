@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcRoleManager.Security", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcRoleManager.UnitTest", "MvcRoleManager.UnitTest\MvcRoleManager.UnitTest.csproj", "{0C3A7399-5B2F-4349-98E4-059E66E5F967}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcRoleManager.DAL", "MvcRoleManager.DAL\MvcRoleManager.DAL.csproj", "{F5978108-A47C-4C64-83ED-D83BFF845453}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{0C3A7399-5B2F-4349-98E4-059E66E5F967}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C3A7399-5B2F-4349-98E4-059E66E5F967}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C3A7399-5B2F-4349-98E4-059E66E5F967}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5978108-A47C-4C64-83ED-D83BFF845453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5978108-A47C-4C64-83ED-D83BFF845453}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5978108-A47C-4C64-83ED-D83BFF845453}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5978108-A47C-4C64-83ED-D83BFF845453}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

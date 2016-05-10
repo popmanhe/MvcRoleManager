@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MvcRoleManager.DAL
+namespace MvcRoleManager.Security.Models
 {
- public   class ActionRolePermission
+    public   class ActionRolePermission
     {
       [Key]
         public int Id { get; set; }

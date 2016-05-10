@@ -318,10 +318,6 @@
     <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MvcRoleManager.DAL\MvcRoleManager.DAL.csproj">
-      <Project>{f5978108-a47c-4c64-83ed-d83bff845453}</Project>
-      <Name>MvcRoleManager.DAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MvcRoleManager.Security\MvcRoleManager.Security.csproj">
       <Project>{221faaec-fad5-4b7a-bab4-84e9f9bea3f7}</Project>
       <Name>MvcRoleManager.Security</Name>

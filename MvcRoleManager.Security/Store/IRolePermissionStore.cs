@@ -1,4 +1,4 @@
-﻿using MvcRoleManager.Security.Model;
+﻿using MvcRoleManager.Security.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

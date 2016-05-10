@@ -9,7 +9,7 @@ using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using MvcRoleManager.Providers;
-using MvcRoleManager.DAL.Models;
+using MvcRoleManager.Security.Models;
 
 namespace MvcRoleManager
 {

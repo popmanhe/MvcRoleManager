@@ -6,9 +6,9 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Configuration;
-using MvcRoleManager.Security.Model;
 using System.ComponentModel;
 using MvcRoleManager.Security.Store;
+using MvcRoleManager.Security.Models;
 
 namespace MvcRoleManager.Security
 {

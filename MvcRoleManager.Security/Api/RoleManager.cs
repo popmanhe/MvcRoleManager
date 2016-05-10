@@ -1,9 +1,9 @@
-﻿using MvcRoleManager.Security.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity.EntityFramework;
-using MvcRoleManager.Security.Bso;
+using MvcRoleManager.Security.BSO;
+using MvcRoleManager.Security.Models;
 
 namespace MvcRoleManager.Security.Api
 {

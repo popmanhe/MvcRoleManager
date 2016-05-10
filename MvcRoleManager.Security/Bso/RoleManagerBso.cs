@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
-using MvcRoleManager.DAL;
-using MvcRoleManager.DAL.Models;
-using MvcRoleManager.Security.Model;
+using MvcRoleManager.Security.DAL;
+ using MvcRoleManager.Security.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MvcRoleManager.Security.Bso
+namespace MvcRoleManager.Security.BSO
 {
   public  class RoleManagerBso
     {

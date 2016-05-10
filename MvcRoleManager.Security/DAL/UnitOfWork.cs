@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 
-namespace MvcRoleManager.DAL
+namespace MvcRoleManager.Security.DAL
 {
     public class UnitOfWork: IDisposable
     {

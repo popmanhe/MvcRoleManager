@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MvcRoleManager.Security.Model;
+using MvcRoleManager.Security.Models;
 using System.Reflection;
 using System.Configuration;
 using System.Web;
@@ -37,7 +37,7 @@ namespace MvcRoleManager.Security.Store
 
         }
 
-        public void SaveActionPermissions(List<MvcController> actions)
+              public void SaveActionPermissions(List<MvcController> actions)
         {
             string json = JsonConvert.SerializeObject(actions);
             using (StreamWriter writer = new StreamWriter(this._filePath))

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 
-namespace MvcRoleManager.Security.Model
+namespace MvcRoleManager.Security.Models
 {
     
     public class MvcController

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MvcRoleManager.Security.Model
+namespace MvcRoleManager.Security.Models
 {
     public class MvcAction
     {
