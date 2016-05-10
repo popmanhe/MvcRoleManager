@@ -4,6 +4,7 @@ namespace MvcRoleManager.Security.Model
 {
     public class MvcAction
     {
+        public string ControllerName { get; set; }
         public string ActionName { get; set; }
         public string Description { get; set; }
         /// <summary>

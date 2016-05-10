@@ -5,7 +5,7 @@ namespace MvcRoleManager.DAL.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MvcRoleManager.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MvcRoleManager.DAL.Models.ApplicationDbContext>
     {
         public Configuration()
         {
@@ -13,7 +13,7 @@ namespace MvcRoleManager.DAL.Migrations
             ContextKey = "MvcRoleManager.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(MvcRoleManager.Models.ApplicationDbContext context)
+        protected override void Seed(MvcRoleManager.DAL.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

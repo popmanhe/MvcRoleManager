@@ -60,7 +60,7 @@
   <ItemGroup>
     <Compile Include="ActionRolePermission.cs" />
     <Compile Include="GenericRepository.cs" />
-    <Compile Include="IdentityModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Migrations\201605090218577_InitialCreate.cs" />
     <Compile Include="Migrations\201605090218577_InitialCreate.Designer.cs">
       <DependentUpon>201605090218577_InitialCreate.cs</DependentUpon>

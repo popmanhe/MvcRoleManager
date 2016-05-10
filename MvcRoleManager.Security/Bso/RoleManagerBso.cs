@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using MvcRoleManager.DAL;
-using MvcRoleManager.Models;
+using MvcRoleManager.DAL.Models;
 using MvcRoleManager.Security.Model;
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,10 @@ namespace MvcRoleManager.Security.Bso
     {
         private UnitOfWork unitOfWork = new UnitOfWork(ApplicationDbContext.Create());
 
+        /// <summary>
+        /// Get controllers and actions from assemblies
+        /// </summary>
+        /// <returns></returns>
         public List<MvcController> GetControllers()
         {
              ControllersActions _controllersActions = new ControllersActions();
@@ -27,7 +31,34 @@ namespace MvcRoleManager.Security.Bso
             return roles.ToList();
         }
 
-        public Task<bool> SaveActionPermissions(List<MvcController> controllers)
+        public string GetActionRoles(MvcAction action)
+        {
+            //Only ControllerName and ActionName have indexes.
+            //Most of cases, controller and action name should be able to identify the right record.
+            var actionRoles = unitOfWork.Repository<ActionRolePermission>()
+                .Get(a=>a.ControllerName == action.ControllerName && a.ActionName == action.ActionName).ToList();
+
+            if (actionRoles.Count() == 1)
+            {
+                return actionRoles.FirstOrDefault().Roles;
+            }
+            else if (actionRoles.Count() > 1)
+            {
+                //if there are more than 1 records returned, use return type and parameter types to identify the record.
+                string parameterTypes = "";
+                if (action.ParametersTypes != null)
+                {
+                    parameterTypes = string.Join(",", action.ParametersTypes.ToArray());
+                }
+
+                return actionRoles.Where(a => a.ReturnType == action.ReturnType && a.ParameterTypes == parameterTypes)
+                .FirstOrDefault().Roles;
+            }
+
+            return null;
+        }
+
+        public Task<int> SaveActionRoles(List<MvcController> controllers)
         {
             throw new NotImplementedException();
         }

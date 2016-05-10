@@ -1,18 +1,8 @@
 ﻿using MvcRoleManager.Security.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Configuration;
 using System.Web.Http;
-using System.Web.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.Data.Entity;
-using MvcRoleManager.DAL;
-using System.Web;
-using MvcRoleManager.Models;
-using Microsoft.AspNet.Identity.Owin;
 using MvcRoleManager.Security.Bso;
 
 namespace MvcRoleManager.Security.Api
@@ -43,9 +33,9 @@ namespace MvcRoleManager.Security.Api
         }
 
         [AllowAnonymous]
-        public Task<bool> SaveActionPermissions(List<MvcController> controllers)
+        public Task<int> SaveActionRoles(List<MvcController> controllers)
         {
-            return RoleManagerBso.SaveActionPermissions(controllers);
+            return RoleManagerBso.SaveActionRoles(controllers);
         }
     }
 }

@@ -85,7 +85,8 @@ namespace MvcRoleManager.Security
             if (actions.Count() > 0)
             {
                 controller.Actions = actions.Select(x => new MvcAction
-                {
+                {   
+                    ControllerName=controller.ControllerName,
                     ActionName = x.Name,
                     Description = x.GetCustomAttribute<DescriptionAttribute>()?.Description,
                     ReturnType = x.ReturnType.ToString(),

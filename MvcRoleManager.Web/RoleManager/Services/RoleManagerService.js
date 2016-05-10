@@ -22,27 +22,7 @@
 
                 });
             }
-
-            service.login = function (user, callback) {
-                $http.post('/api/Account/Login', user)
-                .then(
-                function (result) {
-                    callback(result);
-                },
-                function () { }
-                )
-            };
-
-            service.register = function (user, callback) {
-                $http.post('/api/Account/Register', user)
-                .then(
-                function (result) {
-                    callback(result);
-                },
-                function () { }
-                )
-            }
-
+          
             service.getRoles = function (callback) {
                 $http.get('/api/rolemanager/getroles')
                 .then(
@@ -52,6 +32,17 @@
                 function () { }
                 )
             };
+
+            service.getActionRoles = function(action)
+            {
+                $http.get('/api/rolemanager/getactionroles').then(
+                    function (result) {
+
+                    },
+                    function(){}
+                    );
+            };
+
             service.saveActionPermissions = function (controllers, callback) {
                 $http.post('/api/rolemanager/SaveActionPermissions', controllers)
                .then(
