@@ -57,7 +57,7 @@ namespace MvcRoleManager.Security.BSO
             return string.Empty;
         }
 
-        public Task<int> SaveActionRoles(List<MvcController> controllers)
+        public Task<int> SaveActionRoles(List<MvcAction> actions)
         {
             throw new NotImplementedException();
         }
