@@ -44,7 +44,19 @@
             };
 
             service.saveActionPermissions = function (controllers, callback) {
-                $http.post('/api/rolemanager/SaveActionPermissions', controllers)
+                var actions = [];
+                controllers.forEach(function (controller) {
+                    if (controller.Actions)
+                    {
+                        controller.Actions.forEach(function (action) {
+                            if (action.modified)
+                            {
+                                actions.push(action);
+                            }
+                        });
+                    }
+                });
+                $http.post('/api/rolemanager/SaveActionRoles', angular.toJson(actions))
                .then(
                function (result) {
                    callback(result);

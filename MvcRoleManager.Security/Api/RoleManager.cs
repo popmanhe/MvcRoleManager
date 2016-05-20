@@ -4,6 +4,9 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MvcRoleManager.Security.BSO;
 using MvcRoleManager.Security.Models;
+using MvcRoleManager.Security.Attributes;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace MvcRoleManager.Security.Api
 {
@@ -26,16 +29,21 @@ namespace MvcRoleManager.Security.Api
             return RoleManagerBso.GetControllers();
         }
 
-        [AllowAnonymous]
+        [AllowAnonymous][HttpGet]
         public List<IdentityRole> GetRoles()
         {
             return RoleManagerBso.GetRoles();
         }
 
-        [AllowAnonymous]
-        public Task<int> SaveActionRoles(List<MvcController> controllers)
+        [AllowAnonymous][HttpPost]
+        [DeserializeMvcAction]
+        public Task<int> SaveActionRoles(JArray jActions)
         {
-            return RoleManagerBso.SaveActionRoles(controllers);
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.MissingMemberHandling = MissingMemberHandling.Ignore;
+            serializer.MaxDepth = 10;
+            List<MvcAction> actions = jActions.ToObject<List<MvcAction>>(serializer);
+            return RoleManagerBso.SaveActionRoles(actions);
         }
     }
 }
