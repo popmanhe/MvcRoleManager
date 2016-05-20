@@ -29,31 +29,18 @@ namespace MvcRoleManager.Security.Api
             return RoleManagerBso.GetControllers();
         }
 
-        [AllowAnonymous][HttpGet]
+        [AllowAnonymous]
+        [HttpGet]
         public List<IdentityRole> GetRoles()
         {
             return RoleManagerBso.GetRoles();
         }
 
-        [AllowAnonymous][HttpPost]
-        [DeserializeMvcAction]
+        [AllowAnonymous]
+        [HttpPost]
         public Task<int> SaveActionRoles(List<MvcAction> actions)
         {
-            //JsonSerializer serializer = new JsonSerializer();
-            //serializer.MissingMemberHandling = MissingMemberHandling.Ignore;
-            //serializer.MaxDepth = 10;
-
-            //List<MvcAction> actions = JsonConvert.DeserializeObject<List<MvcAction>>(jActions["actions"].ToString());
             return RoleManagerBso.SaveActionRoles(actions);
         }
-
-        //public Task<int> SaveActionRoles([FromBody]string actions)
-        //{
-        //    JsonSerializer serializer = new JsonSerializer();
-        //    serializer.MissingMemberHandling = MissingMemberHandling.Ignore;
-        //    serializer.MaxDepth = 10;
-        //    List<MvcAction> lstActions = JsonConvert.DeserializeObject<List<MvcAction>>(actions);
-        //    return RoleManagerBso.SaveActionRoles(lstActions);
-        //}
     }
 }
