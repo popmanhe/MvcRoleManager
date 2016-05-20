@@ -17,12 +17,12 @@
                 $http.get('/api/RoleManager/GetControllers').then(
                     function (result) {//success
                         callback(result.data);
-                  }
+                    }
                 , function () {//failed
 
                 });
             }
-          
+
             service.getRoles = function (callback) {
                 $http.get('/api/rolemanager/getroles')
                 .then(
@@ -33,30 +33,30 @@
                 )
             };
 
-            service.getActionRoles = function(action)
-            {
+            service.getActionRoles = function (action) {
                 $http.get('/api/rolemanager/getactionroles').then(
                     function (result) {
 
                     },
-                    function(){}
+                    function () { }
                     );
             };
 
             service.saveActionPermissions = function (controllers, callback) {
                 var actions = [];
                 controllers.forEach(function (controller) {
-                    if (controller.Actions)
-                    {
+                    if (controller.Actions) {
                         controller.Actions.forEach(function (action) {
-                            if (action.modified)
-                            {
+                            if (action.modified) {
                                 actions.push(action);
                             }
                         });
                     }
                 });
-                $http.post('/api/rolemanager/SaveActionRoles', angular.toJson(actions))
+              
+                actions = angular.toJson(actions);
+
+                $http.post('/api/rolemanager/SaveActionRoles',  actions)
                .then(
                function (result) {
                    callback(result);

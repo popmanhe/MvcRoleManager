@@ -37,13 +37,23 @@ namespace MvcRoleManager.Security.Api
 
         [AllowAnonymous][HttpPost]
         [DeserializeMvcAction]
-        public Task<int> SaveActionRoles(JArray jActions)
+        public Task<int> SaveActionRoles(List<MvcAction> actions)
         {
-            JsonSerializer serializer = new JsonSerializer();
-            serializer.MissingMemberHandling = MissingMemberHandling.Ignore;
-            serializer.MaxDepth = 10;
-            List<MvcAction> actions = jActions.ToObject<List<MvcAction>>(serializer);
+            //JsonSerializer serializer = new JsonSerializer();
+            //serializer.MissingMemberHandling = MissingMemberHandling.Ignore;
+            //serializer.MaxDepth = 10;
+
+            //List<MvcAction> actions = JsonConvert.DeserializeObject<List<MvcAction>>(jActions["actions"].ToString());
             return RoleManagerBso.SaveActionRoles(actions);
         }
+
+        //public Task<int> SaveActionRoles([FromBody]string actions)
+        //{
+        //    JsonSerializer serializer = new JsonSerializer();
+        //    serializer.MissingMemberHandling = MissingMemberHandling.Ignore;
+        //    serializer.MaxDepth = 10;
+        //    List<MvcAction> lstActions = JsonConvert.DeserializeObject<List<MvcAction>>(actions);
+        //    return RoleManagerBso.SaveActionRoles(lstActions);
+        //}
     }
 }

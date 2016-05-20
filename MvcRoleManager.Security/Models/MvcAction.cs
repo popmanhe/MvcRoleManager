@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace MvcRoleManager.Security.Models
 {
@@ -13,6 +14,6 @@ namespace MvcRoleManager.Security.Models
         public IEnumerable<string> ParametersTypes { get; set; }
         public string ReturnType { get; set; }
 
-        public List<string> Roles { get; set; }
+        public List<IdentityRole> Roles { get; set; }
     }
 }
