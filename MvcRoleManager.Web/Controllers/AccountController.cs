@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using MvcRoleManager.Security.Models;
+using MvcRoleManager.Web.Models;
 using MvcRoleManager.Models;
 using MvcRoleManager.Providers;
 using MvcRoleManager.Results;

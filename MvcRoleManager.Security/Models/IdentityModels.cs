@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Collections.Generic;
 
 namespace MvcRoleManager.Security.Models
 {
@@ -17,28 +19,48 @@ namespace MvcRoleManager.Security.Models
             return userIdentity;
         }
     }
-
-    public  class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationRole : IdentityRole
     {
-        public ApplicationDbContext()
+        public virtual ICollection<Action> Actions { get; set; }
+    }
+    public class RoleManagerDbContext : IdentityDbContext<ApplicationUser>
+    {
+        public RoleManagerDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
 
         }
-        public static ApplicationDbContext Create()
+        public static RoleManagerDbContext Create()
         {
-            return new ApplicationDbContext();
+            return new RoleManagerDbContext();
         }
 
-        static ApplicationDbContext() {
+        static RoleManagerDbContext()
+        {
 #if DEBUG
             //database will only be created when tables are used.
-            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+            var config = new RoleManagerDBInitializer();
+
+            Database.SetInitializer<RoleManagerDbContext>(config);
 #else
-            Database.SetInitializer<ApplicationDbContext>(null);
+            Database.SetInitializer<RoleManagerDbContext>(null);
 #endif
         }
-       
-        public DbSet<ActionRolePermission> ActionRolePermissions { get; set; }
+
+        public DbSet<Action> Actions { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Action>()
+               .HasMany<ApplicationRole>(s => s.Roles)
+               .WithMany(c => c.Actions)
+               .Map(cs =>
+               {
+                   cs.MapLeftKey("RoleId");
+                   cs.MapRightKey("ActionId");
+                   cs.ToTable("ActionRoles");
+               });
+        }
     }
 }

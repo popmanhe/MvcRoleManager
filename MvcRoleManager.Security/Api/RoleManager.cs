@@ -31,7 +31,7 @@ namespace MvcRoleManager.Security.Api
 
         [AllowAnonymous]
         [HttpGet]
-        public List<IdentityRole> GetRoles()
+        public List<ApplicationRole> GetRoles()
         {
             return RoleManagerBso.GetRoles();
         }

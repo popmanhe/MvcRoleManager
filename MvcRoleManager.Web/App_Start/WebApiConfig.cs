@@ -12,7 +12,7 @@ namespace MvcRoleManager
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
 
-            //Register web apis in external assembly
+            //Register web apis from external assemblies
             config.Services.Replace(typeof(IAssembliesResolver), new AssembliesResolver());
 
             config.SuppressDefaultHostAuthentication();
