@@ -44,11 +44,6 @@
                
             });
         };
-
-        $scope.saveActionPermissions = function () {
-            RoleManagerService.saveActionPermissions($scope.Controllers);
-        };
-
     }]);
     //Show roles and assign to an action
     app.controller('RolesCtrl', ['$scope', '$uibModalInstance', 'item', 'RoleManagerService',
@@ -79,6 +74,9 @@
                             $this.item.action.Roles.push(role);
                         }
                     });
+
+                    RoleManagerService.saveActionPermissions($scope.item.action);
+
                 }
                 $uibModalInstance.close();
             };
