@@ -119,6 +119,11 @@
     <Compile Include="AuthorizationManager.cs" />
     <Compile Include="ControllersActions.cs" />
     <Compile Include="AssembliesResolver.cs" />
+    <Compile Include="Migrations\201606180013590_init.cs" />
+    <Compile Include="Migrations\201606180013590_init.Designer.cs">
+      <DependentUpon>201606180013590_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Action.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MvcAction.cs" />
@@ -138,6 +143,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201606180013590_init.resx">
+      <DependentUpon>201606180013590_init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

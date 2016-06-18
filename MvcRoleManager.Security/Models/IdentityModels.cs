@@ -23,6 +23,7 @@ namespace MvcRoleManager.Security.Models
     {
         public virtual ICollection<Action> Actions { get; set; }
     }
+
     public class RoleManagerDbContext : IdentityDbContext<ApplicationUser>
     {
         public RoleManagerDbContext()
