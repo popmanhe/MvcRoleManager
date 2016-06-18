@@ -4,19 +4,22 @@ using System.Data.Entity;
 
 namespace MvcRoleManager.Security.DAL
 {
-    public class UnitOfWork: IDisposable
+    public class UnitOfWork : IDisposable
     {
         protected DbContext context;
         public UnitOfWork(DbContext context)
         {
             this.context = context;
         }
-        
+
+        public DbContext Context
+        {
+            get { return this.context; }
+        }
         private Dictionary<Type, object> repositories = new Dictionary<Type, object>();
 
-        public GenericRepository<T> Repository<T>()  
-            where T: class
-
+        public GenericRepository<T> Repository<T>()
+            where T : class
         {
             Type interfaceType = typeof(T);
             GenericRepository<T> returnInterface;
@@ -27,7 +30,7 @@ namespace MvcRoleManager.Security.DAL
             }
             else
             {
-                returnInterface = new  GenericRepository<T>(context);
+                returnInterface = new GenericRepository<T>(context);
 
                 repositories[interfaceType] = (GenericRepository<T>)returnInterface;
             }

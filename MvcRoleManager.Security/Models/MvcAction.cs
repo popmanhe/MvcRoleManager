@@ -14,6 +14,6 @@ namespace MvcRoleManager.Security.Models
         public IEnumerable<string> ParametersTypes { get; set; }
         public string ReturnType { get; set; }
 
-        public List<IdentityRole> Roles { get; set; }
+        public List<ApplicationRole> Roles { get; set; }
     }
 }

@@ -51,7 +51,7 @@
             $scope.item = item;
 
             //$scope.getRoles = function () {
-            RoleManagerService.getRoles(function (result) {
+            RoleManagerService.GetRoles(function (result) {
                 $scope.roles = result.data;
                 $scope.roles.forEach(function (role) {
                     role.checked = false;
@@ -75,7 +75,7 @@
                         }
                     });
 
-                    RoleManagerService.saveActionPermissions($scope.item.action);
+                    RoleManagerService.SveActionRoles($scope.item.action);
 
                 }
                 $uibModalInstance.close();

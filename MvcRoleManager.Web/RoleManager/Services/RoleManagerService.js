@@ -23,7 +23,7 @@
                 });
             }
 
-            service.getRoles = function (callback) {
+            service.GetRoles = function (callback) {
                 $http.get('/api/rolemanager/getroles')
                 .then(
                 function (result) {
@@ -33,7 +33,7 @@
                 )
             };
 
-            service.getActionRoles = function (action) {
+            service.GetActionRoles = function (action) {
                 $http.get('/api/rolemanager/getactionroles').then(
                     function (result) {
 
@@ -42,21 +42,10 @@
                     );
             };
 
-            service.saveActionPermissions = function (controllers, callback) {
-                var actions = [];
-                controllers.forEach(function (controller) {
-                    if (controller.Actions) {
-                        controller.Actions.forEach(function (action) {
-                            if (action.modified) {
-                                actions.push(action);
-                            }
-                        });
-                    }
-                });
-              
-                actions = angular.toJson(actions);
+            service.SveActionRoles = function (action, callback) {
+                 action = angular.toJson(action);
 
-                $http.post('/api/rolemanager/SaveActionRoles',  actions)
+                $http.post('/api/rolemanager/SaveActionRoles',  action)
                .then(
                function (result) {
                    callback(result);
