@@ -1,5 +1,6 @@
 ﻿using MvcRoleManager.Security.DAL;
 using MvcRoleManager.Security.Models;
+using MvcRoleManager.Security.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,88 +23,85 @@ namespace MvcRoleManager.Security.BSO
 
         public List<ApplicationRole> GetRoles()
         {
+            unitOfWork.Context.Configuration.LazyLoadingEnabled = false;
             var roles = unitOfWork.Repository<ApplicationRole>().Get().OrderBy(r => r.Name);
             return roles.ToList();
         }
 
-        public ICollection<ApplicationRole> GetActionRoles(MvcAction action)
+        public List<MvcRole> GetActionRoles(MvcAction mvcAction)
         {
             //Only ControllerName and ActionName have indexes.
             //Most of cases, controller and action name should be able to identify the right record.
-            var actions = unitOfWork.Repository<Models.Action>()
-                .Get(a => a.ControllerName == action.ControllerName && a.ActionName == action.ActionName).ToList();
-
-            if (actions.Count() == 1)
+            var action = this.GetAction(mvcAction);
+            var actionRoles = action?.Roles;
+            var roles = this.GetRoles();
+            List<MvcRole> selectedRoles = new List<MvcRole>();
+            foreach (var role in roles)
             {
-                return actions.FirstOrDefault().Roles;
-            }
-            else if (actions.Count() > 1)
-            {
-                //if there are more than 1 records returned, use return type and parameter types to identify the record.
-                string parameterTypes = "";
-                if (action.ParametersTypes != null)
+                selectedRoles.Add(new MvcRole
                 {
-                    parameterTypes = string.Join(",", action.ParametersTypes.ToArray());
-                }
-
-                return actions.Where(a => a.ReturnType == action.ReturnType && a.ParameterTypes == parameterTypes)
-                .FirstOrDefault()?.Roles;
+                    Id = role.Id,
+                    Name = role.Name,
+                    Selected = actionRoles != null && actionRoles.Any(r => r.Id == role.Id)
+                });
             }
 
-            return null;
+            return selectedRoles;
         }
 
         public void SaveActionRoles(MvcAction mvcAction)
         {
             var actions = unitOfWork.Repository<Models.Action>().Get(act => act.ActionName == mvcAction.ActionName
             && act.ControllerName == mvcAction.ControllerName);
-            Models.Action action = null;
-            switch (actions.Count())
+            Models.Action action = this.GetAction(mvcAction);
+
+            if (action == null)
             {
-                case 1: //only one returned
-                    action = actions.FirstOrDefault();
-                    break;
-                case 0: // no found
-                    action = new Models.Action
-                    {
-                        ActionName = mvcAction.ActionName,
-                        ControllerName = mvcAction.ControllerName,
-                        ParameterTypes = string.Join(",", mvcAction.ParametersTypes.ToArray()),
-                        ReturnType = mvcAction.ReturnType
-                    };
-                    unitOfWork.Repository<Action>().Insert(action);
-                    break;
-                default:  // greater than 1
-                    actions = actions.Where(act => act.ParameterTypes == string.Join(",", mvcAction.ParametersTypes.ToArray())
-                    && act.ReturnType == mvcAction.ReturnType);
-
-                    if (actions.Count() == 0)
-                    {
-                        action = new Models.Action
-                        {
-                            ActionName = mvcAction.ActionName,
-                            ControllerName = mvcAction.ControllerName,
-                            ParameterTypes = string.Join(",", mvcAction.ParametersTypes.ToArray()),
-                            ReturnType = mvcAction.ReturnType
-                        };
-                        unitOfWork.Repository<Action>().Insert(action);
-                    }
-                    else { action = actions.FirstOrDefault(); }
-
-                    break;
+                action = new Models.Action
+                {
+                    ActionName = mvcAction.ActionName,
+                    ControllerName = mvcAction.ControllerName,
+                    ParameterTypes = string.Join(",", mvcAction.ParametersTypes.ToArray()),
+                    ReturnType = mvcAction.ReturnType
+                };
+                unitOfWork.Repository<Action>().Insert(action);
             }
-            addRolesToAction(mvcAction.Roles, action);
-             unitOfWork.Save();
 
+            AddRolesToAction(mvcAction.Roles, action);
+            unitOfWork.Save();
         }
 
-        private void addRolesToAction(List<ApplicationRole> roles, Models.Action action)
+        private Action GetAction(MvcAction mvcAction)
         {
-            foreach (ApplicationRole role in roles)
+            var actions = unitOfWork.Repository<Models.Action>()
+              .Get(a => a.ControllerName == mvcAction.ControllerName && a.ActionName == mvcAction.ActionName).ToList();
+            string parameterTypes = "";
+            if (mvcAction.ParametersTypes != null)
             {
-                action.Roles.Add(role);
+                parameterTypes = string.Join(",", mvcAction.ParametersTypes.ToArray());
             }
 
+            return actions.Where(a => a.ReturnType == mvcAction.ReturnType && a.ParameterTypes == parameterTypes)
+            .FirstOrDefault();
+        }
+        private void AddRolesToAction(List<ApplicationRole> roles, Models.Action action)
+        {
+            //Remove unselected roles associated with current action
+            foreach (var role in action.Roles.ToList())
+            {
+                if (!roles.Any(r => r.Id == role.Id))
+                    action.Roles.Remove(role);
+            }
+
+            foreach (ApplicationRole role in roles)
+            {
+                if (!action.Roles.Any(r => r.Id == role.Id))
+                {
+                    action.Roles.Add(role);
+                    //We only want to add roles to ActionRoles table, not adding  role to AspnetRoles table, so change the state to unchanged;
+                    unitOfWork.Context.Entry<ApplicationRole>(role).State = System.Data.Entity.EntityState.Unchanged;
+                }
+            }
         }
 
     }

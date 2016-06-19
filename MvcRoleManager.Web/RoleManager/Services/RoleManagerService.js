@@ -33,10 +33,11 @@
                 )
             };
 
-            service.GetActionRoles = function (action) {
-                $http.get('/api/rolemanager/getactionroles').then(
+            service.GetActionRoles = function (action, callback) {
+                $http.post('/api/rolemanager/getactionroles', action)
+                .then(
                     function (result) {
-
+                        callback(result);
                     },
                     function () { }
                     );

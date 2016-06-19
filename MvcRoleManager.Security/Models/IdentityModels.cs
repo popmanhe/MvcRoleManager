@@ -58,8 +58,8 @@ namespace MvcRoleManager.Security.Models
                .WithMany(c => c.Actions)
                .Map(cs =>
                {
-                   cs.MapLeftKey("RoleId");
-                   cs.MapRightKey("ActionId");
+                   cs.MapLeftKey("ActionId");
+                   cs.MapRightKey("RoleId");
                    cs.ToTable("ActionRoles");
                });
         }

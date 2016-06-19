@@ -49,20 +49,10 @@
     app.controller('RolesCtrl', ['$scope', '$uibModalInstance', 'item', 'RoleManagerService',
         function ($scope, $uibModalInstance, item, RoleManagerService) {
             $scope.item = item;
-
+            $scope.roles = [];
             //$scope.getRoles = function () {
-            RoleManagerService.GetRoles(function (result) {
+            RoleManagerService.GetActionRoles(item.action, function (result) {
                 $scope.roles = result.data;
-                $scope.roles.forEach(function (role) {
-                    role.checked = false;
-                    if ($scope.item.action.Roles != null) {
-                        $scope.item.action.Roles.forEach(function (actionRole) {
-                            if (actionRole.Id == role.Id) {
-                                role.checked = true;
-                            }
-                        });
-                    }
-                });
             });
             //};
             $scope.ok = function () {
@@ -70,7 +60,7 @@
                 if ($this.item.action.modified) {
                     $this.item.action.Roles = [];
                     $this.roles.forEach(function (role) {
-                        if (role.checked) {
+                        if (role.Selected) {
                             $this.item.action.Roles.push(role);
                         }
                     });

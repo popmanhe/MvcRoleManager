@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MvcRoleManager.Security.Models;
+using MvcRoleManager.Security.ViewModels;
 
 namespace MvcRoleManager.Security.Store
 {

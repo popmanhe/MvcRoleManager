@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using MvcRoleManager.Security.Models;
 using System.Collections.Generic;
 
-namespace MvcRoleManager.Security.Models
+namespace MvcRoleManager.Security.ViewModels
 {
     public class MvcAction
     {

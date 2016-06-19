@@ -9,6 +9,8 @@ using System.Configuration;
 using System.Web;
 using System.IO;
 using Newtonsoft.Json;
+using MvcRoleManager.Security.ViewModels;
+
 namespace MvcRoleManager.Security.Store
 {
     public class FileRolePermissionStore : IRolePermissionStore

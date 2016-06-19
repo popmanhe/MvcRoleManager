@@ -11,7 +11,10 @@ namespace MvcRoleManager.Security.Migrations
     {
         public Configuration()
         {
+#if DEBUG
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
+#endif
         }
 
         protected override void Seed(MvcRoleManager.Security.Models.RoleManagerDbContext context)

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using MvcRoleManager.Security.ViewModels;
 
 namespace MvcRoleManager.Security.Api
 {
@@ -38,7 +39,12 @@ namespace MvcRoleManager.Security.Api
         {
             return RoleManagerBso.GetRoles();
         }
-
+        [AllowAnonymous]
+        [HttpPost]
+        public List<MvcRole> GetActionRoles(MvcAction mvcAction)
+        {
+            return RoleManagerBso.GetActionRoles(mvcAction);
+        }
         [AllowAnonymous]
         [HttpPost]
         public IHttpActionResult SaveActionRoles(MvcAction mvcAction)

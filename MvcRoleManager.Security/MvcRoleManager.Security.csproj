@@ -150,8 +150,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Action.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\MvcAction.cs" />
-    <Compile Include="Models\MvcController.cs" />
+    <Compile Include="ViewModels\MvcAction.cs" />
+    <Compile Include="ViewModels\MvcController.cs" />
     <Compile Include="Filter\MvcAuthoraiztionFilter.cs" />
     <Compile Include="Models\RoleManagerDBInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -160,6 +160,7 @@
     <Compile Include="Store\MySqlRolePermissionStore.cs" />
     <Compile Include="Store\SqlserverRolePermissionStore.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="ViewModels\MvcRole.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -173,6 +174,7 @@
       <DependentUpon>201606180013590_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
