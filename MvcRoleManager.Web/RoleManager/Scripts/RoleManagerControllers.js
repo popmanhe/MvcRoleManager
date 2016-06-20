@@ -122,7 +122,7 @@
             };
             $scope.SveActionRoles = function () {
                 $scope.selectedAction.Roles = [];
-                $scope.roles.forEach(function (role) {
+                $scope.Roles.forEach(function (role) {
                     if (role.Selected) {
                         $scope.selectedAction.Roles.push(role);
                     }

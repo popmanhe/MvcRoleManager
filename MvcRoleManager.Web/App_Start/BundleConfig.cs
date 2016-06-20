@@ -21,7 +21,8 @@ namespace MvcRoleManager
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.min.css",
+                      "~/Content/ui-bootstrap-csp.css",
                       "~/Content/site.css"));
         }
     }
