@@ -56,6 +56,7 @@ namespace MvcRoleManager.Security.Api
             }
             catch (DbEntityValidationException e)
             {
+#if DEBUG
                 foreach (var eve in e.EntityValidationErrors)
                 {
                     Debug.WriteLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
@@ -66,8 +67,10 @@ namespace MvcRoleManager.Security.Api
                             ve.PropertyName, ve.ErrorMessage);
                     }
                 }
-                throw;
+                return InternalServerError(e);
+#endif
             }
+            return InternalServerError();
         }
     }
 }

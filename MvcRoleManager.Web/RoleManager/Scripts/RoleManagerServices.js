@@ -36,6 +36,16 @@
                 //});
             }
 
+            service.UpdateGroup = function (group, callback) {
+                $http.post('/api/RoleManager/UpdateGroup', group).then(
+                   function (result) {//success
+                       callback();
+                   }
+               , function () {//failed
+
+               });
+            }
+
             service.GetRoles = function (callback) {
                 $http.get('/api/rolemanager/getroles')
                 .then(

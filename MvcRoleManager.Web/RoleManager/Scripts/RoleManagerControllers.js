@@ -35,7 +35,7 @@
             { link: '#/actiongroup', label: 'Action Group' }
         ];
         $scope.selectedTab = $scope.tabs[0];
-         $scope.setSelectedTab = function (tab) {
+        $scope.setSelectedTab = function (tab) {
             $scope.selectedTab = tab;
         }
 
@@ -51,7 +51,7 @@
     //Group actions to provide a logic action
     app.controller('ActionGroupCtrl', ['$scope', '$log', 'RoleManagerService',
        function ($scope, $log, RoleManagerService) {
-            $scope.selectedGroup;
+           $scope.selectedGroup;
            $scope.Controllers = [];
            $scope.Groups = [];
 
@@ -76,8 +76,12 @@
            $scope.EditGroup = function (group) {
                group.stat = 'edit';
            }
-           $scope.CancelEdit = function (group) {
-               group.stat = 'view';
+
+           //Update group's name and description only
+           $scope.UpdateGroup = function (group) {
+               RoleManagerService.UpdateGroup(group, function () {
+                   group.stat = 'view';
+               });
            }
            $scope.SelectAll = function ($event, ctrl) {
                if (ctrl.Actions && ctrl.Actions.length > 0) {
