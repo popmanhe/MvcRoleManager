@@ -53,6 +53,7 @@ namespace MvcRoleManager.Security.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Action>()
                .HasMany<ApplicationRole>(s => s.Roles)
                .WithMany(c => c.Actions)
@@ -61,6 +62,16 @@ namespace MvcRoleManager.Security.Models
                    cs.MapLeftKey("ActionId");
                    cs.MapRightKey("RoleId");
                    cs.ToTable("ActionRoles");
+               });
+
+            modelBuilder.Entity<Action>()
+               .HasMany<ActionGroup>(s => s.ActionGroups)
+               .WithMany(c => c.Actions)
+               .Map(cs =>
+               {
+                   cs.MapLeftKey("ActionId");
+                   cs.MapRightKey("GroupId");
+                   cs.ToTable("ActionActionGroups");
                });
         }
     }

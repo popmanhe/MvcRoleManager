@@ -18,7 +18,6 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-
                     <li><a href="/RoleManager/index.html">Role Manager</a></li>
                 </ul>
             </div>
@@ -27,23 +26,28 @@
     <div class="container body-content">
         <br />
         <br />
+        <br />
+        <br />
+        <ul class="nav nav-tabs" ng-controller="TabsCtrl">
+            <li ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab">
+                <a href="{{tab.link}}" ng-click="setSelectedTab(tab)">{{tab.label}}</a>
+            </li>
+        </ul>
         <div ui-view></div>
         <hr />
         <footer>
             <p>&copy;2016 Mvc Role Manager</p>
         </footer>
     </div>
-    <script type="text/javascript" src="/Scripts/angular.min.js"></script>
-    <script type="text/javascript" src="/Scripts/angular-ui-router.min.js"></script>
-    <script type="text/javascript" src="/Scripts/angular-ui/ui-bootstrap.min.js"></script>
+    <script type="text/javascript" src="../Scripts/angular.min.js"></script>
+    <script type="text/javascript" src="../Scripts/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="../Scripts/angular-ui/ui-bootstrap.min.js"></script>
     <script type="text/javascript" src="../Scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
-    <script type="text/javascript" src="/Scripts/angular-sanitize/angular-sanitize.min.js"></script>
-    <script type="text/javascript" src="/Scripts/tv4/tv4.js"></script>
-    <script type="text/javascript" src="/Scripts/objectpath/lib/ObjectPath.js"></script>
-    <script type="text/javascript" src="/Scripts/angular-schema-form/dist/schema-form.min.js"></script>
-    <script type="text/javascript" src="/Scripts/angular-schema-form/dist/bootstrap-decorator.min.js"></script>
-    <script type="text/javascript" src="app.js"></script>
-    <script type="text/javascript" src="Services/RoleManagerService.js"></script>
-    <script type="text/javascript" src="Controllers/RoleManagerController.js"></script>
+    <script type="text/javascript" src="../Scripts/angular-sanitize/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="Scripts/app.js"></script>
+    <script type="text/javascript" src="Scripts/RoleManagerServices.js"></script>
+    <script type="text/javascript" src="Scripts/RoleManagerControllers.js"></script>
+    <script type="text/javascript" src="Scripts/RoleManagerDirectives.js"></script>
 </body>
+
 </html>

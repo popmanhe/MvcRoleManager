@@ -8,10 +8,9 @@ using System.Web.Mvc;
 using System.Configuration;
 using System.ComponentModel;
 using MvcRoleManager.Security.Store;
-using MvcRoleManager.Security.Models;
 using MvcRoleManager.Security.ViewModels;
 
-namespace MvcRoleManager.Security
+namespace MvcRoleManager.Security.BSO
 {
     public class ControllersActions
     {

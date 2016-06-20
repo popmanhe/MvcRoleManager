@@ -19,10 +19,12 @@ namespace MvcRoleManager.Security.Models
 
         [Required]
         [StringLength(256)]
+        [Index]
         public string ControllerName { get; set; }
 
         [Required]
         [StringLength(256)]
+        [Index]
         public string ActionName { get; set; }
 
         public string ParameterTypes { get; set; }
@@ -31,5 +33,7 @@ namespace MvcRoleManager.Security.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ApplicationRole> Roles { get; set; }
+        public virtual ICollection<ActionGroup> ActionGroups { get; set; }
+
     }
 }

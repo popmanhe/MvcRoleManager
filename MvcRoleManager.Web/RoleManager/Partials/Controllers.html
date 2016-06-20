@@ -1,33 +1,58 @@
-﻿<h2 class="pull-left"> Assign roles to action</h2>
+﻿<h2 class="pull-left">Assign roles to action</h2>
 
-<div  class="clearfix"></div>
+<div class="clearfix"></div>
 <hr />
-<div ng-repeat="ctrl in Controllers">
-    <div class="panel panel-primary">
-        <!-- Default panel contents -->
-        <div class="panel-heading">
-            <h4>Controller: {{ctrl.ControllerName}}  
-     </h4>
-            <p>&nbsp;&nbsp;{{ctrl.Description}}</p>
-        </div>
+<div class="row">
+    <div class="col-md-8">
+        <div ng-repeat="ctrl in Controllers">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <h4>Controller: {{ctrl.ControllerName}}  
+                    </h4>
+                    <p>&nbsp;&nbsp;{{ctrl.Description}}</p>
+                </div>
 
-        <!-- Table -->
-        <table class="table table-striped" ng-show="ctrl.Actions.length>0">
-            <thead>
-                <tr>
-                    <th width="20%">Action Name</th>
-                    <th width="50%">Description</th>
-                    <th width="10%">Roles</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="act in ctrl.Actions">
-                    <td>{{act.ActionName}}</td>
-                    <td>{{act.Description}}</td>
-                    <td><a href ng-click="assigntoRoles(ctrl, act)"> Assign </a></td>
-                </tr>
-            </tbody>
-        </table>
-        <p ng-show="ctrl.Actions.length==0">No action in this controller</p>
+                <table class="table table-striped" ng-show="ctrl.Actions.length>0">
+                    <thead>
+                        <tr>
+                            <th width="20%">Action Name</th>
+                            <th width="50%">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="act in ctrl.Actions">
+                            <td><a href ng-click='LoadActionRoles(ctrl, act)'>{{act.ActionName}}</a> </td>
+                            <td>{{act.Description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p ng-show="ctrl.Actions.length==0">No action in this controller</p>
+
+            </div>
+        </div>
     </div>
- </div>
+    <!-- Table -->
+    <div class="col-md-4 ">
+        <div class="affix" style="width: 19%">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <h4>Roles</h4>
+                    <p>Assigned to<i> {{selectedController.ControllerName}}.{{selectedAction.ActionName}}</i></p>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6" ng-repeat="role in Roles">
+                        <input type="checkbox" ng-model="role.Selected" />
+                        {{role.Name}}
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-primary" type="button" ng-click="SveActionRoles()">Save</button>
+                    <button class="btn btn-default" type="button" ng-click="LoadActionRoles(selectedController,selectedAction)">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

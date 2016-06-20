@@ -214,17 +214,14 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="RoleManager\app.js" />
-    <Content Include="RoleManager\Controllers\RoleManagerController.js" />
+    <Content Include="RoleManager\Scripts\app.js" />
+    <Content Include="RoleManager\Scripts\RoleManagerControllers.js" />
+    <Content Include="RoleManager\Scripts\RoleManagerDirectives.js" />
     <Content Include="RoleManager\Partials\Controllers.html" />
-    <Content Include="RoleManager\Partials\roles.html" />
-    <Content Include="RoleManager\Services\RoleManagerService.js" />
+    <Content Include="RoleManager\Scripts\RoleManagerServices.js" />
     <Content Include="favicon.ico" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
@@ -232,26 +229,6 @@
     <Content Include="Scripts\angular-sanitize\angular-sanitize.js" />
     <Content Include="Scripts\angular-sanitize\angular-sanitize.min.js" />
     <Content Include="Scripts\angular-sanitize\index.js" />
-    <Content Include="Scripts\angular-schema-form\dist\bootstrap-decorator.js" />
-    <Content Include="Scripts\angular-schema-form\dist\bootstrap-decorator.min.js" />
-    <Content Include="Scripts\angular-schema-form\dist\schema-form.js" />
-    <Content Include="Scripts\angular-schema-form\dist\schema-form.min.js" />
-    <Content Include="Scripts\angular-schema-form\jslicense.html" />
-    <Content Include="Scripts\angular-schema-form\src\directives\array.js" />
-    <Content Include="Scripts\angular-schema-form\src\directives\changed.js" />
-    <Content Include="Scripts\angular-schema-form\src\directives\field.js" />
-    <Content Include="Scripts\angular-schema-form\src\directives\message.js" />
-    <Content Include="Scripts\angular-schema-form\src\directives\newArray.js" />
-    <Content Include="Scripts\angular-schema-form\src\directives\schema-form.js" />
-    <Content Include="Scripts\angular-schema-form\src\directives\schema-validate.js" />
-    <Content Include="Scripts\angular-schema-form\src\module.js" />
-    <Content Include="Scripts\angular-schema-form\src\services\builder.js" />
-    <Content Include="Scripts\angular-schema-form\src\services\decorators.js" />
-    <Content Include="Scripts\angular-schema-form\src\services\errors.js" />
-    <Content Include="Scripts\angular-schema-form\src\services\schema-form.js" />
-    <Content Include="Scripts\angular-schema-form\src\services\Select.js" />
-    <Content Include="Scripts\angular-schema-form\src\services\validator.js" />
-    <Content Include="Scripts\angular-schema-form\src\sfPath.js" />
     <Content Include="Scripts\angular-ui-router.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -262,31 +239,10 @@
     <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="Scripts\jquery-2.2.4-vsdoc.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-2.2.4.js" />
-    <Content Include="Scripts\jquery-2.2.4.min.js" />
-    <Content Include="Scripts\jquery-2.2.4.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\objectpath\index.js" />
-    <Content Include="Scripts\objectpath\lib\ObjectPath.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\tv4\tv4.async-jquery.js" />
-    <Content Include="Scripts\tv4\tv4.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -313,28 +269,20 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\angular-sanitize\.bower.json" />
     <Content Include="Scripts\angular-sanitize\angular-sanitize.min.js.map" />
     <Content Include="Scripts\angular-sanitize\bower.json" />
     <Content Include="Scripts\angular-sanitize\package.json" />
     <Content Include="Scripts\angular-sanitize\README.md" />
-    <Content Include="Scripts\angular-schema-form\.bower.json" />
-    <Content Include="Scripts\angular-schema-form\bower.json" />
-    <Content Include="Scripts\angular-schema-form\CONTRIBUTING.md" />
-    <Content Include="Scripts\angular-schema-form\dist\WHERE_IS_BOOTSTRAP_DECORATOR.md" />
-    <Content Include="Scripts\angular-schema-form\README.md" />
-    <Content Include="Scripts\angular-schema-form\src\directives\WHERE_ARE_THE_DECORATORS.md" />
-    <Content Include="Scripts\objectpath\.bower.json" />
-    <Content Include="Scripts\objectpath\bower.json" />
-    <Content Include="Scripts\objectpath\license" />
-    <Content Include="Scripts\objectpath\package.json" />
-    <Content Include="Scripts\objectpath\readme.md" />
-    <Content Include="Scripts\tv4\.bower.json" />
-    <Content Include="Scripts\tv4\bower.json" />
     <Content Include="RoleManager\index.html" />
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="RoleManager\Partials\ActionGroup.html" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
