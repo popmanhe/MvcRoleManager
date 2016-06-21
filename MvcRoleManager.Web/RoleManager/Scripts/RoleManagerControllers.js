@@ -47,8 +47,8 @@
             }
         }
     }]);
-
     
+    //Assign actions to role
     app.controller('ActionRoleCtrl', ['$scope', 'RoleManagerService',
        function ($scope, RoleManagerService) {
            $scope.selectedRole;
@@ -138,7 +138,7 @@
            };
        }]);
 
-    //Assign roles to actions
+    //Assign roles to action
     app.controller('ControllersCtrl', ['$scope', 'RoleManagerService',
         function ($scope, RoleManagerService) {
 

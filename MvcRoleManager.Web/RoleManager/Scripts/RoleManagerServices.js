@@ -72,7 +72,7 @@
                 $http.post('/api/rolemanager/getactionroles', action)
                 .then(
                     function (result) {
-                        callback(result);
+                        callback(result.data);
                     },
                     function () { }
                     );
