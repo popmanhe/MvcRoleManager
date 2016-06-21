@@ -3,6 +3,7 @@ using MvcRoleManager.Security.Models;
 using MvcRoleManager.Security.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace MvcRoleManager.Security.BSO
 {
@@ -20,6 +21,7 @@ namespace MvcRoleManager.Security.BSO
 
             return _controllersActions.GetControllers(true);
         }
+
         /// <summary>
         /// Get all roles from database
         /// </summary>
@@ -30,6 +32,26 @@ namespace MvcRoleManager.Security.BSO
             var roles = unitOfWork.Repository<ApplicationRole>().Get().OrderBy(r => r.Name);
             return roles.ToList();
         }
+
+        public void AddRole(ApplicationRole role)
+        {
+            unitOfWork.Repository<ApplicationRole>().Insert(role);
+            unitOfWork.Save();
+        }
+
+        public void DeleteRole(ApplicationRole role)
+        {
+            unitOfWork.Repository<ApplicationRole>().Delete(role);
+            unitOfWork.Save();
+        }
+
+        public void UpdateRole(ApplicationRole role)
+        {
+            unitOfWork.Repository<ApplicationRole>().Update(role);
+            unitOfWork.Save();
+        }
+
+
         /// <summary>
         /// Get associated roles by action
         /// </summary>
@@ -61,20 +83,20 @@ namespace MvcRoleManager.Security.BSO
         /// <param name="mvcAction"></param>
         public void SaveActionRoles(MvcAction mvcAction)
         {
-            var actions = unitOfWork.Repository<Action>().Get(act => act.ActionName == mvcAction.ActionName
+            var actions = unitOfWork.Repository<Models.Action>().Get(act => act.ActionName == mvcAction.ActionName
             && act.ControllerName == mvcAction.ControllerName);
-            Action action = this.GetAction(mvcAction);
+            Models.Action action = this.GetAction(mvcAction);
 
             if (action == null)
             {
-                action = new Action
+                action = new Models.Action
                 {
                     ActionName = mvcAction.ActionName,
                     ControllerName = mvcAction.ControllerName,
                     ParameterTypes = string.Join(",", mvcAction.ParametersTypes.ToArray()),
                     ReturnType = mvcAction.ReturnType
                 };
-                unitOfWork.Repository<Action>().Insert(action);
+                unitOfWork.Repository<Models.Action>().Insert(action);
             }
 
             AddRolesToAction(mvcAction.Roles, action);
@@ -85,7 +107,7 @@ namespace MvcRoleManager.Security.BSO
         /// </summary>
         /// <param name="mvcAction"></param>
         /// <returns></returns>
-        private Action GetAction(MvcAction mvcAction)
+        private Models.Action GetAction(MvcAction mvcAction)
         {
             var actions = unitOfWork.Repository<Models.Action>()
               .Get(a => a.ControllerName == mvcAction.ControllerName && a.ActionName == mvcAction.ActionName).ToList();
@@ -100,7 +122,7 @@ namespace MvcRoleManager.Security.BSO
             return actions.Where(a => a.ReturnType == mvcAction.ReturnType && a.ParameterTypes == parameterTypes)
             .FirstOrDefault();
         }
-        private void AddRolesToAction(List<ApplicationRole> roles, Action action)
+        private void AddRolesToAction(List<ApplicationRole> roles, Models.Action action)
         {
             //Remove unselected roles associated with current action
             foreach (var role in action.Roles.ToList())

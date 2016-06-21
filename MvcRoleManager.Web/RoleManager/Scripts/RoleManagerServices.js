@@ -7,12 +7,12 @@
 
             var service = {};
 
-            var showJSONMessage = function (msg) {
+            service.showJSONMessage = function (msg) {
                 alert(JSON.stringify(msg));
-            };
-
-            service.showJSONMessage = showJSONMessage;
-
+            };;
+            /************************************************
+            Services for controllers and actions from assembly
+            ************************************************/
             service.GetControllers = function (callback) {
                 $http.get('/api/RoleManager/GetControllers').then(
                     function (result) {//success
@@ -22,22 +22,30 @@
 
                 });
             }
+            /************************************************
+            Services for Roles
+            ************************************************/
+            service.GetRoles = function (callback) {
+                $http.get('/api/rolemanager/getroles')
+                .then(
+                function (result) {
+                    callback(result.data);
+                },
+                function () { }
+                )
+            };
 
-            service.GetGroups = function (callback) {
-                //$http.get('/api/RoleManager/GetGroups').then(
-                //    function (result) {//success
-                callback([
-                    { 'Name': 'group2', 'Description': 'group2 desc', 'stat':'view' }
-                    , { 'Name': 'group1', 'Description': 'group1 desc', 'stat':'view' }
-                ]);
-                //    }
-                //, function () {//failed
-
-                //});
+            service.AddRole = function (role, callback) {
+                $http.post('/api/RoleManager/AddRole', role).then(
+                   function (result) {//success
+                       callback(result.data);
+                   }
+               , function (result) {//failed
+                   alert(result.data.ExceptionMessage);
+               });
             }
-
-            service.UpdateGroup = function (group, callback) {
-                $http.post('/api/RoleManager/UpdateGroup', group).then(
+            service.UpdateRole = function (role, callback) {
+                $http.post('/api/RoleManager/UpdateRole', role).then(
                    function (result) {//success
                        callback();
                    }
@@ -46,15 +54,19 @@
                });
             }
 
-            service.GetRoles = function (callback) {
-                $http.get('/api/rolemanager/getroles')
-                .then(
-                function (result) {
-                    callback(result);
-                },
-                function () { }
-                )
-            };
+            service.DeleteRole = function (role, callback) {
+                $http.post('/api/RoleManager/DeleteRole', role).then(
+                   function (result) {//success
+                       callback();
+                   }
+               , function () {//failed
+
+               });
+            }
+            /************************************************
+            Services for roles
+            ************************************************/
+            
 
             service.GetActionRoles = function (action, callback) {
                 $http.post('/api/rolemanager/getactionroles', action)

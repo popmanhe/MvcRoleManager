@@ -223,6 +223,7 @@
     <Content Include="RoleManager\Partials\Controllers.html" />
     <Content Include="RoleManager\Scripts\RoleManagerServices.js" />
     <Content Include="favicon.ico" />
+    <Content Include="RoleManager\Style\rolemanager.css" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
@@ -282,7 +283,7 @@
     <Content Include="RoleManager\index.html" />
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="RoleManager\Partials\ActionGroup.html" />
+    <Content Include="RoleManager\Partials\ActionRole.html" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

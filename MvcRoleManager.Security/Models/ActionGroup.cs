@@ -13,10 +13,10 @@ namespace MvcRoleManager.Security.Models
         [Key]
         public int Id { get; set; }
 
-        [Index]
+        [Index(IsUnique=true)]
         [Required]
         [StringLength(256)]
-        public string GroupName { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public virtual ICollection<Action> Actions { get; set; }
     }

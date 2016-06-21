@@ -149,7 +149,6 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Action.cs" />
-    <Compile Include="Models\ActionGroup.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="ViewModels\MvcAction.cs" />
     <Compile Include="ViewModels\MvcController.cs" />

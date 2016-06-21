@@ -33,7 +33,6 @@ namespace MvcRoleManager.Security.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ApplicationRole> Roles { get; set; }
-        public virtual ICollection<ActionGroup> ActionGroups { get; set; }
-
+ 
     }
 }
