@@ -63,7 +63,7 @@
 
                });
             }
-         
+
             service.GetRolesByAction = function (action, callback) {
                 $http.post('/api/rolemanager/getrolesbyaction', action)
                 .then(
@@ -83,11 +83,24 @@
                     function () { }
                     );
             };
+            //Add actions to role
+            service.AddActionsToRole = function (role) {
+                role = JSON.parse(angular.toJson(role));
 
-            service.SveActionRoles = function (action) {
+                $http.post('/api/rolemanager/AddActionsToRole', role)
+               .then(
+               function (result) {
+
+               },
+               function () { }
+               )
+            };
+
+            //Add roles to action
+            service.AddRolesToAction = function (action) {
                 action = angular.toJson(action);
 
-                $http.post('/api/rolemanager/SaveActionRoles', action)
+                $http.post('/api/rolemanager/AddRolesToAction', action)
                .then(
                function (result) {
 

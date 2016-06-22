@@ -72,9 +72,29 @@
                }
            });
 
+           $scope.AddActionsToRole = function (role) {
+               if (role)
+                   $scope.selectedRole = role;
+
+               $scope.selectedRole.Actions = [];
+               $scope.Controllers.forEach(function (ctrl) {
+                   ctrl.Actions.forEach(function (action) {
+                       if (action.Selected) {
+                           action.ControllerName = ctrl.ControllerName;
+                           $scope.selectedRole.Actions.push(action);
+                       }
+                   });
+               });
+               RoleManagerService.AddActionsToRole($scope.selectedRole, function (data) {
+
+               });
+           }
+
            $scope.GetActionsByRole = function (role) {
-               $scope.selectedRole = role;
-               RoleManagerService.GetActionsByRole(role, function (data) {
+               if (role)
+                   $scope.selectedRole = role;
+
+               RoleManagerService.GetActionsByRole($scope.selectedRole, function (data) {
                    if (data) {
                        $scope.Controllers.forEach(function (ctrl) {
                            ctrl.Actions.forEach(function (action) {
@@ -154,12 +174,6 @@
                else { role.stat = 'view'; }
            }
 
-           $scope.AddActionsToRole = function (role) {
-               $scope.Controllers.forEach(function (ctrl) {
-
-               });
-           }
-
            $scope.SelectAll = function ($event, ctrl) {
                if (ctrl.Actions && ctrl.Actions.length > 0) {
                    ctrl.Actions.forEach(function (action) {
@@ -198,14 +212,22 @@
                 })
             };
 
-            $scope.SveActionRoles = function () {
+            $scope.SetItemClass = function (action) {
+                if ($scope.selectedAction == action) {
+                    return "info";
+                } else {
+                    return "";
+                }
+            }
+
+            $scope.AddRolesToAction = function () {
                 $scope.selectedAction.Roles = [];
                 $scope.Roles.forEach(function (role) {
                     if (role.Selected) {
                         $scope.selectedAction.Roles.push(role);
                     }
                 });
-                RoleManagerService.SveActionRoles($scope.selectedAction);
+                RoleManagerService.AddRolesToAction($scope.selectedAction);
             }
         }]);
 })();

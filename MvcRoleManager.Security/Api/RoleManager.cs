@@ -6,6 +6,7 @@ using MvcRoleManager.Security.ViewModels;
 using System;
 using System.Data.SqlClient;
 using System.Data.Entity.Infrastructure;
+using Newtonsoft.Json;
 
 namespace MvcRoleManager.Security.Api
 {
@@ -88,11 +89,25 @@ namespace MvcRoleManager.Security.Api
         }
 
         [HttpPost]
-        public IHttpActionResult SaveActionRoles(MvcAction mvcAction)
+        public IHttpActionResult AddActionsToRole(MvcRole role)
         {
             try
             {
-                RoleManagerBso.SaveActionRoles(mvcAction);
+                RoleManagerBso.AddActionsToRole(role);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
+        }
+
+        [HttpPost]
+        public IHttpActionResult AddRolesToAction(MvcAction mvcAction)
+        {
+            try
+            {
+                RoleManagerBso.AddRolesToAction(mvcAction);
                 return Ok();
             }
             catch (Exception e)
