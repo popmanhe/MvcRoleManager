@@ -12,7 +12,7 @@ namespace MvcRoleManager.Security.ViewModels
         /// <summary>
         /// Used to identify an action when more than one action in a controller  have the same name
         /// </summary>
-        public IEnumerable<string> ParametersTypes { get; set; }
+        public IEnumerable<string> ParameterTypes { get; set; }
         public string ReturnType { get; set; }
 
         public bool Selected { get; set; }

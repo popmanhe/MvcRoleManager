@@ -18,7 +18,7 @@
                             <th width="20%">Action Name</th>
                             <th width="50%">Description</th>
                             <th>
-                                <input type="checkbox" ng-click="SelectAll($event, ctrl);" />
+                                <input type="checkbox" class="actionSelected" ng-click="SelectAll($event, ctrl);" />
                             </th>
                         </tr>
                     </thead>
@@ -48,7 +48,7 @@
             </div>
             <ul class="list-group">
                 <li class="list-group-item" style="cursor: pointer" ng-repeat="role in Roles"
-                    ng-click="LoadActionRole(role)" ng-class="ItemClass(role)">
+                    ng-click="GetActionsByRole(role)" ng-class="SetItemClass(role)">
                     <div class="row">
                         <div class="col-md-9">
                             <div ng-show="role.stat=='view'">
@@ -80,7 +80,7 @@
             </ul>
             <div class="panel-footer">
                 <button class="btn btn-primary" type="button" ng-click="AddActionsToRole()">Save</button>
-                <button class="btn btn-default" type="button" ng-click="LoadActionRole()">Cancel</button>
+                <button class="btn btn-default" type="button" ng-click="GetActionsByRole()">Cancel</button>
             </div>
         </div>
     </div>

@@ -63,13 +63,19 @@
 
                });
             }
-            /************************************************
-            Services for roles
-            ************************************************/
-            
+         
+            service.GetRolesByAction = function (action, callback) {
+                $http.post('/api/rolemanager/getrolesbyaction', action)
+                .then(
+                    function (result) {
+                        callback(result.data);
+                    },
+                    function () { }
+                    );
+            };
 
-            service.GetActionRoles = function (action, callback) {
-                $http.post('/api/rolemanager/getactionroles', action)
+            service.GetActionsByRole = function (role, callback) {
+                $http.get('/api/rolemanager/GetActionsByRole/' + role.Id)
                 .then(
                     function (result) {
                         callback(result.data);

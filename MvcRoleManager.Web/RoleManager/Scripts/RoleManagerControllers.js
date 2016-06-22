@@ -19,6 +19,11 @@
             url: "/actionrole",
             templateUrl: basePath + "ActionRole.html",
             controller: 'ActionRoleCtrl'
+        })
+        .state('userrole', {
+            url: "/userrole",
+            templateUrl: basePath + "UserRole.html",
+            controller: 'UserRoleCtrl'
         });
     }]);
 
@@ -32,7 +37,8 @@
 
         $scope.tabs = [
             { link: '#/', label: 'Roles->Action' },
-            { link: '#/actionrole', label: 'Actions -> Role' }
+            { link: '#/actionrole', label: 'Actions -> Role' },
+            { link: '#/userrole', label: 'Users -> Role' }
         ];
         $scope.selectedTab = $scope.tabs[0];
         $scope.setSelectedTab = function (tab) {
@@ -47,29 +53,54 @@
             }
         }
     }]);
-    
+
     //Assign actions to role
-    app.controller('ActionRoleCtrl', ['$scope', 'RoleManagerService',
-       function ($scope, RoleManagerService) {
+    app.controller('ActionRoleCtrl', ['$scope', '$document', 'RoleManagerService',
+       function ($scope, $document, RoleManagerService) {
            $scope.selectedRole;
            $scope.Controllers = [];
            $scope.Roles = [];
            $scope.adding = false;
+
            RoleManagerService.GetRoles(function (data) {
                if (data) {
                    data.forEach(function (g) { g.stat = 'view'; });
                    $scope.Roles = data;
+                   if (data && data.length > 0) {
+                       $scope.GetActionsByRole(data[0]);
+                   }
                }
            });
 
-           RoleManagerService.GetControllers(function (data) {
-               $scope.Controllers = data;
-           });
-
-           $scope.LoadActionRole = function (role) {
+           $scope.GetActionsByRole = function (role) {
                $scope.selectedRole = role;
+               RoleManagerService.GetActionsByRole(role, function (data) {
+                   if (data) {
+                       $scope.Controllers.forEach(function (ctrl) {
+                           ctrl.Actions.forEach(function (action) {
+                               action.Selected = false;
+                               data.forEach(function (selectedAction) {
+                                   if (ctrl.ControllerName == selectedAction.ControllerName &&
+                                        action.ActionName == selectedAction.ActionName &&
+                                        action.ReturnType == selectedAction.ReturnType &&
+                                        action.ParameterTypes.join() == selectedAction.ParameterTypes) {
+                                       action.Selected = true;
+                                   }
+                               });
+                           });
+                       });
+                   }
+               });
            }
-           $scope.ItemClass = function (role) {
+
+           $scope.GetControllers = function () {
+               RoleManagerService.GetControllers(function (data) {
+                   $scope.Controllers = data;
+               })
+           };
+           $scope.GetControllers();
+
+           $scope.SetItemClass = function (role) {
                if ($scope.selectedRole == role) {
                    return "active";
                } else {
@@ -110,7 +141,7 @@
                if (confirm("Are you sure to delete role," + role.Name + "?")) {
                    RoleManagerService.DeleteRole(role, function () {
                        $scope.Roles = $scope.Roles.filter(function (g) {
-                         return  g.Name != role.Name;
+                           return g.Name != role.Name;
                        });
                    });
                }
@@ -155,17 +186,18 @@
                         $scope.selectedAction = $scope.selectedController.Actions[0];
 
                     if ($scope.selectedAction != null)
-                        $scope.LoadActionRoles($scope.selectedController, $scope.selectedAction);
+                        $scope.GetRolesByAction($scope.selectedController, $scope.selectedAction);
                 }
             });
 
-            $scope.LoadActionRoles = function (ctrl, action) {
+            $scope.GetRolesByAction = function (ctrl, action) {
                 $scope.selectedAction = action;
                 $scope.selectedController = ctrl;
-                RoleManagerService.GetActionRoles(action, function (data) {
+                RoleManagerService.GetRolesByAction(action, function (data) {
                     $scope.Roles = data;
                 })
             };
+
             $scope.SveActionRoles = function () {
                 $scope.selectedAction.Roles = [];
                 $scope.Roles.forEach(function (role) {

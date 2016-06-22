@@ -15,7 +15,7 @@ namespace MvcRoleManager.Web.Controllers
         [Route("getvalue")]
         //       [Route("getvalue1")]
         [HttpGet][HttpPost]
-        public IEnumerable<string> GetV(int id)
+        public IEnumerable<string> GetV(int id, string name)
         {
             return new string[] { "value1", "value2", id.ToString() };
         }

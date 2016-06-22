@@ -22,7 +22,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="act in ctrl.Actions">
-                            <td><a href="" ng-click='LoadActionRoles(ctrl, act)'>{{act.ActionName}}</a> </td>
+                            <td><a href="" ng-click='GetRolesByAction(ctrl, act)'>{{act.ActionName}}</a> </td>
                             <td>{{act.Description}}</td>
                         </tr>
                     </tbody>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="panel-footer">
                     <button class="btn btn-primary" type="button" ng-click="SveActionRoles()">Save</button>
-                    <button class="btn btn-default" type="button" ng-click="LoadActionRoles(selectedController,selectedAction)">Cancel</button>
+                    <button class="btn btn-default" type="button" ng-click="GetRolesByAction(selectedController,selectedAction)">Cancel</button>
                 </div>
             </div>
         </div>

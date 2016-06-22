@@ -57,7 +57,7 @@ namespace MvcRoleManager.Security.BSO
         /// </summary>
         /// <param name="mvcAction"></param>
         /// <returns></returns>
-        public List<MvcRole> GetActionRoles(MvcAction mvcAction)
+        public List<MvcRole> GetRolesByAction(MvcAction mvcAction)
         {
             //Only ControllerName and ActionName have indexes.
             //Most of cases, controller and action name should be able to identify the right record.
@@ -77,6 +77,13 @@ namespace MvcRoleManager.Security.BSO
 
             return selectedRoles;
         }
+
+        public List<Models.Action> GetActionsByRole(string roleId)
+        {
+            unitOfWork.Context.Configuration.LazyLoadingEnabled = false;
+            return unitOfWork.Repository<Models.Action>()
+                .Get(act => act.Roles.Any(r=>r.Id == roleId)).ToList();
+        }
         /// <summary>
         /// Save roles to action
         /// </summary>
@@ -93,7 +100,7 @@ namespace MvcRoleManager.Security.BSO
                 {
                     ActionName = mvcAction.ActionName,
                     ControllerName = mvcAction.ControllerName,
-                    ParameterTypes = string.Join(",", mvcAction.ParametersTypes.ToArray()),
+                    ParameterTypes = string.Join(",", mvcAction.ParameterTypes.ToArray()),
                     ReturnType = mvcAction.ReturnType
                 };
                 unitOfWork.Repository<Models.Action>().Insert(action);
@@ -112,9 +119,9 @@ namespace MvcRoleManager.Security.BSO
             var actions = unitOfWork.Repository<Models.Action>()
               .Get(a => a.ControllerName == mvcAction.ControllerName && a.ActionName == mvcAction.ActionName).ToList();
             string parameterTypes = "";
-            if (mvcAction.ParametersTypes != null)
+            if (mvcAction.ParameterTypes != null)
             {
-                parameterTypes = string.Join(",", mvcAction.ParametersTypes.ToArray());
+                parameterTypes = string.Join(",", mvcAction.ParameterTypes.ToArray());
             }
 
             if (actions.Count() == 0)

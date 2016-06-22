@@ -90,7 +90,7 @@ namespace MvcRoleManager.Security.BSO
                     ActionName = x.Name,
                     Description = x.GetCustomAttribute<DescriptionAttribute>()?.Description,
                     ReturnType = x.ReturnType.ToString(),
-                    ParametersTypes = x.GetParameters().Select(p => p.ParameterType.ToString())
+                    ParameterTypes = x.GetParameters().Select(p => p.ParameterType.ToString())
                 }).ToList();
 
                 return controller.Actions;
