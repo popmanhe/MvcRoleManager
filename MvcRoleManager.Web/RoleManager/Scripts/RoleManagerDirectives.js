@@ -11,8 +11,11 @@
             if (data) {
                 data.forEach(function (g) { g.stat = 'view'; });
                 $scope.Roles = data;
-                if (data && data.length > 0)
+                if (data && data.length > 0) {
                     $scope.selectedRole = data[0];
+                    $scope.onItemclick({ role: $scope.selectedRole });
+                }
+
             }
         });
 
@@ -125,16 +128,39 @@
                 if ($scope.Controllers.length > 0) {
                     $scope.selectedController = $scope.Controllers[0];
 
-                    if ($scope.Controllers[0].Actions.length > 0)
+                    if ($scope.Controllers[0].Actions.length > 0) {
                         $scope.selectedAction = $scope.selectedController.Actions[0];
 
-
-                    $scope.selectedAction.ControllerName = $scope.selectedController.ControllerName;
-                    $scope.onItemclick({ action: $scope.selectedAction });
+                        $scope.selectedAction.ControllerName = $scope.selectedController.ControllerName;
+                        $scope.onItemclick({ action: $scope.selectedAction });
+                    }
                 }
             })
         };
         $scope.GetControllers();
+
+        $scope.GetActionsByRole = function (role) {
+            if (role)
+                $scope.selectedRole = role;
+
+            RoleManagerService.GetActionsByRole($scope.selectedRole, function (data) {
+                if (data) {
+                    $scope.Controllers.forEach(function (ctrl) {
+                        ctrl.Actions.forEach(function (action) {
+                            action.Selected = false;
+                            data.forEach(function (selectedAction) {
+                                if (ctrl.ControllerName == selectedAction.ControllerName &&
+                                     action.ActionName == selectedAction.ActionName &&
+                                     action.ReturnType == selectedAction.ReturnType &&
+                                     action.ParameterTypes.join() == selectedAction.ParameterTypes) {
+                                    action.Selected = true;
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+        }
 
         $scope.SelectAll = function ($event, ctrl) {
             if (ctrl.Actions && ctrl.Actions.length > 0) {
