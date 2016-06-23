@@ -10,10 +10,10 @@
 
         // Now set up the states
         $stateProvider
-          .state('controllers', {
+          .state('roleaction', {
               url: "/",
-              templateUrl: basePath + "Controllers.html",
-              controller: 'ControllersCtrl'
+              templateUrl: basePath + "RoleAction.html",
+              controller: 'RoleActionCtrl'
           })
         .state('actionrole', {
             url: "/actionrole",
@@ -38,7 +38,7 @@
         $scope.tabs = [
             { link: '#/', label: 'Roles->Action' },
             { link: '#/actionrole', label: 'Actions -> Role' },
-            { link: '#/userrole', label: 'Users -> Role' }
+            { link: '#/userrole', label: 'Users <-> Role' }
         ];
         $scope.selectedTab = $scope.tabs[0];
         $scope.setSelectedTab = function (tab) {
@@ -57,168 +57,31 @@
     //Assign actions to role
     app.controller('ActionRoleCtrl', ['$scope', '$document', 'RoleManagerService',
        function ($scope, $document, RoleManagerService) {
-           $scope.selectedRole;
-           $scope.Controllers = [];
-           $scope.Roles = [];
-           $scope.adding = false;
-
-           RoleManagerService.GetRoles(function (data) {
-               if (data) {
-                   data.forEach(function (g) { g.stat = 'view'; });
-                   $scope.Roles = data;
-                   if (data && data.length > 0) {
-                       $scope.GetActionsByRole(data[0]);
-                   }
-               }
-           });
-
-           $scope.AddActionsToRole = function (role) {
-               if (role)
-                   $scope.selectedRole = role;
-
-               $scope.selectedRole.Actions = [];
-               $scope.Controllers.forEach(function (ctrl) {
-                   ctrl.Actions.forEach(function (action) {
-                       if (action.Selected) {
-                           action.ControllerName = ctrl.ControllerName;
-                           $scope.selectedRole.Actions.push(action);
-                       }
-                   });
-               });
-               RoleManagerService.AddActionsToRole($scope.selectedRole, function (data) {
-
-               });
-           }
+           $scope.ControllersApi = {}; //used to communicate roles and controllers directives
 
            $scope.GetActionsByRole = function (role) {
-               if (role)
-                   $scope.selectedRole = role;
-
-               RoleManagerService.GetActionsByRole($scope.selectedRole, function (data) {
-                   if (data) {
-                       $scope.Controllers.forEach(function (ctrl) {
-                           ctrl.Actions.forEach(function (action) {
-                               action.Selected = false;
-                               data.forEach(function (selectedAction) {
-                                   if (ctrl.ControllerName == selectedAction.ControllerName &&
-                                        action.ActionName == selectedAction.ActionName &&
-                                        action.ReturnType == selectedAction.ReturnType &&
-                                        action.ParameterTypes.join() == selectedAction.ParameterTypes) {
-                                       action.Selected = true;
-                                   }
-                               });
-                           });
-                       });
-                   }
-               });
+               $scope.ControllersApi.GetActionsByRole(role);
            }
 
-           $scope.GetControllers = function () {
-               RoleManagerService.GetControllers(function (data) {
-                   $scope.Controllers = data;
-               })
-           };
-           $scope.GetControllers();
-
-           $scope.SetItemClass = function (role) {
-               if ($scope.selectedRole == role) {
-                   return "active";
-               } else {
-                   return "";
-               }
+           $scope.AddActionsToRole = function (role) {
+               $scope.ControllersApi.AddActionsToRole(role);
            }
-
-           $scope.AddRole = function () {
-               var role = {
-                   Name: '',
-                   stat: 'new'
-               };
-               $scope.Roles.unshift(role);
-               $scope.adding = true;
-           }
-
-           $scope.EditRole = function (role) {
-               role.stat = 'edit';
-           }
-
-           //Update role's name only
-           $scope.UpdateRole = function (role) {
-               if (role.stat == 'new') {
-                   RoleManagerService.AddRole(role, function (data) {
-                       role.Id = data.Id;
-                       role.stat = 'view';
-                       $scope.adding = false;
-                   });
-               }
-               else {
-                   RoleManagerService.UpdateRole(role, function () {
-                       role.stat = 'view';
-                       $scope.adding = false;
-                   });
-               }
-           }
-           $scope.DeleteRole = function (role) {
-               if (confirm("Are you sure to delete role," + role.Name + "?")) {
-                   RoleManagerService.DeleteRole(role, function () {
-                       $scope.Roles = $scope.Roles.filter(function (g) {
-                           return g.Name != role.Name;
-                       });
-                   });
-               }
-           }
-           $scope.CancelUpdate = function (role) {
-               if (role.stat == 'new') {
-                   $scope.Roles.shift(role);
-                   $scope.adding = false;
-               }
-               else { role.stat = 'view'; }
-           }
-
-           $scope.SelectAll = function ($event, ctrl) {
-               if (ctrl.Actions && ctrl.Actions.length > 0) {
-                   ctrl.Actions.forEach(function (action) {
-                       action.Selected = $event.currentTarget.checked;
-                   })
-               }
-           };
        }]);
 
     //Assign roles to action
-    app.controller('ControllersCtrl', ['$scope', 'RoleManagerService',
+    app.controller('RoleActionCtrl', ['$scope', 'RoleManagerService',
         function ($scope, RoleManagerService) {
 
             $scope.selectedAction;
             $scope.selectedController;
             $scope.Roles = [];
-
-            RoleManagerService.GetControllers(function (data) {
-                $scope.Controllers = data;
-                if ($scope.Controllers.length > 0) {
-                    $scope.selectedController = $scope.Controllers[0];
-
-                    if ($scope.Controllers[0].Actions.length > 0)
-                        $scope.selectedAction = $scope.selectedController.Actions[0];
-
-                    if ($scope.selectedAction != null)
-                        $scope.GetRolesByAction($scope.selectedController, $scope.selectedAction);
-                }
-            });
-
-            $scope.GetRolesByAction = function (ctrl, action) {
+            $scope.GetRolesByAction = function (action) {
                 $scope.selectedAction = action;
-                $scope.selectedController = ctrl;
+
                 RoleManagerService.GetRolesByAction(action, function (data) {
                     $scope.Roles = data;
-                })
+                });
             };
-
-            $scope.SetItemClass = function (action) {
-                if ($scope.selectedAction == action) {
-                    return "info";
-                } else {
-                    return "";
-                }
-            }
 
             $scope.AddRolesToAction = function () {
                 $scope.selectedAction.Roles = [];
@@ -230,4 +93,19 @@
                 RoleManagerService.AddRolesToAction($scope.selectedAction);
             }
         }]);
+
+    app.controller('UserRoleCtrl', ['$scope', '$document', 'RoleManagerService',
+     function ($scope, $document, RoleManagerService) {
+         $scope.selectedRole;
+         $scope.Users = [];
+         $scope.Roles = [];
+
+         //for user side
+         //RoleManagerService.GetUsers(function (data) {
+         //    if (data) {
+         //        data.forEach(function (g) { g.stat = 'view'; });
+         //        $scope.Users = data;
+         //    }
+         //});
+     }]);
 })();

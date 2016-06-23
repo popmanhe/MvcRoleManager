@@ -1,0 +1,32 @@
+﻿<h2 >Assign roles to action</h2>
+<p>Assign roles to action one by one</p>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <controllers on-itemclick="GetRolesByAction(action)"></controllers>
+    </div>
+    <!-- Table -->
+    <div class="col-md-4 ">
+        <div class="affix" style="width: 19%">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <h4>Roles</h4>
+                    <p>Assigned to<i> {{selectedController.ControllerName}}.{{selectedAction.ActionName}}</i></p>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6" ng-repeat="role in Roles">
+                        <input type="checkbox" ng-model="role.Selected" />
+                        {{role.Name}}
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-primary" type="button" ng-click="AddRolesToAction()">Save</button>
+                    <button class="btn btn-default" type="button" ng-click="GetRolesByAction()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

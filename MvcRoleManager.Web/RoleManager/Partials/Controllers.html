@@ -1,58 +1,33 @@
-﻿<h2 >Assign roles to action</h2>
-<p>Assign roles to action one by one</p>
-
-<hr />
-<div class="row">
-    <div class="col-md-8">
-        <div ng-repeat="ctrl in Controllers">
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">
-                    <h4>Controller: {{ctrl.ControllerName}}  
-                    </h4>
-                    <p>&nbsp;&nbsp;{{ctrl.Description}}</p>
-                </div>
-
-                <table class="table table-striped table-hover" ng-show="ctrl.Actions.length>0">
-                    <thead>
-                        <tr>
-                            <th width="20%">Action Name</th>
-                            <th width="50%">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-click='GetRolesByAction(ctrl, act)' ng-repeat="act in ctrl.Actions" ng-class="SetItemClass(act)" style="cursor: pointer">
-                            <td><span>{{act.ActionName}}</span> </td>
-                            <td>{{act.Description}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p ng-show="ctrl.Actions.length==0">No action in this controller</p>
-
-            </div>
+﻿<!-- Controllers directive -->
+<div ng-repeat="ctrl in Controllers">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <h4>
+                Controller: {{ctrl.ControllerName}}
+            </h4>
+            <p>&nbsp;&nbsp;{{ctrl.Description}}</p>
         </div>
-    </div>
-    <!-- Table -->
-    <div class="col-md-4 ">
-        <div class="affix" style="width: 19%">
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">
-                    <h4>Roles</h4>
-                    <p>Assigned to<i> {{selectedController.ControllerName}}.{{selectedAction.ActionName}}</i></p>
-                </div>
-                <div class="panel-body">
-                    <div class="col-md-6" ng-repeat="role in Roles">
-                        <input type="checkbox" ng-model="role.Selected" />
-                        {{role.Name}}
-                    </div>
 
-                </div>
-                <div class="panel-footer">
-                    <button class="btn btn-primary" type="button" ng-click="AddRolesToAction()">Save</button>
-                    <button class="btn btn-default" type="button" ng-click="GetRolesByAction(selectedController,selectedAction)">Cancel</button>
-                </div>
-            </div>
-        </div>
+        <table class="table table-striped table-hover" ng-show="ctrl.Actions.length>0">
+            <thead>
+                <tr>
+                    <th width="20%">Action Name</th>
+                    <th width="50%">Description</th>
+                    <th ng-show="showcheckbox == 'true'">
+                        <input type="checkbox" ng-click="SelectAll($event, ctrl)" />
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-click='ItemClick(ctrl, act)' ng-repeat="act in ctrl.Actions" ng-class="SetItemClass(act)" style="cursor: pointer">
+                    <td><span>{{act.ActionName}}</span> </td>
+                    <td>{{act.Description}}</td>
+                    <td><input type="checkbox" ng-model="act.Selected" ng-show="showcheckbox == 'true'" /></td>
+                </tr>
+            </tbody>
+        </table>
+        <p ng-show="ctrl.Actions.length==0">No action in this controller</p>
+
     </div>
 </div>

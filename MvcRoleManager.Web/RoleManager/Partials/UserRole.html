@@ -1,0 +1,39 @@
+﻿<h2>Assign users to role </h2>
+<p></p>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+
+        <!-- Default panel contents -->
+        <table class="table table-striped" ng-show="Users.length > 0">
+            <thead>
+                <tr>
+                    <th width="20%">Email</th>
+                    <th width="50%">User Name</th>
+                    <th>
+                        <input type="checkbox" class="actionSelected" ng-click="SelectAll($event, user);" />
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in Users">
+                    <td>{{user.Email}}</td>
+                    <td>{{user.UserName}}</td>
+                    <td>
+                        <input type="checkbox" ng-model="user.Selected" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <p ng-show="Users.length==0">No users exist.</p>
+    </div>
+    <!-- Table -->
+    <div class="col-md-4">
+        <roles on-itemclick='GetUsersByRole(role)'
+               on-save='AddUsersToRole(role)'
+               on-cancel='GetUsersByRole(role)'></roles>
+    </div>
+</div>

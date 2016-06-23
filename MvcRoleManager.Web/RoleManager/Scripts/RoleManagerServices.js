@@ -22,6 +22,19 @@
 
                 });
             }
+
+            /************************************************
+            Services for Users
+            ************************************************/
+            service.GetUsers = function (callback) {
+                $http.get('/api/rolemanager/getusers')
+                .then(
+                function (result) {
+                    callback(result.data);
+                },
+                function () { }
+                )
+            };
             /************************************************
             Services for Roles
             ************************************************/

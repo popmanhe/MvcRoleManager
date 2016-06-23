@@ -217,10 +217,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="RoleManager\Partials\Controllers.html" />
+    <Content Include="RoleManager\Partials\Roles.html" />
+    <Content Include="RoleManager\Partials\UserRole.html" />
     <Content Include="RoleManager\Scripts\app.js" />
     <Content Include="RoleManager\Scripts\RoleManagerControllers.js" />
     <Content Include="RoleManager\Scripts\RoleManagerDirectives.js" />
-    <Content Include="RoleManager\Partials\Controllers.html" />
+    <Content Include="RoleManager\Partials\RoleAction.html" />
     <Content Include="RoleManager\Scripts\RoleManagerServices.js" />
     <Content Include="favicon.ico" />
     <Content Include="RoleManager\Style\rolemanager.css" />

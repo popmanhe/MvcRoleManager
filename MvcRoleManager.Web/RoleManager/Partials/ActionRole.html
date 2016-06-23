@@ -3,85 +3,12 @@
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <div ng-repeat="ctrl in Controllers">
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">
-                    <h4>Controller: {{ctrl.ControllerName}}
-                    </h4>
-                    <p>&nbsp;&nbsp;{{ctrl.Description}}</p>
-                </div>
-
-                <table class="table table-striped" ng-show="ctrl.Actions.length>0">
-                    <thead>
-                        <tr>
-                            <th width="20%">Action Name</th>
-                            <th width="50%">Description</th>
-                            <th>
-                                <input type="checkbox" class="actionSelected" ng-click="SelectAll($event, ctrl);" />
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="act in ctrl.Actions">
-                            <td>{{act.ActionName}}</td>
-                            <td>{{act.Description}}</td>
-                            <td>
-                                <input type="checkbox" ng-model="act.Selected" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p ng-show="ctrl.Actions.length==0">No action in this controller</p>
-
-            </div>
-        </div>
+        <controllers showcheckbox='true' control="ControllersApi"></controllers>
     </div>
     <!-- Table -->
     <div class="col-md-4 ">
-        <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading">
-                <h4>Roles</h4>
-                <a href="" ng-click="AddRole()" ng-show="!adding">
-                    <i class="glyphicon glyphicon-plus"></i>Add New Role</a>
-            </div>
-            <ul class="list-group">
-                <li class="list-group-item" style="cursor: pointer" ng-repeat="role in Roles"
-                    ng-click="GetActionsByRole(role)" ng-class="SetItemClass(role)">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <div ng-show="role.stat=='view'">
-                                <strong>{{role.Name}}</strong>
-                            </div>
-                            <div ng-show="role.stat=='edit' || role.stat=='new'">
-                                <label for="groupName">Role Name</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="groupName" aria-describedby="basic-addon3" ng-model="role.Name" style="color: black;">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div ng-show="role.stat=='view'">
-                                <div class="btn-group-vertical" role="group">
-                                    <button type="button" class="btn btn-default btn-xs" ng-click="EditRole(role)">Edit</button>
-                                    <button type="button" class="btn btn-default btn-xs" ng-click="DeleteRole(role)">Delete</button>
-                                </div>
-                            </div>
-                            <div ng-show="role.stat=='edit' || role.stat=='new'">
-                                <div class="btn-group-vertical" role="group">
-                                    <button type="button" class="btn btn-default btn-xs" ng-click="UpdateRole(role)">Update</button>
-                                    <button type="button" class="btn btn-default btn-xs" ng-click="CancelUpdate(role)">Cancel </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <div class="panel-footer">
-                <button class="btn btn-primary" type="button" ng-click="AddActionsToRole()">Save</button>
-                <button class="btn btn-default" type="button" ng-click="GetActionsByRole()">Cancel</button>
-            </div>
-        </div>
+        <roles on-itemclick='GetActionsByRole(role)' 
+               on-save='AddActionsToRole(role)' 
+               on-cancel='GetActionsByRole(role)'></roles>
     </div>
 </div>
