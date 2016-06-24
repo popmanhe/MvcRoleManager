@@ -57,14 +57,44 @@
     //Assign actions to role
     app.controller('ActionRoleCtrl', ['$scope', '$document', 'RoleManagerService',
        function ($scope, $document, RoleManagerService) {
-           $scope.ControllersApi = {}; //used to communicate roles and controllers directives
+           $scope.Controllers = []; //used to communicate roles and controllers directives
 
            $scope.GetActionsByRole = function (role) {
-               $scope.ControllersApi.GetActionsByRole(role);
+               RoleManagerService.GetActionsByRole(role, function (data) {
+                   if (data) {
+                       $scope.Controllers.forEach(function (ctrl) {
+                           ctrl.Actions.forEach(function (action) {
+                               action.Selected = false;
+                               data.forEach(function (selectedAction) {
+                                   if (ctrl.ControllerName == selectedAction.ControllerName &&
+                                        action.ActionName == selectedAction.ActionName &&
+                                        action.ReturnType == selectedAction.ReturnType &&
+                                        action.ParameterTypes.join() == selectedAction.ParameterTypes) {
+                                       action.Selected = true;
+                                   }
+                               });
+                           });
+                       });
+                   }
+               });
            }
 
            $scope.AddActionsToRole = function (role) {
-               $scope.ControllersApi.AddActionsToRole(role);
+               if (role)
+                   $scope.selectedRole = role;
+
+               $scope.selectedRole.Actions = [];
+               $scope.Controllers.forEach(function (ctrl) {
+                   ctrl.Actions.forEach(function (action) {
+                       if (action.Selected) {
+                           action.ControllerName = ctrl.ControllerName;
+                           $scope.selectedRole.Actions.push(action);
+                       }
+                   });
+               });
+               RoleManagerService.AddActionsToRole($scope.selectedRole, function (data) {
+
+               });
            }
        }]);
 

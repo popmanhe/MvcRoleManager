@@ -139,28 +139,7 @@
         };
         $scope.GetControllers();
 
-        $scope.GetActionsByRole = function (role) {
-            if (role)
-                $scope.selectedRole = role;
 
-            RoleManagerService.GetActionsByRole($scope.selectedRole, function (data) {
-                if (data) {
-                    $scope.Controllers.forEach(function (ctrl) {
-                        ctrl.Actions.forEach(function (action) {
-                            action.Selected = false;
-                            data.forEach(function (selectedAction) {
-                                if (ctrl.ControllerName == selectedAction.ControllerName &&
-                                     action.ActionName == selectedAction.ActionName &&
-                                     action.ReturnType == selectedAction.ReturnType &&
-                                     action.ParameterTypes.join() == selectedAction.ParameterTypes) {
-                                    action.Selected = true;
-                                }
-                            });
-                        });
-                    });
-                }
-            });
-        }
 
         $scope.SelectAll = function ($event, ctrl) {
             if (ctrl.Actions && ctrl.Actions.length > 0) {
@@ -174,7 +153,7 @@
             $scope.selectedController = ctrl;
             action.ControllerName = ctrl.ControllerName;
             $scope.selectedAction = action;
-            $scope.onItemclick({action: $scope.selectedAction });
+            $scope.onItemclick({ action: $scope.selectedAction });
         }
 
     }])
@@ -189,8 +168,7 @@
             controller: 'ControllersCtrl',
             templateUrl: 'partials/Controllers.html',
             link: function (scope, element, attrs) {
-                scope.internalControl = scope.control || {};
-                scope.internalControl.GetActionsByRole = scope.GetActionsByRole;
+                scope.control = scope.Controllers || [];
             }
         };
     });
