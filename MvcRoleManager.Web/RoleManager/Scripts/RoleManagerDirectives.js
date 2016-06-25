@@ -98,17 +98,13 @@
                 onCancel: '&'
             },
             controller: 'RoleCtrl',
-            templateUrl: 'partials/Roles.html',
-            link: function (scope, element, attrs) {
-                var s = scope;
-            }
+            templateUrl: 'partials/Roles.html'
         };
     });
 
     //controllers directive
-    app.controller('ControllersCtrl', ['$scope', 'RoleManagerService', function ($scope, RoleManagerService) {
-
-        $scope.Controllers = [];
+    app.controller('MvcControllersCtrl', ['$scope', 'RoleManagerService', function ($scope, RoleManagerService) {
+       
         $scope.selectedController;
         $scope.selectedAction;
 
@@ -119,27 +115,42 @@
                 return "";
             }
         }
+  
 
+        $scope.SetSelectedActions = function (selectedActions) {
+            if (selectedActions) {
+                $scope.Properties.Controllers.forEach(function (ctrl) {
+                    ctrl.Actions.forEach(function (action) {
+                        action.Selected = false;
+                        selectedActions.forEach(function (selectedAction) {
+                            if (ctrl.ControllerName == selectedAction.ControllerName &&
+                                 action.ActionName == selectedAction.ActionName &&
+                                 action.ReturnType == selectedAction.ReturnType &&
+                                 action.ParameterTypes.join() == selectedAction.ParameterTypes) {
+                                action.Selected = true;
+                            }
+                        });
+                    });
+                });
+            }
+        }
 
         $scope.GetControllers = function () {
             RoleManagerService.GetControllers(function (data) {
-                $scope.Controllers = data;
+                $scope.Properties.Controllers = data;
                 //select first action of first controller 
-                if ($scope.Controllers.length > 0) {
-                    $scope.selectedController = $scope.Controllers[0];
+                if ($scope.Properties.Controllers.length > 0) {
+                    $scope.selectedController = $scope.Properties.Controllers[0];
 
-                    if ($scope.Controllers[0].Actions.length > 0) {
+                    if ($scope.Properties.Controllers[0].Actions.length > 0) {
                         $scope.selectedAction = $scope.selectedController.Actions[0];
 
-                        $scope.selectedAction.ControllerName = $scope.selectedController.ControllerName;
-                        $scope.onItemclick({ action: $scope.selectedAction });
+                         $scope.ItemClick($scope.selectedController, $scope.selectedAction);
                     }
                 }
             })
         };
         $scope.GetControllers();
-
-
 
         $scope.SelectAll = function ($event, ctrl) {
             if (ctrl.Actions && ctrl.Actions.length > 0) {
@@ -156,20 +167,34 @@
             $scope.onItemclick({ action: $scope.selectedAction });
         }
 
+        //expose public methods at last
+        $scope.Methods = {
+            SetSelectedActions: $scope.SetSelectedActions
+        };
+
+        //$scope.Properties = {
+        //    Controllers: $scope.Controllers
+        //};
     }])
-    .directive('controllers', function () {
+    .directive('mvcControllers', function () {
         return {
             restrict: "E",
             scope: {
+                //public events
                 onItemclick: '&',
+                //public property
                 showcheckbox: '@',
-                control: '='
+                //public methods
+                Methods: '=methods',
+                Properties: "=properties"
             },
-            controller: 'ControllersCtrl',
+            controller: 'MvcControllersCtrl',
             templateUrl: 'partials/Controllers.html',
             link: function (scope, element, attrs) {
-                scope.control = scope.Controllers || [];
+                scope.Properties = scope.Properties || {};
+                scope.Properties.Controllers = [];
             }
+
         };
     });
 

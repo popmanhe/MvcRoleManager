@@ -27,6 +27,7 @@
         });
     }]);
 
+    //tabs' controller
     app.controller('TabsCtrl', ['$scope', function ($scope) {
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams) {
             $scope.tabs.forEach(function (tab) {
@@ -54,50 +55,6 @@
         }
     }]);
 
-    //Assign actions to role
-    app.controller('ActionRoleCtrl', ['$scope', '$document', 'RoleManagerService',
-       function ($scope, $document, RoleManagerService) {
-           $scope.Controllers = []; //used to communicate roles and controllers directives
-
-           $scope.GetActionsByRole = function (role) {
-               RoleManagerService.GetActionsByRole(role, function (data) {
-                   if (data) {
-                       $scope.Controllers.forEach(function (ctrl) {
-                           ctrl.Actions.forEach(function (action) {
-                               action.Selected = false;
-                               data.forEach(function (selectedAction) {
-                                   if (ctrl.ControllerName == selectedAction.ControllerName &&
-                                        action.ActionName == selectedAction.ActionName &&
-                                        action.ReturnType == selectedAction.ReturnType &&
-                                        action.ParameterTypes.join() == selectedAction.ParameterTypes) {
-                                       action.Selected = true;
-                                   }
-                               });
-                           });
-                       });
-                   }
-               });
-           }
-
-           $scope.AddActionsToRole = function (role) {
-               if (role)
-                   $scope.selectedRole = role;
-
-               $scope.selectedRole.Actions = [];
-               $scope.Controllers.forEach(function (ctrl) {
-                   ctrl.Actions.forEach(function (action) {
-                       if (action.Selected) {
-                           action.ControllerName = ctrl.ControllerName;
-                           $scope.selectedRole.Actions.push(action);
-                       }
-                   });
-               });
-               RoleManagerService.AddActionsToRole($scope.selectedRole, function (data) {
-
-               });
-           }
-       }]);
-
     //Assign roles to action
     app.controller('RoleActionCtrl', ['$scope', 'RoleManagerService',
         function ($scope, RoleManagerService) {
@@ -124,6 +81,37 @@
             }
         }]);
 
+    //Assign actions to role
+    app.controller('ActionRoleCtrl', ['$scope', '$document', 'RoleManagerService',
+       function ($scope, $document, RoleManagerService) {
+           //$scope.Controllers = []; //used to communicate roles and controllers directives
+           
+           $scope.GetActionsByRole = function (role) {
+               RoleManagerService.GetActionsByRole(role, function (data) {
+                   $scope.Methods.SetSelectedActions(data);
+               });
+           }
+
+           $scope.AddActionsToRole = function (role) {
+               if (role)
+                   $scope.selectedRole = role;
+
+               $scope.selectedRole.Actions = [];
+               $scope.Properties.Controllers.forEach(function (ctrl) {
+                   ctrl.Actions.forEach(function (action) {
+                       if (action.Selected) {
+                           action.ControllerName = ctrl.ControllerName;
+                           $scope.selectedRole.Actions.push(action);
+                       }
+                   });
+               });
+               RoleManagerService.AddActionsToRole($scope.selectedRole, function (data) {
+
+               });
+           }
+       }]);
+
+    //Assign users to role
     app.controller('UserRoleCtrl', ['$scope', '$document', 'RoleManagerService',
      function ($scope, $document, RoleManagerService) {
          $scope.selectedRole;
