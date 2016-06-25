@@ -198,4 +198,107 @@
         };
     });
 
+    //users directive
+    app.controller('UserCtrl', ['$scope', 'RoleManagerService', function ($scope, RoleManagerService) {
+        $scope.Users = [];
+        $scope.selectedUser;
+
+        //Directive methods
+        RoleManagerService.GetUsers(function (data) {
+            if (data) {
+                data.forEach(function (u) { u.stat = 'view'; });
+                $scope.Users = data;
+                if (data && data.length > 0) {
+                    $scope.selectedUser = data[0];
+                    $scope.onItemclick({ user: $scope.selectedUser });
+                }
+
+            }
+        });
+
+        $scope.SetItemClass = function (user) {
+            if ($scope.selectedUser == user) {
+                return "active";
+            } else {
+                return "";
+            }
+        }
+
+        $scope.AddUser = function () {
+            var user = {
+                Email: '',
+                Name: '',
+                Password: '',
+                ConfirmPassword: '',
+                stat: 'new'
+            };
+            $scope.Users.unshift(user);
+            $scope.adding = true;
+        }
+
+        $scope.EditUser = function (user) {
+            user.stat = 'edit';
+        }
+
+        $scope.UpdateUser = function (user) {//Update user's email, name, password only
+            if (user.stat == 'new') {
+                RoleManagerService.AddUser(user, function (data) {
+                    //user.Id = data.Id;
+                    user.stat = 'view';
+                    $scope.adding = false;
+                });
+            }
+            else {
+                RoleManagerService.UpdateUser(user, function () {
+                    user.stat = 'view';
+                    $scope.adding = false;
+                });
+            }
+        }
+
+        $scope.DeleteUser = function (user) {
+            if (confirm("Are you sure to delete user," + user.Name + "?")) {
+                RoleManagerService.DeleteUser(user, function () {
+                    $scope.Users = $scope.Users.filter(function (g) {
+                        return g.Name != user.Name;
+                    });
+                });
+            }
+        }
+
+        $scope.CancelUpdate = function (user) {
+            if (user.stat == 'new') {
+                $scope.Users.shift(user);
+                $scope.adding = false;
+            }
+            else { user.stat = 'view'; }
+        }
+
+
+        //public attributes
+        $scope.ItemClick = function (user) {
+            $scope.selectedUser = user;
+            $scope.onItemclick({ user: $scope.selectedUser });
+        }
+
+        $scope.Save = function () {
+            $scope.onSave({ user: $scope.selectedUser });
+        }
+
+        $scope.Cancel = function () {
+            $scope.onCancel({ user: $scope.selectedUser });
+        }
+    }])
+    .directive('users', function () {
+        return {
+            restrict: "E",
+            scope: {
+                onItemclick: '&',
+                onSave: '&',
+                onCancel: '&'
+            },
+            controller: 'UserCtrl',
+            templateUrl: 'partials/Users.html'
+        };
+    });
 })();

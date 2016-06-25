@@ -220,6 +220,7 @@
     <Content Include="RoleManager\Partials\Controllers.html" />
     <Content Include="RoleManager\Partials\Roles.html" />
     <Content Include="RoleManager\Partials\UserRole.html" />
+    <Content Include="RoleManager\Partials\Users.html" />
     <Content Include="RoleManager\Scripts\app.js" />
     <Content Include="RoleManager\Scripts\RoleManagerControllers.js" />
     <Content Include="RoleManager\Scripts\RoleManagerDirectives.js" />

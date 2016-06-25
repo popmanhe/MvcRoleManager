@@ -1,0 +1,63 @@
+﻿    <!-- Users directive -->
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        <h4>Users</h4>
+        <a href="" ng-click="AddUser()" ng-show="!adding">
+            <i class="glyphicon glyphicon-plus"></i>Add New User
+        </a>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item" style="cursor: pointer" ng-repeat="user in Users"
+            ng-click="ItemClick(user)" ng-class="SetItemClass(user)">
+            <div class="row">
+                <div class="col-md-9">
+                    <div ng-show="user.stat=='view'">
+                        <strong>{{user.Email}}</strong>
+                        <p>{{user.Name}}</p>
+                    </div>
+                    <div ng-show="user.stat=='edit' || user.stat=='new'">
+                        <label>Email</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   aria-describedby="basic-addon3" ng-model="user.Email" style="color: black;">
+                        </div>
+                        <label>User Name</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   aria-describedby="basic-addon3" ng-model="user.Name" style="color: black;">
+                        </div>
+                        <label>Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control"
+                                   aria-describedby="basic-addon3" ng-model="user.Password" style="color: black;">
+                        </div>
+                        <label>Confirm Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control"
+                                   aria-describedby="basic-addon3" ng-model="user.ConfirmPassword" style="color: black;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div ng-show="user.stat=='view'">
+                        <div class="btn-group-vertical" User="group">
+                            <button type="button" class="btn btn-default btn-xs" ng-click="EditUser(user)">Edit</button>
+                            <button type="button" class="btn btn-default btn-xs" ng-click="DeleteUser(user)">Delete</button>
+                        </div>
+                    </div>
+                    <div ng-show="user.stat=='edit' || user.stat=='new'">
+                        <div class="btn-group-vertical" User="group">
+                            <button type="button" class="btn btn-default btn-xs" ng-click="UpdateUser(user)">Update</button>
+                            <button type="button" class="btn btn-default btn-xs" ng-click="CancelUpdate(user)">Cancel </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="panel-footer">
+        <button class="btn btn-primary" type="button" ng-click="Save()">Save</button>
+        <button class="btn btn-default" type="button" ng-click="Cancel()">Cancel</button>
+    </div>
+</div>
