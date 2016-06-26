@@ -89,7 +89,7 @@
             $scope.onCancel({ role: $scope.selectedRole });
         }
     }])
-    .directive('roles', function () {
+    .directive('mvcRoles', function () {
         return {
             restrict: "E",
             scope: {
@@ -243,7 +243,7 @@
         $scope.UpdateUser = function (user) {//Update user's email, name, password only
             if (user.stat == 'new') {
                 RoleManagerService.AddUser(user, function (data) {
-                    //user.Id = data.Id;
+                    user.Id = data;
                     user.stat = 'view';
                     $scope.adding = false;
                 });
@@ -289,7 +289,7 @@
             $scope.onCancel({ user: $scope.selectedUser });
         }
     }])
-    .directive('users', function () {
+    .directive('mvcUsers', function () {
         return {
             restrict: "E",
             scope: {

@@ -35,6 +35,26 @@
                 function () { }
                 )
             };
+
+            service.AddUser = function (user, callback) {
+                $http.post('/api/rolemanager/AddUser', user)
+                .then(
+                function (result) {
+                    callback(result.data);
+                },
+                function () { }
+                )
+            };
+
+            service.UpdateUser = function (user, callback) {
+                $http.post('/api/rolemanager/UpdateUser', user)
+                .then(
+                function (result) {
+                    callback(result.data);
+                },
+                function () { }
+                )
+            };
             /************************************************
             Services for Roles
             ************************************************/

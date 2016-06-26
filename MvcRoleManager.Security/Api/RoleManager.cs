@@ -7,6 +7,7 @@ using System;
 using System.Data.SqlClient;
 using System.Data.Entity.Infrastructure;
 using Newtonsoft.Json;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MvcRoleManager.Security.Api
 {
@@ -24,6 +25,19 @@ namespace MvcRoleManager.Security.Api
                 return roleManagerBso;
             }
         }
+
+        private UserManagerBso userManagerBso;
+        protected UserManagerBso UserManagerBso
+        {
+            get
+            {
+                if (userManagerBso == null)
+                    userManagerBso = new UserManagerBso();
+                return userManagerBso;
+            }
+        }
+
+
         [HttpGet]
         public List<MvcController> GetControllers()
         {
@@ -113,6 +127,42 @@ namespace MvcRoleManager.Security.Api
             catch (Exception e)
             {
                 return InternalServerError(e);
+            }
+        }
+        #endregion
+
+        #region Users
+
+        [HttpPost]
+        public IHttpActionResult AddUser(MvcUser user)
+        {
+            try
+            {
+                string userId = UserManagerBso.AddUser(user);
+                return Ok<string>(userId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public List<IdentityUser> GetUsers() {
+            return UserManagerBso.GetUsers();
+        }
+
+        [HttpPost]
+        public IHttpActionResult UpdateUser(MvcUser user)
+        {
+            try
+            {
+               UserManagerBso.UpdateUser(user);
+                return Ok();
+            }
+            catch
+            {
+                return InternalServerError();
             }
         }
         #endregion

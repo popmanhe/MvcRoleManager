@@ -14,7 +14,7 @@
                 <div class="col-md-9">
                     <div ng-show="user.stat=='view'">
                         <strong>{{user.Email}}</strong>
-                        <p>{{user.Name}}</p>
+                        <p>{{user.UserName}}</p>
                     </div>
                     <div ng-show="user.stat=='edit' || user.stat=='new'">
                         <label>Email</label>
@@ -25,7 +25,7 @@
                         <label>User Name</label>
                         <div class="input-group">
                             <input type="text" class="form-control"
-                                   aria-describedby="basic-addon3" ng-model="user.Name" style="color: black;">
+                                   aria-describedby="basic-addon3" ng-model="user.UserName" style="color: black;">
                         </div>
                         <label>Password</label>
                         <div class="input-group">
@@ -42,14 +42,14 @@
                 <div class="col-md-3">
                     <div ng-show="user.stat=='view'">
                         <div class="btn-group-vertical" User="group">
-                            <button type="button" class="btn btn-default btn-xs" ng-click="EditUser(user)">Edit</button>
-                            <button type="button" class="btn btn-default btn-xs" ng-click="DeleteUser(user)">Delete</button>
+                            <button type="button" class="btn btn-default btn-lg" ng-click="EditUser(user)">Edit</button>
+                            <button type="button" class="btn btn-default btn-lg" ng-click="DeleteUser(user)">Delete</button>
                         </div>
                     </div>
                     <div ng-show="user.stat=='edit' || user.stat=='new'">
                         <div class="btn-group-vertical" User="group">
-                            <button type="button" class="btn btn-default btn-xs" ng-click="UpdateUser(user)">Update</button>
-                            <button type="button" class="btn btn-default btn-xs" ng-click="CancelUpdate(user)">Cancel </button>
+                            <button type="button" class="btn btn-default btn-lg" ng-click="UpdateUser(user)">Update</button>
+                            <button type="button" class="btn btn-default btn-lg" ng-click="CancelUpdate(user)">Cancel </button>
                         </div>
                     </div>
                 </div>

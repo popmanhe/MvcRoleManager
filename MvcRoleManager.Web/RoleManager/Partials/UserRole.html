@@ -4,13 +4,13 @@
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <users></users>
+        <mvc-users></mvc-users>
        
     </div>
     <!-- Table -->
     <div class="col-md-4">
-        <roles on-itemclick='GetUsersByRole(role)'
+        <mvc-roles on-itemclick='GetUsersByRole(role)'
                on-save='AddUsersToRole(role)'
-               on-cancel='GetUsersByRole(role)'></roles>
+               on-cancel='GetUsersByRole(role)'></mvc-roles>
     </div>
 </div>
