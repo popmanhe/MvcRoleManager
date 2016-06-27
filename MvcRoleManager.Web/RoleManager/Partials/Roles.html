@@ -11,7 +11,7 @@
         <li class="list-group-item" style="cursor: pointer" ng-repeat="role in Roles"
             ng-click="ItemClick(role)" ng-class="SetItemClass(role)">
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-7">
                     <div ng-show="role.stat=='view'">
                         <strong>{{role.Name}}</strong>
                     </div>
@@ -22,17 +22,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-5">
                     <div ng-show="role.stat=='view'">
-                        <div class="btn-group-vertical" role="group">
-                            <button type="button" class="btn btn-default btn-xs" ng-click="EditRole(role)">Edit</button>
-                            <button type="button" class="btn btn-default btn-xs" ng-click="DeleteRole(role)">Delete</button>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="EditRole(role)">Edit</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="DeleteRole(role)">Delete</button>
                         </div>
                     </div>
                     <div ng-show="role.stat=='edit' || role.stat=='new'">
                         <div class="btn-group-vertical" role="group">
-                            <button type="button" class="btn btn-default btn-xs" ng-click="UpdateRole(role)">Update</button>
-                            <button type="button" class="btn btn-default btn-xs" ng-click="CancelUpdate(role)">Cancel </button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="UpdateRole(role)">Save</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="CancelUpdate(role)">Cancel </button>
                         </div>
                     </div>
                 </div>

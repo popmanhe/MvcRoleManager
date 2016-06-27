@@ -95,7 +95,8 @@
             scope: {
                 onItemclick: '&',
                 onSave: '&',
-                onCancel: '&'
+                onCancel: '&',
+                Properties: '=properties'
             },
             controller: 'RoleCtrl',
             templateUrl: 'partials/Roles.html'
@@ -208,10 +209,10 @@
             if (data) {
                 data.forEach(function (u) { u.stat = 'view'; });
                 $scope.Users = data;
-                if (data && data.length > 0) {
-                    $scope.selectedUser = data[0];
-                    $scope.onItemclick({ user: $scope.selectedUser });
-                }
+                //if (data && data.length > 0) {
+                //    $scope.selectedUser = data[0];
+                //    $scope.onItemclick({ user: $scope.selectedUser });
+                //}
 
             }
         });
@@ -293,6 +294,8 @@
         return {
             restrict: "E",
             scope: {
+                showcheckbox:'@',
+                showfooter: '@',
                 onItemclick: '&',
                 onSave: '&',
                 onCancel: '&'

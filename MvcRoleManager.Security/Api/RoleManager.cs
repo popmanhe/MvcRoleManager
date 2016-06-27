@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Data.Entity.Infrastructure;
 using Newtonsoft.Json;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Threading.Tasks;
 
 namespace MvcRoleManager.Security.Api
 {
@@ -134,11 +135,11 @@ namespace MvcRoleManager.Security.Api
         #region Users
 
         [HttpPost]
-        public IHttpActionResult AddUser(MvcUser user)
+        public async Task<IHttpActionResult> AddUser(MvcUser user)
         {
             try
             {
-                string userId = UserManagerBso.AddUser(user);
+                string userId = await UserManagerBso.AddUser(user);
                 return Ok<string>(userId);
             }
             catch
@@ -148,16 +149,17 @@ namespace MvcRoleManager.Security.Api
         }
 
         [HttpGet]
-        public List<IdentityUser> GetUsers() {
+        public List<IdentityUser> GetUsers()
+        {
             return UserManagerBso.GetUsers();
         }
 
         [HttpPost]
-        public IHttpActionResult UpdateUser(MvcUser user)
+        public async Task<IHttpActionResult> UpdateUser(MvcUser user)
         {
             try
             {
-               UserManagerBso.UpdateUser(user);
+                await UserManagerBso.UpdateUser(user);
                 return Ok();
             }
             catch

@@ -84,7 +84,6 @@
     //Assign actions to role
     app.controller('ActionRoleCtrl', ['$scope', '$document', 'RoleManagerService',
        function ($scope, $document, RoleManagerService) {
-           //$scope.Controllers = []; //used to communicate roles and controllers directives
            
            $scope.GetActionsByRole = function (role) {
                RoleManagerService.GetActionsByRole(role, function (data) {
@@ -114,16 +113,6 @@
     //Assign users to role
     app.controller('UserRoleCtrl', ['$scope', '$document', 'RoleManagerService',
      function ($scope, $document, RoleManagerService) {
-         $scope.selectedRole;
-         $scope.Users = [];
-         $scope.Roles = [];
-
-         //for user side
-         //RoleManagerService.GetUsers(function (data) {
-         //    if (data) {
-         //        data.forEach(function (g) { g.stat = 'view'; });
-         //        $scope.Users = data;
-         //    }
-         //});
+         $scope.AddUsersToRole = function (role) { }
      }]);
 })();

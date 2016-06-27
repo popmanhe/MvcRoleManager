@@ -13,8 +13,10 @@ namespace MvcRoleManager.Security.BSO
 {
     public class UserManagerBso
     {
-         private UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(RoleManagerDbContext.Create()));
-        public string AddUser(MvcUser user)
+        private UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(RoleManagerDbContext.Create()));
+
+        private RoleManager<ApplicationRole> roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(RoleManagerDbContext.Create()));
+        public async Task<string> AddUser(MvcUser user)
         {
             var dbUser = new IdentityUser
             {
@@ -24,12 +26,17 @@ namespace MvcRoleManager.Security.BSO
 
             IdentityResult result;
             if (string.IsNullOrEmpty(user.Passwrod))
-                result= userManager.Create(dbUser);
+                result = await userManager.CreateAsync(dbUser);
             else
-            result= userManager.Create(dbUser, user.Passwrod);
+                result = await userManager.CreateAsync(dbUser, user.Passwrod);
 
             if (result.Succeeded)
-                return userManager.FindByEmail(user.Email)?.Id;
+            {
+                dbUser = await userManager.FindByEmailAsync(user.Email);
+                if (dbUser == null)
+                    return null;
+                return dbUser.Id;
+            }
 
             throw new Exception("Creating user failed. " + string.Join(",", result.Errors.ToArray()));
         }
@@ -39,12 +46,18 @@ namespace MvcRoleManager.Security.BSO
             return userManager.Users.ToList();
         }
 
-        public void UpdateUser(MvcUser user)
+        public async Task UpdateUser(MvcUser user)
         {
-            var dbUser = userManager.FindById(user.Id);
+            var dbUser = await userManager.FindByIdAsync(user.Id);
             dbUser.Email = user.Email;
             dbUser.UserName = user.UserName;
-            userManager.Update(dbUser);
+            await userManager.UpdateAsync(dbUser);
+        }
+
+        public async Task AddToRole(MvcRole role)
+        {
+            this.roleManager.u
+            this.userManager.remove)
         }
     }
 }
