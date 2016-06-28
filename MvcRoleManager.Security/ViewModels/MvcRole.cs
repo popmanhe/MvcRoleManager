@@ -8,5 +8,6 @@ namespace MvcRoleManager.Security.ViewModels
         public string Name { get; set; }
         public bool Selected { get; set; }
         public List<MvcAction> Actions { get; set; }
+        public List<MvcUser> Users { get; set; }
     }
 }

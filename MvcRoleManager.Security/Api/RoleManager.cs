@@ -167,6 +167,20 @@ namespace MvcRoleManager.Security.Api
                 return InternalServerError();
             }
         }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> AddUsersToRole(MvcRole role)
+        {
+            try
+            {
+                await UserManagerBso.AddToRole(role);
+                return Ok();
+            }
+            catch
+            {
+                return InternalServerError();
+            }
+        }
         #endregion
     }
 }

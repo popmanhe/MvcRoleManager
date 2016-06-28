@@ -19,7 +19,7 @@
                     <div ng-show="user.stat=='edit' || user.stat=='new'">
                         <label>Email</label>
                         <div class="input-group">
-                            <input type="text" class="form-control"
+                            <input type="email" class="form-control"
                                    aria-describedby="basic-addon3" ng-model="user.Email" style="color: black;">
                         </div>
                         <label>User Name</label>
@@ -51,7 +51,7 @@
                     </div>
                     <div ng-show="user.stat=='edit' || user.stat=='new'">
                         <div class="btn-group-vertical" User="group">
-                            <button type="button" class="btn btn-default btn-sm" ng-click="UpdateUser(user)">Update</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="UpdateUser(user)">Save</button>
                             <button type="button" class="btn btn-default btn-sm" ng-click="CancelUpdate(user)">Cancel </button>
                         </div>
                     </div>
