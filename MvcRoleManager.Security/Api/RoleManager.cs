@@ -47,12 +47,14 @@ namespace MvcRoleManager.Security.Api
 
         #region Roles
         [HttpPost]
-        public ApplicationRole AddRole(ApplicationRole role)
+        public IHttpActionResult AddRole(MvcRole role)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             try
             {
                 RoleManagerBso.AddRole(role);
-                return role;
+                return Ok(role.Id);
             }
             catch (DbUpdateException dbex)
             {
@@ -73,17 +75,24 @@ namespace MvcRoleManager.Security.Api
         }
 
         [HttpPost]
-        public IHttpActionResult DeleteRole(ApplicationRole role)
+        public IHttpActionResult DeleteRole(MvcRole role)
         {
             RoleManagerBso.DeleteRole(role);
             return Ok();
         }
 
         [HttpPost]
-        public IHttpActionResult UpdateRole(ApplicationRole role)
+        public IHttpActionResult UpdateRole(MvcRole role)
         {
-            RoleManagerBso.UpdateRole(role);
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                RoleManagerBso.UpdateRole(role);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
         [HttpGet]
         public List<ApplicationRole> GetRoles()
@@ -137,15 +146,20 @@ namespace MvcRoleManager.Security.Api
         [HttpPost]
         public async Task<IHttpActionResult> AddUser(MvcUser user)
         {
-            try
+            if (ModelState.IsValid)
             {
-                string userId = await UserManagerBso.AddUser(user);
-                return Ok<string>(userId);
+                try
+                {
+                    string userId = await UserManagerBso.AddUser(user);
+                    return Ok<string>(userId);
+                }
+                catch
+                {
+                    throw;
+                }
             }
-            catch
-            {
-                throw;
-            }
+            else
+            { return BadRequest(ModelState); }
         }
 
         [HttpGet]
@@ -168,11 +182,11 @@ namespace MvcRoleManager.Security.Api
             }
         }
         [HttpPost]
-        public  List<string> GetUsersByRole(MvcRole role)
+        public List<string> GetUsersByRole(MvcRole role)
         {
             try
             {
-                 return UserManagerBso.GetUsersByRole(role);
+                return UserManagerBso.GetUsersByRole(role);
             }
             catch
             {

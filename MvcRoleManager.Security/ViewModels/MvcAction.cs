@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using MvcRoleManager.Security.Models;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MvcRoleManager.Security.ViewModels
 {
     public class MvcAction
     {
+        [Required]
         public string ControllerName { get; set; }
+        [Required]
         public string ActionName { get; set; }
         public string Description { get; set; }
         /// <summary>

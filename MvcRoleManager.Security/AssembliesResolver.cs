@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Dispatcher;
 
-namespace MvcRoleManager.Security.Model
+namespace MvcRoleManager.Security
 {
     /// <summary>
     /// For asp.net to find the web api controllers in external assembly.

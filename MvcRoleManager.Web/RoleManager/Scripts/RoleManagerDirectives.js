@@ -12,8 +12,7 @@
                 data.forEach(function (g) { g.stat = 'view'; });
                 $scope.Roles = data;
                 if (data && data.length > 0) {
-                    $scope.selectedRole = data[0];
-                    $scope.onItemclick({ role: $scope.selectedRole });
+                    $scope.ItemClick(data[0]);
                 }
 
             }
@@ -33,6 +32,7 @@
                 stat: 'new'
             };
             $scope.Roles.unshift(role);
+            $scope.ItemClick(role);
             $scope.adding = true;
         }
 
@@ -43,12 +43,13 @@
         $scope.UpdateRole = function (role) {//Update role's name only
             if (role.stat == 'new') {
                 RoleManagerService.AddRole(role, function (data) {
-                    role.Id = data.Id;
+                    role.Id = data;
                     role.stat = 'view';
                     $scope.adding = false;
                 });
             }
             else {
+                role.Users = null;
                 RoleManagerService.UpdateRole(role, function () {
                     role.stat = 'view';
                     $scope.adding = false;
@@ -62,6 +63,10 @@
                     $scope.Roles = $scope.Roles.filter(function (g) {
                         return g.Name != role.Name;
                     });
+
+                    if ($scope.Roles.length > 0)
+                        $scope.ItemClick($scope.Roles[0]);
+                    $scope.OnItemDelete({ role: $scope.selectedRole });
                 });
             }
         }
@@ -93,9 +98,12 @@
         return {
             restrict: "E",
             scope: {
+                //Events
+                OnItemDelete: '&',
                 onItemclick: '&',
                 onSave: '&',
                 onCancel: '&',
+                //Properties
                 Properties: '=properties'
             },
             controller: 'RoleCtrl',
@@ -275,16 +283,17 @@
         }
 
         $scope.SetSelectedUsers = function (selectedUsers) {
-            if (selectedUsers) {
-                $scope.Properties.Users.forEach(function (user) {
-                    user.Selected = false;
+
+            $scope.Properties.Users.forEach(function (user) {
+                user.Selected = false;
+                if (selectedUsers)
                     selectedUsers.forEach(function (selectedUser) {
                         if (user.Id == selectedUser) {
                             user.Selected = true;
                         }
                     });
-                });
-            }
+            });
+
         }
 
         $scope.Methods = {

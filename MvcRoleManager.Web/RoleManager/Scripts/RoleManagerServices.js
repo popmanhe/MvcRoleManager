@@ -68,6 +68,8 @@
             };
 
             service.GetUsersByRole = function (role, callback) {
+                if (!role.Id) //Don't get users for new role
+                    callback(null);
                 $http.post('/api/rolemanager/GetUsersByRole', role)
                .then(
                function (result) {

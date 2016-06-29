@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Dispatcher;
-using MvcRoleManager.Security.Model;
+using MvcRoleManager.Security;
 using RoleSecurityManager.Security;
 
 namespace MvcRoleManager

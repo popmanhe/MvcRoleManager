@@ -1,9 +1,11 @@
-﻿using MvcRoleManager.Security.DAL;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using MvcRoleManager.Security.DAL;
 using MvcRoleManager.Security.Models;
 using MvcRoleManager.Security.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
- 
+
 
 namespace MvcRoleManager.Security.BSO
 {
@@ -33,21 +35,30 @@ namespace MvcRoleManager.Security.BSO
             return roles.ToList();
         }
 
-        public void AddRole(ApplicationRole role)
+        public MvcRole AddRole(MvcRole role)
         {
-            unitOfWork.Repository<ApplicationRole>().Insert(role);
+            var dbRole = unitOfWork.Repository<ApplicationRole>().Insert(new ApplicationRole
+            {
+                Name = role.Name
+            });
+            unitOfWork.Save();
+            role.Id = dbRole.Id;
+            return role;
+        }
+
+        public void DeleteRole(MvcRole role)
+        {
+            unitOfWork.Repository<ApplicationRole>().Delete(role.Id);
             unitOfWork.Save();
         }
 
-        public void DeleteRole(ApplicationRole role)
+        public void UpdateRole(MvcRole role)
         {
-            unitOfWork.Repository<ApplicationRole>().Delete(role);
-            unitOfWork.Save();
-        }
-
-        public void UpdateRole(ApplicationRole role)
-        {
-            unitOfWork.Repository<ApplicationRole>().Update(role);
+            unitOfWork.Repository<ApplicationRole>().Update(new ApplicationRole
+            {
+                Id = role.Id,
+                Name = role.Name
+            });
             unitOfWork.Save();
         }
 

@@ -1,7 +1,5 @@
 ﻿using System.Web.Mvc;
 using System.Web;
-using MvcRoleManager.Security.Model;
-
 namespace RoleSecurityManager.Security
 {
     public class MvcAuthoraiztionFilter : AuthorizeAttribute 
