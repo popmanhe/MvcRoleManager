@@ -8,7 +8,7 @@
         </a>
     </div>
     <ul class="list-group">
-        <li class="list-group-item" style="cursor: pointer" ng-repeat="user in Users"
+        <li class="list-group-item" style="cursor: pointer" ng-repeat="user in Properties.Users"
             ng-click="ItemClick(user)" ng-class="SetItemClass(user)">
             <div class="row">
                 <div class="col-md-8">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                  <div class="col-md-1" ng-show="showcheckbox=='true'">
-                     <input type="checkbox" ng-model="Selected" />
+                     <input type="checkbox" ng-model="user.Selected" />
                  </div>
                 <div class="col-md-3">
                     <div ng-show="user.stat=='view'">

@@ -55,6 +55,28 @@
                 function () { }
                 )
             };
+
+            service.AddUsersToRole = function (role, callback) {
+                $http.post('/api/rolemanager/AddUsersToRole', role)
+               .then(
+               function (result) {
+                   if (callback)
+                       callback(result.data);
+               },
+               function () { }
+               )
+            };
+
+            service.GetUsersByRole = function (role, callback) {
+                $http.post('/api/rolemanager/GetUsersByRole', role)
+               .then(
+               function (result) {
+                   if (callback)
+                       callback(result.data);
+               },
+               function () { }
+               )
+            };
             /************************************************
             Services for Roles
             ************************************************/

@@ -15,7 +15,7 @@ namespace MvcRoleManager.Security.BSO
     {
         private UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(RoleManagerDbContext.Create()));
 
-        //private RoleManager<ApplicationRole> roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(RoleManagerDbContext.Create()));
+        private RoleManager<ApplicationRole> roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(RoleManagerDbContext.Create()));
         public async Task<string> AddUser(MvcUser user)
         {
             var dbUser = new IdentityUser
@@ -41,9 +41,32 @@ namespace MvcRoleManager.Security.BSO
             throw new Exception("Creating user failed. " + string.Join(",", result.Errors.ToArray()));
         }
 
-        public List<IdentityUser> GetUsers()
+        public List<string> GetUsersByRole(MvcRole role)
         {
-            return userManager.Users.ToList();
+            var dbRole = this.roleManager.FindById(role.Id);
+            List<string> mvcUsers = new List<string>();
+            foreach (var user in dbRole.Users)
+            {
+                mvcUsers.Add(user.UserId);
+            }
+            return mvcUsers;
+        }
+        public List<MvcUser> GetUsers()
+        {
+            List<MvcUser> mvcUsers = new List<MvcUser>();
+            var users = userManager.Users.ToList();
+            foreach (var user in users)
+            {
+                mvcUsers.Add(new MvcUser
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    Selected = false
+                });
+            }
+
+            return mvcUsers;
         }
 
         public async Task UpdateUser(MvcUser user)
@@ -54,7 +77,7 @@ namespace MvcRoleManager.Security.BSO
 
             if (!string.IsNullOrEmpty(user.Password))
             {
-                string token =   userManager.GeneratePasswordResetToken(user.Id);
+                string token = userManager.GeneratePasswordResetToken(user.Id);
                 await userManager.ResetPasswordAsync(user.Id, token, user.Password);
             }
             await userManager.UpdateAsync(dbUser);
@@ -63,6 +86,14 @@ namespace MvcRoleManager.Security.BSO
         public async Task AddToRole(MvcRole role)
         {
             string roleName = role.Name;
+            var users = userManager.Users.ToList();
+            //remove users from role first
+            foreach (var user in users)
+            {
+                await this.userManager.RemoveFromRolesAsync(user.Id, roleName);
+            }
+
+            //add new users to role
             foreach (var u in role.Users)
             {
                 await this.userManager.AddToRoleAsync(u.Id, roleName);

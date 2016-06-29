@@ -149,7 +149,7 @@ namespace MvcRoleManager.Security.Api
         }
 
         [HttpGet]
-        public List<IdentityUser> GetUsers()
+        public List<MvcUser> GetUsers()
         {
             return UserManagerBso.GetUsers();
         }
@@ -167,7 +167,18 @@ namespace MvcRoleManager.Security.Api
                 return InternalServerError();
             }
         }
-
+        [HttpPost]
+        public  List<string> GetUsersByRole(MvcRole role)
+        {
+            try
+            {
+                 return UserManagerBso.GetUsersByRole(role);
+            }
+            catch
+            {
+                return null;
+            }
+        }
         [HttpPost]
         public async Task<IHttpActionResult> AddUsersToRole(MvcRole role)
         {
