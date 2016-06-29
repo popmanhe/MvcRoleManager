@@ -12,6 +12,10 @@ using MvcRoleManager.Security.ViewModels;
 
 namespace MvcRoleManager.Security.BSO
 {
+
+    /// <summary>
+    /// Retrieve controllers and actions from assembly
+    /// </summary>
     public class ControllersActions
     {
         private string _dllPath;

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using MvcRoleManager.Security.DAL;
+﻿using MvcRoleManager.Security.DAL;
 using MvcRoleManager.Security.Models;
 using MvcRoleManager.Security.ViewModels;
 using System.Collections.Generic;
@@ -35,6 +33,11 @@ namespace MvcRoleManager.Security.BSO
             return roles.ToList();
         }
 
+        /// <summary>
+        /// Create a new role
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
         public MvcRole AddRole(MvcRole role)
         {
             var dbRole = unitOfWork.Repository<ApplicationRole>().Insert(new ApplicationRole
@@ -46,12 +49,20 @@ namespace MvcRoleManager.Security.BSO
             return role;
         }
 
+        /// <summary>
+        /// Delete role
+        /// </summary>
+        /// <param name="role"></param>
         public void DeleteRole(MvcRole role)
         {
             unitOfWork.Repository<ApplicationRole>().Delete(role.Id);
             unitOfWork.Save();
         }
 
+        /// <summary>
+        /// Update role
+        /// </summary>
+        /// <param name="role"></param>
         public void UpdateRole(MvcRole role)
         {
             unitOfWork.Repository<ApplicationRole>().Update(new ApplicationRole
@@ -89,6 +100,11 @@ namespace MvcRoleManager.Security.BSO
             return selectedRoles;
         }
 
+        /// <summary>
+        /// Get actions that are assigned to role
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
         public List<Models.Action> GetActionsByRole(string roleId)
         {
             unitOfWork.Context.Configuration.LazyLoadingEnabled = false;
@@ -173,6 +189,7 @@ namespace MvcRoleManager.Security.BSO
             AddRolesToAction(mvcAction.Roles, action);
             unitOfWork.Save();
         }
+
         /// <summary>
         /// Get action entity from database by MvcAction object
         /// </summary>
@@ -193,6 +210,12 @@ namespace MvcRoleManager.Security.BSO
             return actions.Where(a => a.ReturnType == mvcAction.ReturnType && a.ParameterTypes == parameterTypes)
             .FirstOrDefault();
         }
+
+        /// <summary>
+        /// Assign roles to action
+        /// </summary>
+        /// <param name="roles"></param>
+        /// <param name="action"></param>
         private void AddRolesToAction(List<ApplicationRole> roles, Models.Action action)
         {
             //Remove unselected roles associated with current action

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using MvcRoleManager.Security.ViewModels;
 using MvcRoleManager.Security.Models;
-using System.Web.Http;
 
 namespace MvcRoleManager.Security.BSO
 {
@@ -16,6 +14,12 @@ namespace MvcRoleManager.Security.BSO
         private UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(RoleManagerDbContext.Create()));
 
         private RoleManager<ApplicationRole> roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(RoleManagerDbContext.Create()));
+
+        /// <summary>
+        /// Create a new user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task<string> AddUser(MvcUser user)
         {
             var dbUser = new IdentityUser
@@ -41,6 +45,11 @@ namespace MvcRoleManager.Security.BSO
             throw new Exception("Creating user failed. " + string.Join(",", result.Errors.ToArray()));
         }
 
+        /// <summary>
+        /// Get users who belong to the role
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
         public List<string> GetUsersByRole(MvcRole role)
         {
             var dbRole = this.roleManager.FindById(role.Id);
@@ -51,6 +60,11 @@ namespace MvcRoleManager.Security.BSO
             }
             return mvcUsers;
         }
+
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns></returns>
         public List<MvcUser> GetUsers()
         {
             List<MvcUser> mvcUsers = new List<MvcUser>();
@@ -69,6 +83,12 @@ namespace MvcRoleManager.Security.BSO
             return mvcUsers;
         }
 
+
+        /// <summary>
+        /// Update user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task UpdateUser(MvcUser user)
         {
             var dbUser = await userManager.FindByIdAsync(user.Id);
@@ -83,6 +103,11 @@ namespace MvcRoleManager.Security.BSO
             await userManager.UpdateAsync(dbUser);
         }
 
+        /// <summary>
+        /// Add users to role
+        /// </summary>
+        /// <param name="role">role with assigned users</param>
+        /// <returns></returns>
         public async Task AddToRole(MvcRole role)
         {
             string roleName = role.Name;
