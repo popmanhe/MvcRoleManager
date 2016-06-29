@@ -105,7 +105,7 @@
 
     //controllers directive
     app.controller('MvcControllersCtrl', ['$scope', 'RoleManagerService', function ($scope, RoleManagerService) {
-       
+
         $scope.selectedController;
         $scope.selectedAction;
 
@@ -116,7 +116,7 @@
                 return "";
             }
         }
-  
+
 
         $scope.SetSelectedActions = function (selectedActions) {
             if (selectedActions) {
@@ -146,7 +146,7 @@
                     if ($scope.Properties.Controllers[0].Actions.length > 0) {
                         $scope.selectedAction = $scope.selectedController.Actions[0];
 
-                         $scope.ItemClick($scope.selectedController, $scope.selectedAction);
+                        $scope.ItemClick($scope.selectedController, $scope.selectedAction);
                     }
                 }
             })
@@ -187,7 +187,7 @@
                 showcheckbox: '@',
                 //public methods
                 Methods: '=methods',
-                Properties: "=properties"
+                Properties: '=properties'
             },
             controller: 'MvcControllersCtrl',
             templateUrl: 'partials/Controllers.html',
@@ -201,14 +201,13 @@
 
     //users directive
     app.controller('UserCtrl', ['$scope', 'RoleManagerService', function ($scope, RoleManagerService) {
-        $scope.Users = [];
         $scope.selectedUser;
 
         //Directive methods
         RoleManagerService.GetUsers(function (data) {
             if (data) {
                 data.forEach(function (u) { u.stat = 'view'; });
-                $scope.Users = data;
+                $scope.Properties.Users = data;
                 //if (data && data.length > 0) {
                 //    $scope.selectedUser = data[0];
                 //    $scope.onItemclick({ user: $scope.selectedUser });
@@ -233,7 +232,7 @@
                 ConfirmPassword: '',
                 stat: 'new'
             };
-            $scope.Users.unshift(user);
+            $scope.Properties.Users.unshift(user);
             $scope.adding = true;
         }
 
@@ -275,7 +274,22 @@
             else { user.stat = 'view'; }
         }
 
+        $scope.SetSelectedUsers = function (selectedUsers) {
+            if (selectedUsers) {
+                $scope.Properties.Users.forEach(function (user) {
+                    user.Selected = false;
+                    selectedUsers.forEach(function (selectedUser) {
+                        if (user.Id == selectedUser) {
+                            user.Selected = true;
+                        }
+                    });
+                });
+            }
+        }
 
+        $scope.Methods = {
+            SetSelectedUsers: $scope.SetSelectedUsers
+        };
         //public attributes
         $scope.ItemClick = function (user) {
             $scope.selectedUser = user;
@@ -294,14 +308,20 @@
         return {
             restrict: "E",
             scope: {
-                showcheckbox:'@',
+                showcheckbox: '@',
                 showfooter: '@',
                 onItemclick: '&',
                 onSave: '&',
-                onCancel: '&'
+                onCancel: '&',
+                Methods: '=methods',
+                Properties: '=properties'
             },
             controller: 'UserCtrl',
-            templateUrl: 'partials/Users.html'
+            templateUrl: 'partials/Users.html',
+            link: function (scope, element, attrs) {
+                scope.Properties = scope.Properties || {};
+                scope.Properties.Users = [];
+            }
         };
     });
 })();

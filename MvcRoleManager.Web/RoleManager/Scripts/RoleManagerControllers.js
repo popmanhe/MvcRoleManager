@@ -113,6 +113,20 @@
     //Assign users to role
     app.controller('UserRoleCtrl', ['$scope', '$document', 'RoleManagerService',
      function ($scope, $document, RoleManagerService) {
-         $scope.AddUsersToRole = function (role) { }
+         $scope.AddUsersToRole = function (role) {
+             role.Users = [];
+             $scope.Properties.Users.forEach(function (user) {
+                 if (user.Selected)
+                     role.Users.push(user);
+             });
+             RoleManagerService.AddUsersToRole(role);
+         }
+
+         $scope.GetUsersByRole = function (role) {
+             RoleManagerService.GetUsersByRole(role, function (data) {
+                 $scope.Methods.SetSelectedUsers(data);
+             });
+         }
+
      }]);
 })();
