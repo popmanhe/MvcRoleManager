@@ -217,6 +217,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="RoleManager\Images\spinner.gif" />
     <Content Include="RoleManager\Partials\Controllers.html" />
     <Content Include="RoleManager\Partials\Roles.html" />
     <Content Include="RoleManager\Partials\UserRole.html" />
