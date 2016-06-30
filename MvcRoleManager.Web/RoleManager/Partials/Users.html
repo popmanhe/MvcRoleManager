@@ -2,13 +2,23 @@
 <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading">
-        <h4>Users</h4>
+        <h4>Users </h4>
+        <div class="form-group col-md-4">
+            <label class="sr-only">Search</label>
+            <input type="text" class="form-control" ng-model="filters.search" placeholder="Search">
+        </div>
         <a href="" ng-click="AddUser()" ng-show="!adding">
             <i class="glyphicon glyphicon-plus"></i>Add New User
         </a>
+        <div class="clearfix checkbox">
+            <label>
+                <input type="checkbox" ng-model="filters.selectedOnly" ng-change="showSelectedOnly()" />Show selected only
+            </label>
+        </div>
+
     </div>
     <ul class="list-group">
-        <li class="list-group-item" style="cursor: pointer" ng-repeat="user in Properties.Users"
+        <li class="list-group-item" style="cursor: pointer" ng-repeat="user in Properties.Users | filter:filters.search"
             ng-click="ItemClick(user)" ng-class="SetItemClass(user)">
             <div class="row">
                 <div class="col-md-8">
@@ -39,9 +49,9 @@
                         </div>
                     </div>
                 </div>
-                 <div class="col-md-1" ng-show="showcheckbox=='true'">
-                     <input type="checkbox" ng-model="user.Selected" />
-                 </div>
+                <div class="col-md-1" ng-show="showcheckbox=='true'">
+                    <input type="checkbox" ng-model="user.Selected" />
+                </div>
                 <div class="col-md-3">
                     <div ng-show="user.stat=='view'">
                         <div class="btn-group" User="group">
@@ -59,7 +69,7 @@
             </div>
         </li>
     </ul>
-    <div class="panel-footer" ng-show ="showfooter == 'true'">
+    <div class="panel-footer" ng-show="showfooter == 'true'">
         <button class="btn btn-primary" type="button" ng-click="Save()">Save</button>
         <button class="btn btn-default" type="button" ng-click="Cancel()">Cancel</button>
     </div>

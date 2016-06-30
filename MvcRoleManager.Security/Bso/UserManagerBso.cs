@@ -96,8 +96,8 @@ namespace MvcRoleManager.Security.BSO
             dbUser.UserName = user.UserName;
 
             if (!string.IsNullOrEmpty(user.Password))
-            {
-                string token = userManager.GeneratePasswordResetToken(user.Id);
+            {//reset password instead of changing it
+                string token = await userManager.GeneratePasswordResetTokenAsync(user.Id);
                 await userManager.ResetPasswordAsync(user.Id, token, user.Password);
             }
             await userManager.UpdateAsync(dbUser);

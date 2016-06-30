@@ -210,6 +210,20 @@
     //users directive
     app.controller('UserCtrl', ['$scope', 'RoleManagerService', function ($scope, RoleManagerService) {
         $scope.selectedUser;
+        $scope.filters = {
+            Selected: null,
+            selectedOnly: false,
+            search: ''
+        };
+
+        $scope.updateCompany = function () {
+            if ($scope.filters.selectedOnly) {
+                $scope.filters.Selected = true;
+            } else {
+                $scope.filters.Selected = null;
+            }
+
+        };
 
         //Directive methods
         RoleManagerService.GetUsers(function (data) {
