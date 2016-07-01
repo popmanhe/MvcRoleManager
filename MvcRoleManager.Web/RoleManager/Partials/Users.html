@@ -3,19 +3,20 @@
     <!-- Default panel contents -->
     <div class="panel-heading">
         <h4>Users </h4>
-        <div class="form-group col-md-4">
-            <label class="sr-only">Search</label>
-            <input type="text" class="form-control" ng-model="filters.search" placeholder="Search">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="sr-only">Search</label>
+                <input type="text" class="form-control" ng-model="filters.search" placeholder="Search">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="filters.selectedOnly" ng-change="showSelectedOnly()" />Show selected only
+                </label>
+            </div>
         </div>
         <a href="" ng-click="AddUser()" ng-show="!adding">
             <i class="glyphicon glyphicon-plus"></i>Add New User
         </a>
-        <div class="clearfix checkbox">
-            <label>
-                <input type="checkbox" ng-model="filters.selectedOnly" ng-change="showSelectedOnly()" />Show selected only
-            </label>
-        </div>
-
     </div>
     <ul class="list-group">
         <li class="list-group-item" style="cursor: pointer" ng-repeat="user in Properties.Users | filter:filters.search"
@@ -27,26 +28,32 @@
                         <p>User Name: {{user.UserName}}</p>
                     </div>
                     <div ng-show="user.stat=='edit' || user.stat=='new'">
-                        <label>Email</label>
-                        <div class="input-group">
-                            <input type="email" class="form-control"
-                                   aria-describedby="Email" ng-model="user.Email" style="color: black;">
-                        </div>
-                        <label>User Name</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control"
-                                   aria-describedby="User Name" ng-model="user.UserName" style="color: black;">
-                        </div>
-                        <label>Password</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control"
-                                   aria-describedby="Password" ng-model="user.Password" style="color: black;">
-                        </div>
-                        <label>Confirm Password</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control"
-                                   aria-describedby="Confirm Password" ng-model="user.ConfirmPassword" style="color: black;">
-                        </div>
+                        <form name="userForm" novalidate>
+                            <label>Email</label>
+                            <div class="input-group">
+                                <input type="email" name="email" class="form-control" required
+                                       aria-describedby="Email" ng-model="user.Email" style="color: black;">
+                                <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block" style="color: #a94442">Email is required.</p>
+                            </div>
+                            <label>User Name</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" required name="username"
+                                       aria-describedby="User Name" ng-model="user.UserName" style="color: black;">
+                                <p ng-show="userForm.username.$invalid && !userForm.username.$pristine" class="help-block"  style="color: #a94442">User name is required.</p>
+                            </div>
+                            <label>Password</label>
+                            <div class="input-group">
+                                <input type="password" name="password" class="form-control" required
+                                       aria-describedby="Password" ng-model="user.Password" style="color: black;">
+                                <p ng-show="userForm.password.$invalid && !userForm.password.$pristine" class="help-block" style="color: #a94442">Password is required.</p>
+                            </div>
+                            <label>Confirm Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" required name="confirmpassword"
+                                       aria-describedby="Confirm Password" ng-model="user.ConfirmPassword" style="color: black;">
+                                <p ng-show="userForm.confirmpassword.$invalid && !userForm.confirmpassword.$pristine" class="help-block" style="color: #a94442">Confirm Password is required.</p>
+                               </div>
+                        </form>
                     </div>
                 </div>
                 <div class="col-md-1" ng-show="showcheckbox=='true'">
@@ -61,7 +68,7 @@
                     </div>
                     <div ng-show="user.stat=='edit' || user.stat=='new'">
                         <div class="btn-group-vertical" User="group">
-                            <button type="button" class="btn btn-default btn-sm" ng-click="UpdateUser(user)">Save</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="UpdateUser(user)" ng-disabled="userForm.$invalid">Save</button>
                             <button type="button" class="btn btn-default btn-sm" ng-click="CancelUpdate(user)">Cancel </button>
                         </div>
                     </div>

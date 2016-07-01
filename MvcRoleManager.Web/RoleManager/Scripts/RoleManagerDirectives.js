@@ -264,10 +264,14 @@
 
         $scope.UpdateUser = function (user) {//Update user's email, name, password only
             if (user.stat == 'new') {
-                RoleManagerService.AddUser(user, function (data) {
+                RoleManagerService.AddUser(user, 
+                    function (data) {
                     user.Id = data;
                     user.stat = 'view';
                     $scope.adding = false;
+                },
+                function (error) {
+
                 });
             }
             else {
@@ -281,7 +285,7 @@
         $scope.DeleteUser = function (user) {
             if (confirm("Are you sure to delete user," + user.Name + "?")) {
                 RoleManagerService.DeleteUser(user, function () {
-                    $scope.Users = $scope.Users.filter(function (g) {
+                    $scope.Properties.Users = $scope.Properties.Users.filter(function (g) {
                         return g.Name != user.Name;
                     });
                 });
@@ -290,7 +294,7 @@
 
         $scope.CancelUpdate = function (user) {
             if (user.stat == 'new') {
-                $scope.Users.shift(user);
+                $scope.Properties.Users.shift(user);
                 $scope.adding = false;
             }
             else { user.stat = 'view'; }
@@ -310,6 +314,13 @@
 
         }
 
+       
+        //private methods
+        var showMessages = function (messages) {
+            $scope.Messages = messages;
+        }
+
+        //public methods
         $scope.Methods = {
             SetSelectedUsers: $scope.SetSelectedUsers
         };
@@ -345,6 +356,31 @@
                 scope.Properties = scope.Properties || {};
                 scope.Properties.Users = [];
             }
+        };
+    });
+
+    //messages directive
+    app.controller('MessageCtrl', ['$scope', '$attrs', '$interpolate', '$timeout', function($scope, $attrs, $interpolate, $timeout) {
+        $scope.closeable = !!$attrs.close;
+        $scope.Messages = [];
+        var dismissOnTimeout = angular.isDefined($attrs.dismissOnTimeout) ?
+          $interpolate($attrs.dismissOnTimeout)($scope.$parent) : null;
+
+        if (dismissOnTimeout) {
+            $timeout(function() {
+                $scope.close();
+            }, parseInt(dismissOnTimeout, 10));
+        }
+    }])
+    .directive('mvcMessages', function () {
+        return {
+            controller: 'MessageCtrl',
+            scope: {
+                Messages: '=messages',
+                type:'@',
+                close: '&'
+            },
+            template: '<div class="alert ng-scope ng-isolate-scope alert-success alert-dismissible" ng-class="[\'alert-\' + (type || \'warning\'), closeable ? \'alert-dismissible\' : null]" role="alert" close="closeAlert($index)"><button ng-show="closeable" type="button" class="close" ng-click="close({$event: $event})"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><ul><li ng-repeat="alert in alerts" ></li>/div>'
         };
     });
 })();

@@ -36,14 +36,17 @@
                 )
             };
 
-            service.AddUser = function (user, callback) {
+            service.AddUser = function (user, successCallback, failedCallback) {
                 $http.post('/api/rolemanager/AddUser', user)
                 .then(
                 function (result) {
-                    callback(result.data);
+                    successCallback(result.data);
                 },
-                function () { }
-                )
+                function (result) {
+                    var messages = convertModelStatMessage(result.data.ModelState);
+                    failedCallback(messages);
+                }
+                );
             };
 
             service.UpdateUser = function (user, callback) {
@@ -166,6 +169,17 @@
                )
             };
 
+            //Private method
+            var convertModelStatMessage = function (modelStatMessages) {
+                var messages = [];
+                for (var key in modelStatMessages) {
+                    modelStatMessages.forEach(function (message) {
+                        messages.push(message);
+                    });
+                }
+
+                return messages;
+            }
             return service;
 
         }]);
