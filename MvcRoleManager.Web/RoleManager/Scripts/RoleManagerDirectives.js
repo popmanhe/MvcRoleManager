@@ -116,7 +116,11 @@
 
         $scope.selectedController;
         $scope.selectedAction;
-
+        $scope.filters = {
+            Selected: null,
+            selectedOnly: false,
+            search: ''
+        };
         $scope.SetItemClass = function (action) {
             if ($scope.selectedAction == action) {
                 return "info";
@@ -147,6 +151,10 @@
         $scope.GetControllers = function () {
             RoleManagerService.GetControllers(function (data) {
                 $scope.Properties.Controllers = data;
+                $scope.Properties.Controllers.forEach(function (ctrl) {
+                    ctrl.status = { 'open': true } // open Accordion header
+                    ;
+                })
                 //select first action of first controller 
                 if ($scope.Properties.Controllers.length > 0) {
                     $scope.selectedController = $scope.Properties.Controllers[0];
