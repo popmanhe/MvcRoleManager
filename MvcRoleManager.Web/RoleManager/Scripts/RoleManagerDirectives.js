@@ -117,7 +117,6 @@
         $scope.selectedController;
         $scope.selectedAction;
         $scope.filters = {
-            Selected: null,
             selectedOnly: false,
             search: ''
         };
@@ -128,8 +127,21 @@
                 return "";
             }
         }
-
-
+        this.originControllers = [];
+        $scope.showSelectedOnly = function () {
+            if ($scope.filters.selectedOnly) {
+                this.originControllers = angular.copy($scope.Properties.Controllers);
+                $scope.Properties.Controllers = $scope.Properties.Controllers.filter(function (ctrl) {
+                    ctrl.Actions = ctrl.Actions.filter(function (act) {
+                        return act.Selected;
+                    });
+                    return ctrl.Actions && ctrl.Actions.length > 0;
+                });
+            }
+            else {
+                $scope.Properties.Controllers = angular.copy(this.originControllers);
+            }
+        }
         $scope.SetSelectedActions = function (selectedActions) {
             if (selectedActions) {
                 $scope.Properties.Controllers.forEach(function (ctrl) {
@@ -272,12 +284,12 @@
 
         $scope.UpdateUser = function (user) {//Update user's email, name, password only
             if (user.stat == 'new') {
-                RoleManagerService.AddUser(user, 
+                RoleManagerService.AddUser(user,
                     function (data) {
-                    user.Id = data;
-                    user.stat = 'view';
-                    $scope.adding = false;
-                },
+                        user.Id = data;
+                        user.stat = 'view';
+                        $scope.adding = false;
+                    },
                 function (error) {
 
                 });
@@ -322,7 +334,7 @@
 
         }
 
-       
+
         //private methods
         var showMessages = function (messages) {
             $scope.Messages = messages;
@@ -368,14 +380,14 @@
     });
 
     //messages directive
-    app.controller('MessageCtrl', ['$scope', '$attrs', '$interpolate', '$timeout', function($scope, $attrs, $interpolate, $timeout) {
+    app.controller('MessageCtrl', ['$scope', '$attrs', '$interpolate', '$timeout', function ($scope, $attrs, $interpolate, $timeout) {
         $scope.closeable = !!$attrs.close;
         $scope.Messages = [];
         var dismissOnTimeout = angular.isDefined($attrs.dismissOnTimeout) ?
           $interpolate($attrs.dismissOnTimeout)($scope.$parent) : null;
 
         if (dismissOnTimeout) {
-            $timeout(function() {
+            $timeout(function () {
                 $scope.close();
             }, parseInt(dismissOnTimeout, 10));
         }
@@ -385,7 +397,7 @@
             controller: 'MessageCtrl',
             scope: {
                 Messages: '=messages',
-                type:'@',
+                type: '@',
                 close: '&'
             },
             template: '<div class="alert ng-scope ng-isolate-scope alert-success alert-dismissible" ng-class="[\'alert-\' + (type || \'warning\'), closeable ? \'alert-dismissible\' : null]" role="alert" close="closeAlert($index)"><button ng-show="closeable" type="button" class="close" ng-click="close({$event: $event})"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><ul><li ng-repeat="alert in alerts" ></li>/div>'

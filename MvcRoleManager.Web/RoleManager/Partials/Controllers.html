@@ -1,16 +1,16 @@
 ﻿<!-- Controllers directive -->
 <div class="mvcRoleDiv">
-     <div class="row">
-            <div class="form-group col-md-4">
-                <input type="text" class="form-control" ng-model="filters.search" placeholder="Search">
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" ng-model="filters.selectedOnly" ng-change="showSelectedOnly()" />Show selected only
-                </label>
-            </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <input type="text" class="form-control" ng-model="filters.search" placeholder="Search actions">
         </div>
-<uib-accordion close-others="false">
+        <div class="checkbox" ng-show="showcheckbox == 'true'">
+            <label>
+                <input type="checkbox" ng-model="filters.selectedOnly" ng-change="showSelectedOnly()" />Show selected only
+            </label>
+        </div>
+    </div>
+    <uib-accordion close-others="false">
  <uib-accordion-group is-open="ctrl.status.open"  ng-repeat="ctrl in Properties.Controllers"  ng-show="(ctrl.Actions | filter:{ActionName:filters.search}) .length > 0">
       <uib-accordion-heading >
        <span>Controller: {{ctrl.ControllerName}}</span>
