@@ -206,6 +206,21 @@ namespace MvcRoleManager.Security.Api
                 return null;
             }
         }
+
+
+        [HttpPost]
+        public async Task<IHttpActionResult> AddRolesToUser(MvcUser user)
+        {
+            try
+            {
+                await UserManagerBso.AddRolesToUser(user);
+                return Ok();
+            }
+            catch
+            {
+                return InternalServerError();
+            }
+        }
         [HttpPost]
         public async Task<IHttpActionResult> AddUsersToRole(MvcRole role)
         {

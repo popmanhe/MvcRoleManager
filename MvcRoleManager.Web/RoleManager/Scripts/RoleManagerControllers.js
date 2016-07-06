@@ -159,23 +159,24 @@
     app.controller('RoleUserCtrl', ['$scope', 'RoleManagerService',
      function ($scope, RoleManagerService) {
 
-         //default for user directive
+         var self = this;
+
+         var selectedUser = null;
+         //default settings for user directive
          $scope.Properties = {
              ShowCheckbox: false,
              SelectFirstItem: true
          };
 
 
-         $scope.AddRolesToUser = function (role) {
-             role.Users = [];
-             $scope.Properties.Users.forEach(function (user) {
-                 if (user.Selected)
-                     role.Users.push(user);
-             });
-             RoleManagerService.AddUsersToRole(role);
+         $scope.AddRolesToUser = function (selectedRoles) {
+             selectedUser.Roles = selectedRoles;
+            
+             RoleManagerService.AddRolesToUser(selectedUser);
          }
 
          $scope.GetRolesByUser = function (user) {
+             self.selectedUser = user;
              RoleManagerService.GetRolesByUser(user, function (data) {
                  if (data) {
                      $scope.Properties.Roles = $scope.Properties.Roles.map(function (role) {

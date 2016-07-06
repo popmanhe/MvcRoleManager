@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using MvcRoleManager.Security.ViewModels;
 using MvcRoleManager.Security.Models;
+using MvcRoleManager.Security.DAL;
 
 namespace MvcRoleManager.Security.BSO
 {
@@ -15,6 +16,7 @@ namespace MvcRoleManager.Security.BSO
 
         private RoleManager<ApplicationRole> roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(RoleManagerDbContext.Create()));
 
+        private UnitOfWork unitOfWork = new UnitOfWork(RoleManagerDbContext.Create());
         /// <summary>
         /// Create a new user
         /// </summary>
@@ -115,7 +117,7 @@ namespace MvcRoleManager.Security.BSO
             //remove users from role first
             foreach (var user in users)
             {
-                await this.userManager.RemoveFromRolesAsync(user.Id, roleName);
+                await this.userManager.RemoveFromRoleAsync(user.Id, roleName);
             }
 
             //add new users to role
@@ -125,7 +127,7 @@ namespace MvcRoleManager.Security.BSO
             }
         }
 
-        internal async Task<List<string>> GetRolesByUser(string userId)
+        public async Task<List<string>> GetRolesByUser(string userId)
         {
             var user = await this.userManager.FindByIdAsync(userId);
             List<string> rolesId = new List<string>();
@@ -136,6 +138,22 @@ namespace MvcRoleManager.Security.BSO
             }
 
             return rolesId;
+        }
+
+        public async Task AddRolesToUser(MvcUser user)
+        {
+            var dbUser = await this.userManager.FindByIdAsync(user.Id);
+            var dbRoles = dbUser.Roles.ToList();
+
+            //var result = await this.userManager.RemoveFromRolesAsync(user.Id, dbRoles);
+
+            //if (result.Succeeded)
+            //{
+            //    foreach (var role in user.Roles)
+            //    {
+            //        await this.userManager.AddToRolesAsync(user.Id, role.Id);
+            //    }
+            //}
         }
     }
 }

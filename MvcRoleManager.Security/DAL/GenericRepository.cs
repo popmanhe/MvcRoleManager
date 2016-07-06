@@ -81,5 +81,10 @@ namespace MvcRoleManager.Security.DAL
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
         }
+
+        public virtual void ExecuteWithSql(string query, params object[] parameters)
+        {
+            dbSet.SqlQuery(query, parameters);
+        }
     }
 }

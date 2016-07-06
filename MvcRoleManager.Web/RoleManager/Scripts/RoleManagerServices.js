@@ -59,6 +59,17 @@
                 )
             };
 
+            service.AddRolesToUser = function (user, callback) {
+                $http.post('/api/rolemanager/AddRolesToUser', user)
+                .then(
+                    function (result) {
+                        if (callback)
+                            callback(result.data);
+                    },
+                    function () { }
+                    );
+            };
+
             service.AddUsersToRole = function (role, callback) {
                 $http.post('/api/rolemanager/AddUsersToRole', role)
                .then(
@@ -84,7 +95,7 @@
             };
 
             service.GetRolesByUser = function (user, callback) {
-                $http.get('/api/rolemanager/GetRolesByUser/'+user.Id)
+                $http.get('/api/rolemanager/GetRolesByUser/' + user.Id)
                .then(
                function (result) {
                    callback(result.data);
