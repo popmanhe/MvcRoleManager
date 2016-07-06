@@ -52,15 +52,7 @@ namespace MvcRoleManager.Security.Models
                    cs.ToTable("ActionRoles");
                });
 
-            //modelBuilder.Entity<Action>()
-            //   .HasMany<ActionGroup>(s => s.ActionGroups)
-            //   .WithMany(c => c.Actions)
-            //   .Map(cs =>
-            //   {
-            //       cs.MapLeftKey("ActionId");
-            //       cs.MapRightKey("GroupId");
-            //       cs.ToTable("ActionActionGroups");
-            //   });
+           
         }
     }
 }

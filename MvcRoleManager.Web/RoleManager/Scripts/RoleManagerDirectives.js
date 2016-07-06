@@ -308,6 +308,13 @@
             }
         }
 
+        $scope.Login = function (user)
+        {
+            RoleManagerService.Login(user, function () {
+               
+            });
+        }
+
         $scope.AddUser = function () {
             var user = {
                 Email: '',

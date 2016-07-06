@@ -9,6 +9,8 @@ using System.Data.Entity.Infrastructure;
 using Newtonsoft.Json;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
+using Microsoft.Owin.Security;
+using System.Net.Http;
 
 namespace MvcRoleManager.Security.Api
 {
@@ -33,7 +35,7 @@ namespace MvcRoleManager.Security.Api
             get
             {
                 if (userManagerBso == null)
-                    userManagerBso = new UserManagerBso();
+                    userManagerBso = new UserManagerBso(Request.GetOwinContext().Authentication);
                 return userManagerBso;
             }
         }
@@ -226,7 +228,19 @@ namespace MvcRoleManager.Security.Api
         {
             try
             {
-                await UserManagerBso.AddToRole(role);
+                await UserManagerBso.AddUsersToRole(role);
+                return Ok();
+            }
+            catch
+            {
+                return InternalServerError();
+            }
+        }
+        [HttpPost]
+        public async Task<IHttpActionResult> Login(MvcUser user) {
+            try
+            {
+                await UserManagerBso.Login(user.Id);
                 return Ok();
             }
             catch

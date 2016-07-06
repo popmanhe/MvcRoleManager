@@ -7,6 +7,9 @@ using Microsoft.AspNet.Identity;
 using MvcRoleManager.Security.ViewModels;
 using MvcRoleManager.Security.Models;
 using MvcRoleManager.Security.DAL;
+using Microsoft.Owin.Security;
+using System.Web;
+using System.Net;
 
 namespace MvcRoleManager.Security.BSO
 {
@@ -17,6 +20,12 @@ namespace MvcRoleManager.Security.BSO
         private RoleManager<ApplicationRole> roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(RoleManagerDbContext.Create()));
 
         private UnitOfWork unitOfWork = new UnitOfWork(RoleManagerDbContext.Create());
+        private IAuthenticationManager Authentication
+        { get; }
+        public UserManagerBso(IAuthenticationManager authentication)
+        {
+            this.Authentication = authentication;
+        }
         /// <summary>
         /// Create a new user
         /// </summary>
@@ -110,7 +119,7 @@ namespace MvcRoleManager.Security.BSO
         /// </summary>
         /// <param name="role">role with assigned users</param>
         /// <returns></returns>
-        public async Task AddToRole(MvcRole role)
+        public async Task AddUsersToRole(MvcRole role)
         {
             string roleName = role.Name;
             var users = userManager.Users.ToList();
@@ -142,18 +151,34 @@ namespace MvcRoleManager.Security.BSO
 
         public async Task AddRolesToUser(MvcUser user)
         {
-            var dbUser = await this.userManager.FindByIdAsync(user.Id);
-            var dbRoles = dbUser.Roles.ToList();
+            await ClearUserRoles(user.Id);
 
-            //var result = await this.userManager.RemoveFromRolesAsync(user.Id, dbRoles);
+            if (user.Roles?.Count() > 0)
+            {
+                string[] rolesName = user.Roles.Select(r => r.Name).ToArray();
 
-            //if (result.Succeeded)
-            //{
-            //    foreach (var role in user.Roles)
-            //    {
-            //        await this.userManager.AddToRolesAsync(user.Id, role.Id);
-            //    }
-            //}
+                await this.userManager.AddToRolesAsync(user.Id, rolesName);
+
+            }
+
+        }
+
+        public async Task ClearUserRoles(string userId)
+        {
+            var user = await this.userManager.FindByIdAsync(userId);
+            foreach (var role in user.Roles)
+            {
+                this.unitOfWork.Repository<IdentityUserRole>().Delete(new IdentityUserRole { RoleId = role.RoleId, UserId = userId });
+            }
+            this.unitOfWork.Save();
+        }
+
+        public async Task Login(string userId)
+        {
+            Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            var user = await this.userManager.FindByIdAsync(userId);
+            var claimsIdentity = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+            Authentication.SignIn(new AuthenticationProperties { IsPersistent = true }, claimsIdentity);
         }
     }
 }

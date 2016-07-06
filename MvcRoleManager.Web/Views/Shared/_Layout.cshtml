@@ -22,6 +22,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
                     <li><a href="~/RoleManager/index.html">Role Manager</a></li>
+                    <li>@Html.ActionLink("Log in", "Login", "Home", new { area = "" }, null)</li>
                 </ul>
             </div>
         </div>
@@ -33,9 +34,6 @@
             <p>&copy; @DateTime.Now.Year - Mvc Role Manager</p>
         </footer>
     </div>
-    <script type="text/javascript" src="~/Scripts/angular.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/angular-ui-router.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/angular-ui/ui-bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
