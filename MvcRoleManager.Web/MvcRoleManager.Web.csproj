@@ -221,6 +221,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="RoleManager\Partials\Controllers.html" />
     <Content Include="RoleManager\Partials\Roles.html" />
+    <Content Include="RoleManager\Partials\SimpleRole.html" />
+    <Content Include="RoleManager\Partials\RoleUser.html" />
     <Content Include="RoleManager\Partials\UserRole.html" />
     <Content Include="RoleManager\Partials\Users.html" />
     <Content Include="RoleManager\Scripts\app.js" />

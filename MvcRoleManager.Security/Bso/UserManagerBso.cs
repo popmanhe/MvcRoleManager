@@ -124,5 +124,18 @@ namespace MvcRoleManager.Security.BSO
                 await this.userManager.AddToRoleAsync(u.Id, roleName);
             }
         }
+
+        internal async Task<List<string>> GetRolesByUser(string userId)
+        {
+            var user = await this.userManager.FindByIdAsync(userId);
+            List<string> rolesId = new List<string>();
+            List<MvcRole> selectedRoles = new List<MvcRole>();
+            foreach (var role in user.Roles)
+            {
+                rolesId.Add(role.RoleId);
+            }
+
+            return rolesId;
+        }
     }
 }

@@ -82,6 +82,16 @@
                function () { }
                )
             };
+
+            service.GetRolesByUser = function (user, callback) {
+                $http.get('/api/rolemanager/GetRolesByUser/'+user.Id)
+               .then(
+               function (result) {
+                   callback(result.data);
+               },
+               function () { }
+               )
+            }
             /************************************************
             Services for Roles
             ************************************************/

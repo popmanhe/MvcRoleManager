@@ -79,22 +79,18 @@ namespace MvcRoleManager.Security.BSO
         /// </summary>
         /// <param name="mvcAction"></param>
         /// <returns></returns>
-        public List<MvcRole> GetRolesByAction(MvcAction mvcAction)
+        public List<string> GetRolesByAction(MvcAction mvcAction)
         {
             //Only ControllerName and ActionName have indexes.
             //Most of cases, controller and action name should be able to identify the right record.
             var action = this.GetAction(mvcAction);
             var actionRoles = action?.Roles;
-            var roles = this.GetRoles();
-            List<MvcRole> selectedRoles = new List<MvcRole>();
-            foreach (var role in roles)
+            if (actionRoles == null) return null;
+
+            List<string> selectedRoles = new List<string>();
+            foreach (var role in actionRoles)
             {
-                selectedRoles.Add(new MvcRole
-                {
-                    Id = role.Id,
-                    Name = role.Name,
-                    Selected = actionRoles != null && actionRoles.Any(r => r.Id == role.Id)
-                });
+                selectedRoles.Add(role.Id);
             }
 
             return selectedRoles;

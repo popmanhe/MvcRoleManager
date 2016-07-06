@@ -1,0 +1,18 @@
+﻿<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        <h4>Roles</h4>
+        <p>Assigned to<i> {{Properties.AssignedTo}}</i></p>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-6" ng-repeat="role in Properties.Roles">
+            <input type="checkbox" ng-model="role.Selected" />
+            {{role.Name}}
+        </div>
+        <div><a href ng-click="SelectAll(true)" class="small">Select All</a> | <a href ng-click="SelectAll(false)" class="small">Unselect All</a></div>
+    </div>
+    <div class="panel-footer">
+        <button class="btn btn-primary" type="button" ng-click="Save()">Save</button>
+        <button class="btn btn-default" type="button" ng-click="Cancel()">Cancel</button>
+    </div>
+</div>

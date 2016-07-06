@@ -1,0 +1,18 @@
+﻿<h2>Assign roles to user </h2>
+<p>Select a user and assign roles to it by checking off roles' checkboxes.</p>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <mvc-users showfooter="false" Properties.ShowCheckbox="false" on-itemclick="GetRolesByUser(user)"
+                   methods="Methods" properties="Properties"></mvc-users>
+       
+    </div>
+    <!-- Table -->
+    <div class="col-md-4">
+        <div class="affix" style="width: 19%">
+            <mvc-simpleRoles properties="Properties" on-save='AddRolesToUser(roles)'
+                             on-cancel='GetRolesByUser()'></mvc-simpleRoles>
+        </div>
+    </div>
+</div>

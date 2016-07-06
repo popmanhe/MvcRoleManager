@@ -101,7 +101,7 @@ namespace MvcRoleManager.Security.Api
         }
 
         [HttpPost]
-        public List<MvcRole> GetRolesByAction(MvcAction mvcAction)
+        public List<string> GetRolesByAction(MvcAction mvcAction)
         {
             return RoleManagerBso.GetRolesByAction(mvcAction);
         }
@@ -187,6 +187,19 @@ namespace MvcRoleManager.Security.Api
             try
             {
                 return UserManagerBso.GetUsersByRole(role);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        [HttpGet]
+        public async Task<List<string>> GetRolesByUser(string id)
+        {
+            try
+            {
+                return await UserManagerBso.GetRolesByUser(id);
             }
             catch
             {
