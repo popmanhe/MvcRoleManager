@@ -102,7 +102,7 @@
            $scope.Properties = {
                ShowCheckbox: true,
                SelectFirstItem: false
-       };
+           };
 
            $scope.GetActionsByRole = function (role) {
                RoleManagerService.GetActionsByRole(role, function (data) {
@@ -161,7 +161,7 @@
 
          var self = this;
 
-         var selectedUser = null;
+         this.selectedUser = null;
          //default settings for user directive
          $scope.Properties = {
              ShowCheckbox: false,
@@ -170,14 +170,15 @@
 
 
          $scope.AddRolesToUser = function (selectedRoles) {
-             selectedUser.Roles = selectedRoles;
-            
-             RoleManagerService.AddRolesToUser(selectedUser);
+             self.selectedUser.Roles = selectedRoles;
+
+             RoleManagerService.AddRolesToUser(self.selectedUser);
          }
 
          $scope.GetRolesByUser = function (user) {
-             self.selectedUser = user;
-             RoleManagerService.GetRolesByUser(user, function (data) {
+             if (user)
+                 self.selectedUser = user;
+             RoleManagerService.GetRolesByUser(self.selectedUser, function (data) {
                  if (data) {
                      $scope.Properties.Roles = $scope.Properties.Roles.map(function (role) {
                          role.Selected = data.indexOf(role.Id) > -1;

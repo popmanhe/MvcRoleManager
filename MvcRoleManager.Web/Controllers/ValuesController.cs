@@ -21,11 +21,11 @@ namespace MvcRoleManager.Web.Controllers
         }
 
         // GET api/values/5
-      
-        //public string Get(int id)
-        //{
-        //    return id.ToString();
-        //}
+        [HttpGet]
+        public string Get(int id)
+        {
+            return id.ToString();
+        }
 
         // POST api/values
         public void Post([FromBody]string value)

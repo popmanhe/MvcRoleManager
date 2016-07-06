@@ -27,6 +27,7 @@
                     <div ng-show="user.stat=='view'">
                         <strong>Email: {{user.Email}}</strong>
                         <p>User Name: {{user.UserName}}</p>
+                        <a class="btn btn-info btn-xs" title="For testing purpose" ng-click="Login(user)">Login</a>
                     </div>
                     <div ng-show="user.stat=='edit' || user.stat=='new'">
                         <form name="userForm" novalidate>

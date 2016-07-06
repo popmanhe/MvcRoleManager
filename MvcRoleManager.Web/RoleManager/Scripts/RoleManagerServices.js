@@ -36,6 +36,17 @@
                 )
             };
 
+            service.Login = function (user, successCallback, failedCallback) {
+                $http.post('/api/rolemanager/Login', user)
+                .then(
+                function (result) {
+
+                },
+                function (result) {
+
+                });
+            };
+
             service.AddUser = function (user, successCallback, failedCallback) {
                 $http.post('/api/rolemanager/AddUser', user)
                 .then(

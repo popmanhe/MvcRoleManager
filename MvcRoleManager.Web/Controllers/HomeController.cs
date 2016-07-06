@@ -12,9 +12,15 @@ namespace MvcRoleManager.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            //ControllersActions ca = new ControllersActions();
-            //List <MvcController> pclist = ca.GetControllers(true);
             ViewBag.Title = "Home Page";
+
+            return View();
+        }
+
+        [Description("Login page")]
+        [AllowAnonymous]
+        public ActionResult Login()
+        {
 
             return View();
         }
