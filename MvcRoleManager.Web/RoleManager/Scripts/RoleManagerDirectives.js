@@ -471,8 +471,8 @@
         $scope.DeleteUser = function (user) {
             if (confirm("Are you sure to delete user," + user.Name + "?")) {
                 MvcUserService.DeleteUser(user, function () {
-                    $scope.Properties.Users = $scope.Properties.Users.filter(function (g) {
-                        return g.Id !== user.Id;
+                    $scope.Properties.Users = $scope.Properties.Users.filter(function (u) {
+                        return u.Id !== user.Id;
                     });
                 });
             }

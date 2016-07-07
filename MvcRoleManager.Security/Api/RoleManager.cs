@@ -166,17 +166,15 @@ namespace MvcRoleManager.Security.Api
         [HttpPost]
         public async Task<IHttpActionResult> DeleteUser(MvcUser user)
         {
-
             try
             {
-                 await UserManagerBso.DeleteUser(user);
+                await UserManagerBso.DeleteUser(user);
                 return Ok<string>(user.Id);
             }
             catch
             {
                 throw;
             }
-
         }
 
         [HttpGet]
