@@ -83,6 +83,12 @@
                             return role;
                         });
                     }
+                    else {//no role selected
+                        $scope.Properties.Roles = $scope.Properties.Roles.map(function (role) {
+                            role.Selected = false;
+                            return role;
+                        });
+                    }
                 });
             };
 

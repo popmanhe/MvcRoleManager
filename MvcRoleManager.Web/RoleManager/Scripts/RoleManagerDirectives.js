@@ -2,12 +2,55 @@
 ; (function () {
     var app = angular.module('RoleManager');
     //roles directive
-    app.controller('MvcRoleCtrl', ['$scope', 'RoleManagerService', function ($scope, RoleManagerService) {
+    app.factory('MvcRoleService', ['$http', function ($http) {
+        var service = {};
+
+        service.GetRoles = function (callback) {
+            $http.get('/api/rolemanager/getroles')
+            .then(
+            function (result) {
+                callback(result.data);
+            },
+            function () { }
+            )
+        };
+
+        service.AddRole = function (role, callback) {
+            $http.post('/api/RoleManager/AddRole', role).then(
+               function (result) {//success
+                   callback(result.data);
+               }
+           , function (result) {//failed
+               alert(result.data.ExceptionMessage);
+           });
+        }
+        service.UpdateRole = function (role, callback) {
+            $http.post('/api/RoleManager/UpdateRole', role).then(
+               function (result) {//success
+                   callback();
+               }
+           , function () {//failed
+
+           });
+        }
+
+        service.DeleteRole = function (role, callback) {
+            $http.post('/api/RoleManager/DeleteRole', role).then(
+               function (result) {//success
+                   callback();
+               }
+           , function () {//failed
+
+           });
+        }
+        return service;
+    }])
+    .controller('MvcRoleCtrl', ['$scope', 'MvcRoleService', function ($scope, MvcRoleService) {
         $scope.Roles = [];
         $scope.selectedRole;
 
         //Directive methods
-        RoleManagerService.GetRoles(function (data) {
+        MvcRoleService.GetRoles(function (data) {
             if (data) {
                 data.forEach(function (g) { g.stat = 'view'; });
                 $scope.Roles = data;
@@ -42,7 +85,7 @@
 
         $scope.UpdateRole = function (role) {//Update role's name only
             if (role.stat === 'new') {
-                RoleManagerService.AddRole(role, function (data) {
+                MvcRoleService.AddRole(role, function (data) {
                     role.Id = data;
                     role.stat = 'view';
                     $scope.adding = false;
@@ -50,7 +93,7 @@
             }
             else {
                 role.Users = null;
-                RoleManagerService.UpdateRole(role, function () {
+                MvcRoleService.UpdateRole(role, function () {
                     role.stat = 'view';
                     $scope.adding = false;
                 });
@@ -59,7 +102,7 @@
 
         $scope.DeleteRole = function (role) {
             if (confirm("Are you sure to delete role," + role.Name + "?")) {
-                RoleManagerService.DeleteRole(role, function () {
+                MvcRoleService.DeleteRole(role, function () {
                     $scope.Roles = $scope.Roles.filter(function (g) {
                         return g.Name !== role.Name;
                     });
@@ -110,11 +153,13 @@
             templateUrl: 'partials/Roles.html'
         };
     });
-    //simple role directive
-    app.controller('MvcSimpleRoleCtrl', ['$scope', 'RoleManagerService', function ($scope, RoleManagerService) {
+
+
+    //simple role directive, share the same service as mvcRoles directive
+    app.controller('MvcSimpleRoleCtrl', ['$scope', 'MvcRoleService', function ($scope, MvcRoleService) {
         var self = this;
         //Directive methods
-        RoleManagerService.GetRoles(function (data) {
+        MvcRoleService.GetRoles(function (data) {
             if (data) {
                 data.forEach(function (g) { g.stat = 'view'; });
                 $scope.Properties.Roles = data;
@@ -164,7 +209,24 @@
     });
 
     //controllers directive
-    app.controller('MvcControllersCtrl', ['$scope', 'RoleManagerService', function ($scope, RoleManagerService) {
+    app.factory('MvcControllersService', ['$http', function ($http) {
+        /************************************************
+           Services for controllers and actions from assembly
+        ************************************************/
+        var service = {};
+        service.GetControllers = function (callback) {
+            $http.get('/api/RoleManager/GetControllers').then(
+                function (result) {//success
+                    callback(result.data);
+                }
+            , function () {//failed
+
+            });
+
+        }
+        return service;
+    }])
+    .controller('MvcControllersCtrl', ['$scope', 'MvcControllersService', function ($scope, MvcControllersService) {
 
         $scope.selectedController;
         $scope.selectedAction;
@@ -213,14 +275,14 @@
         }
 
         $scope.GetControllers = function () {
-            RoleManagerService.GetControllers(function (data) {
+            MvcControllersService.GetControllers(function (data) {
                 $scope.Properties.Controllers = data;
                 $scope.Properties.Controllers.forEach(function (ctrl) {
                     ctrl.status = { 'open': true } // open Accordion header
                     ;
                 })
                 //select first action of first controller 
-                if ( $scope.Properties.SelectFirstItem && $scope.Properties.Controllers.length > 0) {
+                if ($scope.Properties.SelectFirstItem && $scope.Properties.Controllers.length > 0) {
                     $scope.selectedController = $scope.Properties.Controllers[0];
 
                     if ($scope.Properties.Controllers[0].Actions.length > 0) {
@@ -252,10 +314,6 @@
         $scope.Methods = {
             SetSelectedActions: $scope.SetSelectedActions
         };
-
-        //$scope.Properties = {
-        //    Controllers: $scope.Controllers
-        //};
     }])
     .directive('mvcControllers', function () {
         return {
@@ -279,7 +337,65 @@
     });
 
     //users directive
-    app.controller('MvcUserCtrl', ['$scope', 'RoleManagerService', function ($scope, RoleManagerService) {
+    app.factory('MvcUserService', ['$http', function ($http) {
+        var service = {};
+        service.GetUsers = function (callback) {
+            $http.get('/api/rolemanager/getusers')
+            .then(
+            function (result) {
+                callback(result.data);
+            },
+            function () { }
+            )
+        };
+
+        service.AddUser = function (user, successCallback, failedCallback) {
+            $http.post('/api/rolemanager/AddUser', user)
+            .then(
+            function (result) {
+                successCallback(result.data);
+            },
+            function (result) {
+                var messages = convertModelStatMessage(result.data.ModelState);
+                failedCallback(messages);
+            }
+            );
+        };
+
+        service.UpdateUser = function (user, callback) {
+            $http.post('/api/rolemanager/UpdateUser', user)
+            .then(
+            function (result) {
+                callback(result.data);
+            },
+            function () { }
+            )
+        };
+
+        service.DeleteUser = function (user, callback) {
+            $http.post('/api/rolemanager/DeleteUser', user)
+                       .then(
+                       function (result) {
+                           callback(result.data);
+                       },
+                       function () { }
+                       )
+        };
+
+        service.Login = function (user, successCallback, failedCallback) {
+            $http.post('/api/rolemanager/Login', user)
+            .then(
+            function (result) {
+
+            },
+            function (result) {
+
+            });
+        };
+
+        return service;
+    }])
+    .controller('MvcUserCtrl', ['$scope', 'MvcUserService', function ($scope, MvcUserService) {
         $scope.selectedUser;
         $scope.filters = {
             Selected: null,
@@ -288,7 +404,7 @@
         };
 
         //Directive methods
-        RoleManagerService.GetUsers(function (data) {
+        MvcUserService.GetUsers(function (data) {
             if (data) {
                 data.forEach(function (u) { u.stat = 'view'; });
                 $scope.Properties.Users = data;
@@ -308,10 +424,9 @@
             }
         }
 
-        $scope.Login = function (user)
-        {
-            RoleManagerService.Login(user, function () {
-               
+        $scope.Login = function (user) {
+            MvcUserService.Login(user, function () {
+
             });
         }
 
@@ -335,7 +450,7 @@
 
         $scope.UpdateUser = function (user) {//Update user's email, name, password only
             if (user.stat === 'new') {
-                RoleManagerService.AddUser(user,
+                MvcUserService.AddUser(user,
                     function (data) {
                         user.Id = data;
                         user.stat = 'view';
@@ -347,7 +462,7 @@
             }
             else {
                 if (user.Password === 'NotChanged') user.Password = '';
-                RoleManagerService.UpdateUser(user, function () {
+                MvcUserService.UpdateUser(user, function () {
                     user.stat = 'view';
                     $scope.adding = false;
                 });
@@ -356,7 +471,7 @@
 
         $scope.DeleteUser = function (user) {
             if (confirm("Are you sure to delete user," + user.Name + "?")) {
-                RoleManagerService.DeleteUser(user, function () {
+                MvcUserService.DeleteUser(user, function () {
                     $scope.Properties.Users = $scope.Properties.Users.filter(function (g) {
                         return g.Name !== user.Name;
                     });
