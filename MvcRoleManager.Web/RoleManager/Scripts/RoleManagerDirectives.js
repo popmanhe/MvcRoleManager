@@ -154,7 +154,6 @@
         };
     });
 
-
     //simple role directive, share the same service as mvcRoles directive
     app.controller('MvcSimpleRoleCtrl', ['$scope', 'MvcRoleService', function ($scope, MvcRoleService) {
         var self = this;
@@ -374,12 +373,12 @@
 
         service.DeleteUser = function (user, callback) {
             $http.post('/api/rolemanager/DeleteUser', user)
-                       .then(
-                       function (result) {
-                           callback(result.data);
-                       },
-                       function () { }
-                       )
+            .then(
+                function (result) {
+                    callback(result.data);
+                },
+                function () { }
+                )
         };
 
         service.Login = function (user, successCallback, failedCallback) {
@@ -473,7 +472,7 @@
             if (confirm("Are you sure to delete user," + user.Name + "?")) {
                 MvcUserService.DeleteUser(user, function () {
                     $scope.Properties.Users = $scope.Properties.Users.filter(function (g) {
-                        return g.Name !== user.Name;
+                        return g.Id !== user.Id;
                     });
                 });
             }

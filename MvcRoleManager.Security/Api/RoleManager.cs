@@ -163,6 +163,21 @@ namespace MvcRoleManager.Security.Api
             else
             { return BadRequest(ModelState); }
         }
+        [HttpPost]
+        public async Task<IHttpActionResult> DeleteUser(MvcUser user)
+        {
+
+            try
+            {
+                 await UserManagerBso.DeleteUser(user);
+                return Ok<string>(user.Id);
+            }
+            catch
+            {
+                throw;
+            }
+
+        }
 
         [HttpGet]
         public List<MvcUser> GetUsers()
@@ -237,7 +252,8 @@ namespace MvcRoleManager.Security.Api
             }
         }
         [HttpPost]
-        public async Task<IHttpActionResult> Login(MvcUser user) {
+        public async Task<IHttpActionResult> Login(MvcUser user)
+        {
             try
             {
                 await UserManagerBso.Login(user.Id);

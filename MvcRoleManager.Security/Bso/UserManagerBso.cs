@@ -149,6 +149,12 @@ namespace MvcRoleManager.Security.BSO
             return rolesId;
         }
 
+        public async Task DeleteUser(MvcUser user)
+        {
+            var dbUser = await this.userManager.FindByIdAsync(user.Id);
+            await this.userManager.DeleteAsync(dbUser);
+        }
+
         public async Task AddRolesToUser(MvcUser user)
         {
             await ClearUserRoles(user.Id);
