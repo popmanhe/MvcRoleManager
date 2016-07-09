@@ -1,4 +1,4 @@
-# Mvc Role Manager
+﻿# Mvc Role Manager
 
 This project is using Asp.net MVC, Identity framework, Owin, Web Api2 and Angular.js.
 
@@ -22,4 +22,7 @@ These setinggs will be saved to database or a file.
 <li><h4>Back end stack</h4> ASP.NET mvc, web api 2, entityframe work 6, identity framework</li>
 <li><h4>Database</h4> SQL server or Mysql. May add more types of databases later.</li>
 </ul>
+<h3>How to use</h3>
+<p>
+    Download the code and change the database connection string in web.config. And you are good for a test ride.</p>
 
