@@ -23,6 +23,10 @@ These setinggs will be saved to database or a file.
 <li><h4>Database</h4> SQL server or Mysql. May add more types of databases later.</li>
 </ul>
 <h3>How to use</h3>
-<p>Download the code and change the database connection string in web.config. And you are good for a test ride.</p>
+<ul>
+<li>Download the code and change the database connection string in web.config. </li>
+<li>Open in Visual Studio, restore dependency files.</li>
+<li>Build the solution and you are good for a test ride. </li>
+</ul>
 
 <p>Any questions, email: popman.he@gmail.com.</p>
