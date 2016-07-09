@@ -23,6 +23,6 @@ These setinggs will be saved to database or a file.
 <li><h4>Database</h4> SQL server or Mysql. May add more types of databases later.</li>
 </ul>
 <h3>How to use</h3>
-<p>
-    Download the code and change the database connection string in web.config. And you are good for a test ride.</p>
+<p>Download the code and change the database connection string in web.config. And you are good for a test ride.</p>
 
+<p>Any questions, email: popman.he@gmail.com.</p>
