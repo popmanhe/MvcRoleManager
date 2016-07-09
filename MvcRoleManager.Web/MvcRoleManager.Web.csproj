@@ -293,6 +293,7 @@
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="RoleManager\Scripts\angular.min.js.map" />
     <Content Include="RoleManager\Partials\ActionRole.html" />
+    <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
