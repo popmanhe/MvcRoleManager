@@ -24,8 +24,8 @@ These setinggs will be saved to database or a file.
 </ul>
 <h3>How to use</h3>
 <ul>
-<li>Download the code and change the database connection string in web.config. </li>
-<li>Open in Visual Studio, restore dependency files.</li>
+<li>Download the code and open in Visual Studio. </li>
+<li>Restore dependency files and change the database connection string in web.config..</li>
 <li>Build the solution and you are good for a test ride. </li>
 </ul>
 
