@@ -1,7 +1,7 @@
 ﻿'use strict';
 ; (function () {
     var app = angular.module('RoleManager');
-    
+
     app.factory('RoleManagerService', ['$http', function ($http) {
         var service = {};
 
@@ -23,14 +23,7 @@
         };
 
         service.AddUsersToRole = function (role, callback) {
-            $http.post('/api/rolemanager/AddUsersToRole', role)
-            .then(
-            function (result) {
-                if (callback)
-                    callback(result.data);
-            },
-            function () { }
-            )
+            return $http.post('/api/rolemanager/AddUsersToRole', role);
         };
 
         service.GetUsersByRole = function (role, callback) {
@@ -68,26 +61,15 @@
                 );
         };
 
-        service.GetActionsByRole = function (role, callback) {
-            $http.get('/api/rolemanager/GetActionsByRole/' + role.Id)
-            .then(
-                function (result) {
-                    callback(result.data);
-                },
-                function () { }
-                );
+        service.GetActionsByRole = function (role) {
+            return $http.get('/api/rolemanager/GetActionsByRole/' + role.Id)
+
         };
         //Add actions to role
         service.AddActionsToRole = function (role) {
             role = JSON.parse(angular.toJson(role));
 
-            $http.post('/api/rolemanager/AddActionsToRole', role)
-            .then(
-            function (result) {
-
-            },
-            function () { }
-            )
+            return $http.post('/api/rolemanager/AddActionsToRole', role);
         };
 
         //Add roles to action

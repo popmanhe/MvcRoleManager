@@ -46,8 +46,20 @@
         return service;
     }])
     .controller('MvcRoleCtrl', ['$scope', 'MvcRoleService', function ($scope, MvcRoleService) {
+        var self = this;
         $scope.Roles = [];
         $scope.selectedRole;
+        $scope.Message = { Content: '' };
+
+        $scope.Methods = {
+            ClearMessage: function () {
+                $scope.Message.Content = '';
+            },
+            SetMessage: function (message) {
+                $scope.Message = message;
+            }
+        };
+
 
         //Directive methods
         MvcRoleService.GetRoles(function (data) {
@@ -109,7 +121,9 @@
 
                     if ($scope.Roles.length > 0)
                         $scope.ItemClick($scope.Roles[0]);
-                    $scope.OnItemDelete({ role: $scope.selectedRole });
+                    $scope.OnItemDelete({
+                        role: $scope.selectedRole
+                    });
                 });
             }
         }
@@ -123,17 +137,22 @@
         }
 
 
-        //public attributes
+        //public events
         $scope.ItemClick = function (role) {
+            $scope.Methods.ClearMessage();
             $scope.selectedRole = role;
             $scope.onItemclick({ role: $scope.selectedRole });
         }
 
         $scope.Save = function () {
-            $scope.onSave({ role: $scope.selectedRole });
+            $scope.Methods.ClearMessage();
+            $scope.onSave({
+                role: $scope.selectedRole
+            });
         }
 
         $scope.Cancel = function () {
+            $scope.Methods.ClearMessage();
             $scope.onCancel({ role: $scope.selectedRole });
         }
     }])
@@ -147,7 +166,8 @@
                 onSave: '&',
                 onCancel: '&',
                 //Properties
-                Properties: '=properties'
+                Properties: '=properties',
+                Methods: '=methods'
             },
             controller: 'MvcRoleCtrl',
             templateUrl: 'partials/Roles.html'

@@ -3,12 +3,12 @@
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <mvc-controllers methods="Methods" properties="Properties"></mvc-controllers>
+        <mvc-controllers methods="ActionMethods" properties="Properties"></mvc-controllers>
     </div>
     <!-- Table -->
     <div class="col-md-4 ">
         <mvc-roles on-itemclick='GetActionsByRole(role)' 
                on-save='AddActionsToRole(role)' 
-               on-cancel='GetActionsByRole(role)'></mvc-roles>
+               on-cancel='GetActionsByRole(role)' methods="RoleMethods"></mvc-roles>
     </div>
 </div>

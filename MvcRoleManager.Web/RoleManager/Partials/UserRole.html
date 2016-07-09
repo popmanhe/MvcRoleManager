@@ -4,13 +4,13 @@
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <mvc-users showfooter="false"  methods="Methods" properties="Properties"></mvc-users>
+        <mvc-users showfooter="false"  methods="UserMethods" properties="Properties"></mvc-users>
        
     </div>
     <!-- Table -->
     <div class="col-md-4">
         <mvc-roles on-itemclick='GetUsersByRole(role)'
                on-save='AddUsersToRole(role)'
-               on-cancel='GetUsersByRole(role)'></mvc-roles>
+               on-cancel='GetUsersByRole(role)' methods="RoleMethods"></mvc-roles>
     </div>
 </div>
