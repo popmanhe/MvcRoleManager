@@ -111,12 +111,16 @@
            };
 
            $scope.GetActionsByRole = function (role) {
-               RoleManagerService.GetActionsByRole(role, function (data) {
-                   $scope.Methods.SetSelectedActions(data);
-               });
+               RoleManagerService.GetActionsByRole(role).then(
+                   function (result) {//succeeded
+                       $scope.ActionMethods.SetSelectedActions(result.data);
+                   },
+                   function (result) {//failed
+                   }
+               );
            }
 
-           $scope.AddActionsToRole = function (role) {
+           $scope.AddActionsToRole = function (role, success, failed) {
                if (role)
                    $scope.selectedRole = role;
 
@@ -129,9 +133,16 @@
                        }
                    });
                });
-               RoleManagerService.AddActionsToRole($scope.selectedRole, function (data) {
 
-               });
+               RoleManagerService.AddActionsToRole($scope.selectedRole)
+               .then(
+                    function (result) {//succeeded
+                        $scope.RoleMethods.SetMessage({'Type': 'success', 'Content': 'Save Succeeded.'});
+                    },
+                    function (result) {//failed
+                        $scope.RoleMethods.SetMessage({ 'Type': 'danger', 'Content': 'Save failed.' });
+                    }
+            );
            }
        }]);
 
@@ -150,12 +161,20 @@
                  if (user.Selected)
                      role.Users.push(user);
              });
-             RoleManagerService.AddUsersToRole(role);
+             RoleManagerService.AddUsersToRole(role)
+              .then(
+                    function (result) {//succeeded
+                        $scope.RoleMethods.SetMessage({ 'Type': 'success', 'Content': 'Save Succeeded.' });
+                    },
+                    function (result) {//failed
+                        $scope.RoleMethods.SetMessage({ 'Type': 'danger', 'Content': 'Save failed.' });
+                    }
+            );
          }
 
          $scope.GetUsersByRole = function (role) {
              RoleManagerService.GetUsersByRole(role, function (data) {
-                 $scope.Methods.SetSelectedUsers(data);
+                 $scope.UserMethods.SetSelectedUsers(data);
              });
          }
 
