@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\DeserializeMvcActionAttribute.cs" />
+    <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="ViewModels\MvcUser.cs" />
     <Compile Include="BSO\RoleManagerBso.cs" />
     <Compile Include="BSO\UserManagerBso.cs" />

@@ -154,7 +154,7 @@
         };
     });
 
-    //simple role directive, share the same service as mvcRoles directive
+    //simple role directive. share the same service as mvcRoles directive
     app.controller('MvcSimpleRoleCtrl', ['$scope', 'MvcRoleService', function ($scope, MvcRoleService) {
         var self = this;
         //Directive methods
