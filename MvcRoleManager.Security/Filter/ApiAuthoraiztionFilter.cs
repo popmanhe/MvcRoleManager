@@ -17,9 +17,6 @@ namespace MvcRoleManager.Security.Filter
 
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
-            string controllerName = actionContext.ControllerContext.Controller.ToString();
-            string actionName = actionContext.ActionDescriptor.ActionName;
-
             var roleManagerBso = new RoleManagerBso();
             MvcAction action = new MvcAction
             {
@@ -28,7 +25,7 @@ namespace MvcRoleManager.Security.Filter
                 ParameterTypes = actionContext.ActionDescriptor.GetParameters().Select(p => p.ParameterType.ToString()),
                 ReturnType = actionContext.ActionDescriptor.ReturnType.ToString()
             };
-            //Get roles that are assigned to this action
+            //Get id of roles that are assigned to this action
             var dbRoles = roleManagerBso.GetRolesByAction(action);
             //if no role assigned to this action, it means all roles can have access to this action
             if (dbRoles == null) return true;
