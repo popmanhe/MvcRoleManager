@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using MvcRoleManager.Security;
-using RoleSecurityManager.Security;
+using MvcRoleManager.Security.Filter;
 
 namespace MvcRoleManager
 {

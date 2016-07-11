@@ -1,10 +1,8 @@
-﻿using System.Web;
-using System.Web.Http.Filters;
-using System.Web.Http.Controllers;
+﻿using System.Web.Http.Controllers;
 using System.Web.Http;
- 
 
-namespace RoleSecurityManager.Security
+
+namespace MvcRoleManager.Security.Filter
 {
     public class ApiAuthoraiztionFilter : AuthorizeAttribute
     {
@@ -25,5 +23,9 @@ namespace RoleSecurityManager.Security
             base.OnAuthorization(actionContext);
         }
 
+        protected override bool IsAuthorized(HttpActionContext actionContext)
+        {
+            return base.IsAuthorized(actionContext);
+        }
     }
 }

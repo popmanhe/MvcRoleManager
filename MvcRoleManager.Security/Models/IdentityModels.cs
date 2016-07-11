@@ -6,8 +6,8 @@ using System.Data.Entity;
 using System.Collections.Generic;
 
 namespace MvcRoleManager.Security.Models
-{
-       public class ApplicationRole : IdentityRole
+{ 
+    public class ApplicationRole : IdentityRole
     {
         public virtual ICollection<Action> Actions { get; set; }
     }

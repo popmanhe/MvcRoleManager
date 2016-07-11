@@ -400,15 +400,14 @@
                 function () { }
                 )
         };
-
-        service.Login = function (user, successCallback, failedCallback) {
-            $http.post('/api/rolemanager/Login', user)
-            .then(
-            function (result) {
-
-            },
-            function (result) {
-
+        var tokenKey = 'accessToken';
+        service.Login = function (user) {
+            var loginData = 'grant_type=password&username='+user.Email+'&password=' 
+            return $http({
+                method: 'POST',
+                url: '/Token',
+                data: loginData,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             });
         };
 
@@ -444,7 +443,12 @@
         }
 
         $scope.Login = function (user) {
-            MvcUserService.Login(user, function () {
+            MvcUserService.Login(user)
+            .then(
+            function (result) {
+                sessionStorage.setItem(tokenKey, result.data.access_token);
+            },
+            function (result) {
 
             });
         }

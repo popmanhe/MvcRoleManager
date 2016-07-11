@@ -4,7 +4,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http;
  
 
-namespace RoleSecurityManager.Security
+namespace MvcRoleManager.Security.Filter
 {
     public class ApiHostAuthenticationFilter : HostAuthenticationFilter
     {

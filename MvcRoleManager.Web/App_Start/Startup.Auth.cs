@@ -7,7 +7,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using MvcRoleManager.Providers;
+using MvcRoleManager.Security.Providers;
 using MvcRoleManager.Web.Models;
 
 namespace MvcRoleManager
@@ -35,6 +35,7 @@ namespace MvcRoleManager
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Token"),
+                //This should be your own authentication provider
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),

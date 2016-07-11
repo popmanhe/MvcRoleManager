@@ -15,7 +15,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using MvcRoleManager.Web.Models;
 using MvcRoleManager.Models;
-using MvcRoleManager.Providers;
+using MvcRoleManager.Security.Providers;
 using MvcRoleManager.Results;
 using System.ComponentModel;
 

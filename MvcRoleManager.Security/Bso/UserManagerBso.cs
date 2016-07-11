@@ -63,6 +63,7 @@ namespace MvcRoleManager.Security.BSO
         /// <returns></returns>
         public List<string> GetUsersByRole(MvcRole role)
         {
+            
             var dbRole = this.roleManager.FindById(role.Id);
             List<string> mvcUsers = new List<string>();
             foreach (var user in dbRole.Users)
