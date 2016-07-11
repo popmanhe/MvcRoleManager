@@ -9,8 +9,11 @@ namespace MvcRoleManager.Security.BSO
 {
     public class RoleManagerBso
     {
-        private UnitOfWork unitOfWork = new UnitOfWork(RoleManagerDbContext.Create());
+        private UnitOfWork UnitOfWork { get; set; } 
 
+        public RoleManagerBso() {
+            this.UnitOfWork = new UnitOfWork(RoleManagerDbContext.Create());
+        }
         /// <summary>
         /// Get controllers and actions from assemblies
         /// </summary>
@@ -28,8 +31,8 @@ namespace MvcRoleManager.Security.BSO
         /// <returns></returns>
         public List<ApplicationRole> GetRoles()
         {
-            unitOfWork.Context.Configuration.LazyLoadingEnabled = false;
-            var roles = unitOfWork.Repository<ApplicationRole>().Get().OrderBy(r => r.Name);
+            UnitOfWork.Context.Configuration.LazyLoadingEnabled = false;
+            var roles = UnitOfWork.Repository<ApplicationRole>().Get().OrderBy(r => r.Name);
             return roles.ToList();
         }
 
@@ -40,11 +43,11 @@ namespace MvcRoleManager.Security.BSO
         /// <returns></returns>
         public MvcRole AddRole(MvcRole role)
         {
-            var dbRole = unitOfWork.Repository<ApplicationRole>().Insert(new ApplicationRole
+            var dbRole = UnitOfWork.Repository<ApplicationRole>().Insert(new ApplicationRole
             {
                 Name = role.Name
             });
-            unitOfWork.Save();
+            UnitOfWork.Save();
             role.Id = dbRole.Id;
             return role;
         }
@@ -55,8 +58,8 @@ namespace MvcRoleManager.Security.BSO
         /// <param name="role"></param>
         public void DeleteRole(MvcRole role)
         {
-            unitOfWork.Repository<ApplicationRole>().Delete(role.Id);
-            unitOfWork.Save();
+            UnitOfWork.Repository<ApplicationRole>().Delete(role.Id);
+            UnitOfWork.Save();
         }
 
         /// <summary>
@@ -65,12 +68,12 @@ namespace MvcRoleManager.Security.BSO
         /// <param name="role"></param>
         public void UpdateRole(MvcRole role)
         {
-            unitOfWork.Repository<ApplicationRole>().Update(new ApplicationRole
+            UnitOfWork.Repository<ApplicationRole>().Update(new ApplicationRole
             {
                 Id = role.Id,
                 Name = role.Name
             });
-            unitOfWork.Save();
+            UnitOfWork.Save();
         }
 
 
@@ -103,8 +106,8 @@ namespace MvcRoleManager.Security.BSO
         /// <returns></returns>
         public List<Models.Action> GetActionsByRole(string roleId)
         {
-            unitOfWork.Context.Configuration.LazyLoadingEnabled = false;
-            return unitOfWork.Repository<Models.Action>()
+            UnitOfWork.Context.Configuration.LazyLoadingEnabled = false;
+            return UnitOfWork.Repository<Models.Action>()
                 .Get(act => act.Roles.Any(r => r.Id == roleId)).ToList();
         }
 
@@ -115,7 +118,7 @@ namespace MvcRoleManager.Security.BSO
         /// <param name="mvcActions"></param>
         public void AddActionsToRole(MvcRole role)
         {
-            var dbRole = unitOfWork.Repository<ApplicationRole>().GetByID(role.Id);
+            var dbRole = UnitOfWork.Repository<ApplicationRole>().GetByID(role.Id);
             var mvcActions = role.Actions;
             //add new actions to role
             if (dbRole != null)
@@ -155,7 +158,7 @@ namespace MvcRoleManager.Security.BSO
                         dbRole.Actions.Remove(action);
                     }
                 }
-                unitOfWork.Save();
+                UnitOfWork.Save();
 
             }
         }
@@ -179,11 +182,11 @@ namespace MvcRoleManager.Security.BSO
                     ParameterTypes = string.Join(",", mvcAction.ParameterTypes.ToArray()),
                     ReturnType = mvcAction.ReturnType
                 };
-                unitOfWork.Repository<Models.Action>().Insert(action);
+                UnitOfWork.Repository<Models.Action>().Insert(action);
             }
 
             AddRolesToAction(mvcAction.Roles, action);
-            unitOfWork.Save();
+            UnitOfWork.Save();
         }
 
         /// <summary>
@@ -193,7 +196,7 @@ namespace MvcRoleManager.Security.BSO
         /// <returns></returns>
         private Models.Action GetAction(MvcAction mvcAction)
         {
-            var actions = unitOfWork.Repository<Models.Action>()
+            var actions = UnitOfWork.Repository<Models.Action>()
               .Get(a => a.ControllerName == mvcAction.ControllerName && a.ActionName == mvcAction.ActionName).ToList();
             string parameterTypes = "";
             if (mvcAction.ParameterTypes != null)
@@ -227,7 +230,7 @@ namespace MvcRoleManager.Security.BSO
                 {
                     action.Roles.Add(role);
                     //We only want to add roles to ActionRoles table, not adding  role to AspnetRoles table, so change the state to unchanged;
-                    unitOfWork.Context.Entry<ApplicationRole>(role).State = System.Data.Entity.EntityState.Unchanged;
+                    UnitOfWork.Context.Entry<ApplicationRole>(role).State = System.Data.Entity.EntityState.Unchanged;
                 }
             }
         }

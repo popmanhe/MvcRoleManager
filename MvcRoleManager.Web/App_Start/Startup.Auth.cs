@@ -9,6 +9,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using MvcRoleManager.Security.Providers;
 using MvcRoleManager.Web.Models;
+using MvcRoleManager.Web;
 
 namespace MvcRoleManager
 {
@@ -40,7 +41,9 @@ namespace MvcRoleManager
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                 // In production mode set AllowInsecureHttp = false
+#if DEBUG
                 AllowInsecureHttp = true
+#endif
             };
 
             // Enable the application to use bearer tokens to authenticate users

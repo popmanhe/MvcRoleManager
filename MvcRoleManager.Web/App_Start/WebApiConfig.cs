@@ -2,6 +2,7 @@
 using System.Web.Http.Dispatcher;
 using MvcRoleManager.Security;
 using MvcRoleManager.Security.Filter;
+using Microsoft.Owin.Security.OAuth;
 
 namespace MvcRoleManager
 {
@@ -16,6 +17,8 @@ namespace MvcRoleManager
             config.Services.Replace(typeof(IAssembliesResolver), new AssembliesResolver());
 
             config.SuppressDefaultHostAuthentication();
+            //This filter would generate identity claim from bearer token
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
             config.Filters.Add(new ApiAuthoraiztionFilter());
 
             // Web API routes

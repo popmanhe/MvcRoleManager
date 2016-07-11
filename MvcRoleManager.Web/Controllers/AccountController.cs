@@ -14,10 +14,11 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using MvcRoleManager.Web.Models;
-using MvcRoleManager.Models;
+using MvcRoleManager.Web;
 using MvcRoleManager.Security.Providers;
 using MvcRoleManager.Results;
 using System.ComponentModel;
+using MvcRoleManager.Models;
 
 namespace MvcRoleManager.Controllers
 {

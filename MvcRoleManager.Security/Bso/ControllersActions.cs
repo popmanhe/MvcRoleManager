@@ -57,7 +57,7 @@ namespace MvcRoleManager.Security.BSO
                 .Where(c => c.BaseType == typeof(Controller) || c.BaseType == typeof(ApiController))
                 .Select(b => new MvcController()
                 {
-                    ControllerName = b.Name.Substring(0, b.Name.Length - 10),
+                    ControllerName = b.FullName,
                     DeclareTypeName = b.Name,
                     Description = b.GetCustomAttribute<DescriptionAttribute>() != null ? b.GetCustomAttribute<DescriptionAttribute>().Description : "",
                     ControllerType = b.BaseType.Name

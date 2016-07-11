@@ -15,17 +15,19 @@ namespace MvcRoleManager.Security.BSO
 {
     public class UserManagerBso
     {
-        private UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(RoleManagerDbContext.Create()));
+        private RoleManagerDbContext roleManagerDbContext;
+        private UserManager<IdentityUser> UserManager { get; set; }
+        private RoleManager<ApplicationRole> RoleManager { get; set; }
+        private UnitOfWork UnitOfWork { get; set; }
 
-        private RoleManager<ApplicationRole> roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(RoleManagerDbContext.Create()));
-
-        private UnitOfWork unitOfWork = new UnitOfWork(RoleManagerDbContext.Create());
-        private IAuthenticationManager Authentication
-        { get; }
-        public UserManagerBso(IAuthenticationManager authentication)
+        public UserManagerBso()
         {
-            this.Authentication = authentication;
+            this.roleManagerDbContext = RoleManagerDbContext.Create();
+            this.UserManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(this.roleManagerDbContext));
+            this.RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(this.roleManagerDbContext));
+            this.UnitOfWork = new UnitOfWork(this.roleManagerDbContext);
         }
+
         /// <summary>
         /// Create a new user
         /// </summary>
@@ -41,13 +43,13 @@ namespace MvcRoleManager.Security.BSO
 
             IdentityResult result;
             if (string.IsNullOrEmpty(user.Password))
-                result = await userManager.CreateAsync(dbUser);
+                result = await UserManager.CreateAsync(dbUser);
             else
-                result = await userManager.CreateAsync(dbUser, user.Password);
+                result = await UserManager.CreateAsync(dbUser, user.Password);
 
             if (result.Succeeded)
             {
-                dbUser = await userManager.FindByEmailAsync(user.Email);
+                dbUser = await UserManager.FindByEmailAsync(user.Email);
                 if (dbUser == null)
                     return null;
                 return dbUser.Id;
@@ -63,8 +65,8 @@ namespace MvcRoleManager.Security.BSO
         /// <returns></returns>
         public List<string> GetUsersByRole(MvcRole role)
         {
-            
-            var dbRole = this.roleManager.FindById(role.Id);
+
+            var dbRole = this.RoleManager.FindById(role.Id);
             List<string> mvcUsers = new List<string>();
             foreach (var user in dbRole.Users)
             {
@@ -80,7 +82,7 @@ namespace MvcRoleManager.Security.BSO
         public List<MvcUser> GetUsers()
         {
             List<MvcUser> mvcUsers = new List<MvcUser>();
-            var users = userManager.Users.ToList();
+            var users = UserManager.Users.ToList();
             foreach (var user in users)
             {
                 mvcUsers.Add(new MvcUser
@@ -103,16 +105,16 @@ namespace MvcRoleManager.Security.BSO
         /// <returns></returns>
         public async Task UpdateUser(MvcUser user)
         {
-            var dbUser = await userManager.FindByIdAsync(user.Id);
+            var dbUser = await UserManager.FindByIdAsync(user.Id);
             dbUser.Email = user.Email;
             dbUser.UserName = user.UserName;
 
             if (!string.IsNullOrEmpty(user.Password))
             {//reset password instead of changing it
-                string token = await userManager.GeneratePasswordResetTokenAsync(user.Id);
-                await userManager.ResetPasswordAsync(user.Id, token, user.Password);
+                string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                await UserManager.ResetPasswordAsync(user.Id, token, user.Password);
             }
-            await userManager.UpdateAsync(dbUser);
+            await UserManager.UpdateAsync(dbUser);
         }
 
         /// <summary>
@@ -123,25 +125,24 @@ namespace MvcRoleManager.Security.BSO
         public async Task AddUsersToRole(MvcRole role)
         {
             string roleName = role.Name;
-            var users = userManager.Users.ToList();
+            var users = UserManager.Users.ToList();
             //remove users from role first
             foreach (var user in users)
             {
-                await this.userManager.RemoveFromRoleAsync(user.Id, roleName);
+                await this.UserManager.RemoveFromRoleAsync(user.Id, roleName);
             }
 
             //add new users to role
             foreach (var u in role.Users)
             {
-                await this.userManager.AddToRoleAsync(u.Id, roleName);
+                await this.UserManager.AddToRoleAsync(u.Id, roleName);
             }
         }
 
         public async Task<List<string>> GetRolesByUser(string userId)
         {
-            var user = await this.userManager.FindByIdAsync(userId);
+            var user = await this.UserManager.FindByIdAsync(userId);
             List<string> rolesId = new List<string>();
-            List<MvcRole> selectedRoles = new List<MvcRole>();
             foreach (var role in user.Roles)
             {
                 rolesId.Add(role.RoleId);
@@ -152,8 +153,8 @@ namespace MvcRoleManager.Security.BSO
 
         public async Task DeleteUser(MvcUser user)
         {
-            var dbUser = await this.userManager.FindByIdAsync(user.Id);
-            await this.userManager.DeleteAsync(dbUser);
+            var dbUser = await this.UserManager.FindByIdAsync(user.Id);
+            await this.UserManager.DeleteAsync(dbUser);
         }
 
         public async Task AddRolesToUser(MvcUser user)
@@ -164,28 +165,17 @@ namespace MvcRoleManager.Security.BSO
             {
                 string[] rolesName = user.Roles.Select(r => r.Name).ToArray();
 
-                await this.userManager.AddToRolesAsync(user.Id, rolesName);
-
+                await this.UserManager.AddToRolesAsync(user.Id, rolesName);
             }
-
         }
-
         public async Task ClearUserRoles(string userId)
         {
-            var user = await this.userManager.FindByIdAsync(userId);
+            var user = await this.UserManager.FindByIdAsync(userId);
             foreach (var role in user.Roles)
             {
-                this.unitOfWork.Repository<IdentityUserRole>().Delete(new IdentityUserRole { RoleId = role.RoleId, UserId = userId });
+                this.UnitOfWork.Repository<IdentityUserRole>().Delete(new IdentityUserRole { RoleId = role.RoleId, UserId = userId });
             }
-            this.unitOfWork.Save();
-        }
-
-        public async Task Login(string userId)
-        {
-            Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            var user = await this.userManager.FindByIdAsync(userId);
-            var claimsIdentity = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-            Authentication.SignIn(new AuthenticationProperties { IsPersistent = true }, claimsIdentity);
+            this.UnitOfWork.Save();
         }
     }
 }

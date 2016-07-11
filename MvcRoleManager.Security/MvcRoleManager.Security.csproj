@@ -142,7 +142,6 @@
     <Compile Include="BSO\UserManagerBso.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
-    <Compile Include="Filter\ApiHostAuthenticationFilter.cs" />
     <Compile Include="Filter\ApiAuthoraiztionFilter.cs" />
     <Compile Include="Api\RoleManager.cs" />
     <Compile Include="AuthorizationManager.cs" />

@@ -1,5 +1,5 @@
 ﻿'use strict';
-; (function () {
+(function () {
     var app = angular.module('RoleManager');
     //roles directive
     app.factory('MvcRoleService', ['$http', function ($http) {
@@ -12,7 +12,7 @@
                 callback(result.data);
             },
             function () { }
-            )
+            );
         };
 
         service.AddRole = function (role, callback) {
@@ -23,7 +23,7 @@
            , function (result) {//failed
                alert(result.data.ExceptionMessage);
            });
-        }
+        };
         service.UpdateRole = function (role, callback) {
             $http.post('/api/RoleManager/UpdateRole', role).then(
                function (result) {//success
@@ -32,7 +32,7 @@
            , function () {//failed
 
            });
-        }
+        };
 
         service.DeleteRole = function (role, callback) {
             $http.post('/api/RoleManager/DeleteRole', role).then(
@@ -42,7 +42,7 @@
            , function () {//failed
 
            });
-        }
+        };
         return service;
     }])
     .controller('MvcRoleCtrl', ['$scope', 'MvcRoleService', function ($scope, MvcRoleService) {
@@ -79,7 +79,7 @@
             } else {
                 return "";
             }
-        }
+        };
 
         $scope.AddRole = function () {
             var role = {
@@ -89,11 +89,11 @@
             $scope.Roles.unshift(role);
             $scope.ItemClick(role);
             $scope.adding = true;
-        }
+        };
 
         $scope.EditRole = function (role) {
             role.stat = 'edit';
-        }
+        };
 
         $scope.UpdateRole = function (role) {//Update role's name only
             if (role.stat === 'new') {
@@ -110,7 +110,7 @@
                     $scope.adding = false;
                 });
             }
-        }
+        };
 
         $scope.DeleteRole = function (role) {
             if (confirm("Are you sure to delete role," + role.Name + "?")) {
@@ -126,7 +126,7 @@
                     });
                 });
             }
-        }
+        };
 
         $scope.CancelUpdate = function (role) {
             if (role.stat === 'new') {
@@ -134,7 +134,7 @@
                 $scope.adding = false;
             }
             else { role.stat = 'view'; }
-        }
+        };
 
 
         //public events
@@ -142,19 +142,19 @@
             $scope.Methods.ClearMessage();
             $scope.selectedRole = role;
             $scope.onItemclick({ role: $scope.selectedRole });
-        }
+        };
 
         $scope.Save = function () {
             $scope.Methods.ClearMessage();
             $scope.onSave({
                 role: $scope.selectedRole
             });
-        }
+        };
 
         $scope.Cancel = function () {
             $scope.Methods.ClearMessage();
             $scope.onCancel({ role: $scope.selectedRole });
-        }
+        };
     }])
     .directive('mvcRoles', function () {
         return {
@@ -189,23 +189,23 @@
             return $scope.Properties.Roles.filter(function (role) {
                 return role.Selected;
             });
-        }
+        };
 
         $scope.SelectAll = function (select) {
             $scope.Properties.Roles = $scope.Properties.Roles.map(function (role) {
                 role.Selected = select;
                 return role;
             });
-        }
+        };
 
         //public events
         $scope.Save = function () {
             $scope.onSave({ roles: self.GetSelectedRoles() });
-        }
+        };
 
         $scope.Cancel = function () {
             $scope.onCancel();
-        }
+        };
     }])
     .directive('mvcSimpleroles', function () {
         return {
@@ -242,7 +242,7 @@
 
             });
 
-        }
+        };
         return service;
     }])
     .controller('MvcControllersCtrl', ['$scope', 'MvcControllersService', function ($scope, MvcControllersService) {
@@ -259,7 +259,7 @@
             } else {
                 return "";
             }
-        }
+        };
         this.originControllers = [];
         $scope.showSelectedOnly = function () {
             if ($scope.filters.selectedOnly) {
@@ -274,7 +274,7 @@
             else {
                 $scope.Properties.Controllers = angular.copy(this.originControllers);
             }
-        }
+        };
         $scope.SetSelectedActions = function (selectedActions) {
             if (selectedActions) {
                 $scope.Properties.Controllers.forEach(function (ctrl) {
@@ -291,7 +291,7 @@
                     });
                 });
             }
-        }
+        };
 
         $scope.GetControllers = function () {
             MvcControllersService.GetControllers(function (data) {
@@ -299,7 +299,7 @@
                 $scope.Properties.Controllers.forEach(function (ctrl) {
                     ctrl.status = { 'open': true } // open Accordion header
                     ;
-                })
+                });
                 //select first action of first controller 
                 if ($scope.Properties.SelectFirstItem && $scope.Properties.Controllers.length > 0) {
                     $scope.selectedController = $scope.Properties.Controllers[0];
@@ -310,7 +310,7 @@
                         $scope.ItemClick($scope.selectedController, $scope.selectedAction);
                     }
                 }
-            })
+            });
         };
         $scope.GetControllers();
 
@@ -318,7 +318,7 @@
             if (ctrl.Actions && ctrl.Actions.length > 0) {
                 ctrl.Actions.forEach(function (action) {
                     action.Selected = $event.currentTarget.checked;
-                })
+                });
             }
         };
 
@@ -327,7 +327,7 @@
             action.ControllerName = ctrl.ControllerName;
             $scope.selectedAction = action;
             $scope.onItemclick({ action: $scope.selectedAction });
-        }
+        };
 
         //expose public methods at last
         $scope.Methods = {
@@ -365,7 +365,7 @@
                 callback(result.data);
             },
             function () { }
-            )
+            );
         };
 
         service.AddUser = function (user, successCallback, failedCallback) {
@@ -388,7 +388,7 @@
                 callback(result.data);
             },
             function () { }
-            )
+            );
         };
 
         service.DeleteUser = function (user, callback) {
@@ -398,11 +398,10 @@
                     callback(result.data);
                 },
                 function () { }
-                )
+                );
         };
-        var tokenKey = 'accessToken';
         service.Login = function (user) {
-            var loginData = 'grant_type=password&username='+user.Email+'&password=' 
+            var loginData = 'grant_type=password&username=' + user.Email + '&password=';
             return $http({
                 method: 'POST',
                 url: '/Token',
@@ -440,8 +439,8 @@
             } else {
                 return "";
             }
-        }
-
+        };
+        var tokenKey = 'accessToken';
         $scope.Login = function (user) {
             MvcUserService.Login(user)
             .then(
@@ -451,7 +450,7 @@
             function (result) {
 
             });
-        }
+        };
 
         $scope.AddUser = function () {
             var user = {
@@ -463,13 +462,13 @@
             };
             $scope.Properties.Users.unshift(user);
             $scope.adding = true;
-        }
+        };
 
         $scope.EditUser = function (user) {
             user.Password = 'NotChanged';//provide a dummy password for UI
             user.ConfirmPassword = 'NotChanged';
             user.stat = 'edit';
-        }
+        };
 
         $scope.UpdateUser = function (user) {//Update user's email, name, password only
             if (user.stat === 'new') {
@@ -490,7 +489,7 @@
                     $scope.adding = false;
                 });
             }
-        }
+        };
 
         $scope.DeleteUser = function (user) {
             if (confirm("Are you sure to delete user," + user.Name + "?")) {
@@ -500,7 +499,7 @@
                     });
                 });
             }
-        }
+        };
 
         $scope.CancelUpdate = function (user) {
             if (user.stat === 'new') {
@@ -508,7 +507,7 @@
                 $scope.adding = false;
             }
             else { user.stat = 'view'; }
-        }
+        };
 
         $scope.SetSelectedUsers = function (selectedUsers) {
 
@@ -522,13 +521,13 @@
                     });
             });
 
-        }
+        };
 
 
         //private methods
         var showMessages = function (messages) {
             $scope.Messages = messages;
-        }
+        };
 
         //public methods
         $scope.Methods = {
@@ -538,15 +537,15 @@
         $scope.ItemClick = function (user) {
             $scope.selectedUser = user;
             $scope.onItemclick({ user: $scope.selectedUser });
-        }
+        };
 
         $scope.Save = function () {
             $scope.onSave({ user: $scope.selectedUser });
-        }
+        };
 
         $scope.Cancel = function () {
             $scope.onCancel({ user: $scope.selectedUser });
-        }
+        };
     }])
     .directive('mvcUsers', function () {
         return {

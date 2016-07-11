@@ -1,5 +1,5 @@
 ﻿'use strict';
-; (function () {
+(function () {
     var app = angular.module('RoleManager');
     var basePath = '/RoleManager/partials/';
     //Config routes.
@@ -50,7 +50,7 @@
         $scope.selectedTab = $scope.tabs[0];
         $scope.setSelectedTab = function (tab) {
             $scope.selectedTab = tab;
-        }
+        };
 
         $scope.tabClass = function (tab) {
             if ($scope.selectedTab === tab) {
@@ -58,7 +58,7 @@
             } else {
                 return "";
             }
-        }
+        };
     }]);
 
     //Assign roles to action
@@ -98,7 +98,7 @@
                 });
 
                 RoleManagerService.AddRolesToAction($scope.selectedAction);
-            }
+            };
         }]);
 
     //Assign actions to role
@@ -118,7 +118,7 @@
                    function (result) {//failed
                    }
                );
-           }
+           };
 
            $scope.AddActionsToRole = function (role, success, failed) {
                if (role)
@@ -137,13 +137,13 @@
                RoleManagerService.AddActionsToRole($scope.selectedRole)
                .then(
                     function (result) {//succeeded
-                        $scope.RoleMethods.SetMessage({'Type': 'success', 'Content': 'Save Succeeded.'});
+                        $scope.RoleMethods.SetMessage({ 'Type': 'success', 'Content': 'Save Succeeded.' });
                     },
                     function (result) {//failed
                         $scope.RoleMethods.SetMessage({ 'Type': 'danger', 'Content': 'Save failed.' });
                     }
             );
-           }
+           };
        }]);
 
     //Assign users to role
@@ -170,13 +170,13 @@
                         $scope.RoleMethods.SetMessage({ 'Type': 'danger', 'Content': 'Save failed.' });
                     }
             );
-         }
+         };
 
          $scope.GetUsersByRole = function (role) {
              RoleManagerService.GetUsersByRole(role, function (data) {
                  $scope.UserMethods.SetSelectedUsers(data);
              });
-         }
+         };
 
      }]);
 
@@ -198,7 +198,7 @@
              self.selectedUser.Roles = selectedRoles;
 
              RoleManagerService.AddRolesToUser(self.selectedUser);
-         }
+         };
 
          $scope.GetRolesByUser = function (user) {
              if (user)
@@ -211,7 +211,7 @@
                      });
                  }
              });
-         }
+         };
 
      }]);
 })();

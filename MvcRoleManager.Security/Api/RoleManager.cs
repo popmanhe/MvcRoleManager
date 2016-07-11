@@ -15,7 +15,9 @@ using System.Net.Http;
 namespace MvcRoleManager.Security.Api
 {
     [RoutePrefix("api/rolemanager")]
+#if DEBUG
     [AllowAnonymous]
+#endif
     public class RoleManagerController : ApiController
     {
         private RoleManagerBso roleManagerBso;
@@ -35,7 +37,7 @@ namespace MvcRoleManager.Security.Api
             get
             {
                 if (userManagerBso == null)
-                    userManagerBso = new UserManagerBso(Request.GetOwinContext().Authentication);
+                    userManagerBso = new UserManagerBso();
                 return userManagerBso;
             }
         }
@@ -249,19 +251,7 @@ namespace MvcRoleManager.Security.Api
                 return InternalServerError();
             }
         }
-        [HttpPost]
-        public async Task<IHttpActionResult> Login(MvcUser user)
-        {
-            try
-            {
-                await UserManagerBso.Login(user.Id);
-                return Ok();
-            }
-            catch
-            {
-                return InternalServerError();
-            }
-        }
+
         #endregion
     }
 }

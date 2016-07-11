@@ -1,12 +1,10 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Collections.Generic;
 
 namespace MvcRoleManager.Security.Models
-{ 
+{
+
     public class ApplicationRole : IdentityRole
     {
         public virtual ICollection<Action> Actions { get; set; }
