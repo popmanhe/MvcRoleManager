@@ -136,6 +136,7 @@ namespace MvcRoleManager.Security.BSO
                             dbRole.Actions.Add(new Models.Action
                             {
                                 ActionName = action.ActionName,
+                                Methods = action.Methods,
                                 ControllerName = action.ControllerName,
                                 ParameterTypes = string.Join(",", action.ParameterTypes.ToArray()),
                                 ReturnType = action.ReturnType

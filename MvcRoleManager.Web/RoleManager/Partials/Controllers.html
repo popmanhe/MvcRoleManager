@@ -11,32 +11,35 @@
         </div>
     </div>
     <uib-accordion close-others="false">
- <uib-accordion-group is-open="ctrl.status.open"  ng-repeat="ctrl in Properties.Controllers"  ng-show="(ctrl.Actions | filter:{ActionName:filters.search}) .length > 0">
-      <uib-accordion-heading >
-       <h4>{{ctrl.ControllerName}}</h4>
-          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': ctrl.status.open, 'glyphicon-chevron-right': !ctrl.status.open}"></i>
-              <p class="small">&nbsp;&nbsp;{{ctrl.Description}}</p>
-     </uib-accordion-heading>
-     <table class="table table-striped table-hover" ng-show="ctrl.Actions.length>0">
-            <thead>
-                <tr>
-                    <th width="20%">Action Name</th>
-                    <th width="50%">Description</th>
-                    <th ng-show="Properties.ShowCheckbox">
-                        <input type="checkbox" ng-click="SelectAll($event, ctrl)" />
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-click='ItemClick(ctrl, act)' ng-repeat="act in ctrl.Actions | filter:{ActionName:filters.search}" ng-class="SetItemClass(act)" style="cursor: pointer">
-                    <td><span>{{act.ActionName}}</span> </td>
-                    <td>{{act.Description}}</td>
-                    <td>
-                        <input type="checkbox" ng-model="act.Selected" ng-show="Properties.ShowCheckbox" /></td>
-                </tr>
-            </tbody>
-        </table>
-        <p ng-show="ctrl.Actions.length==0">No action in this controller</p>
-    </uib-accordion-group>
-  </uib-accordion>
+        <uib-accordion-group is-open="ctrl.status.open" ng-repeat="ctrl in Properties.Controllers" ng-show="(ctrl.Actions | filter:{ActionName:filters.search}) .length > 0">
+            <uib-accordion-heading>
+                <h4>{{ctrl.ControllerName}}</h4>
+                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': ctrl.status.open, 'glyphicon-chevron-right': !ctrl.status.open}"></i>
+                <p class="small">&nbsp;&nbsp;{{ctrl.Description}}</p>
+            </uib-accordion-heading>
+            <table class="table table-striped table-hover" ng-show="ctrl.Actions.length>0">
+                <thead>
+                    <tr>
+                        <th ng-show="Properties.ShowCheckbox">
+                            <input type="checkbox" ng-click="SelectAll($event, ctrl)" />
+                        </th>
+                        <th width="20%">Action Name</th>
+                        <th width="50%">Description</th>
+                        <th width="20%">Methods</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-click='ItemClick(ctrl, act)' ng-repeat="act in ctrl.Actions | filter:{ActionName:filters.search}" ng-class="SetItemClass(act)" style="cursor: pointer">
+                        <td ng-show="Properties.ShowCheckbox">
+                            <input type="checkbox" ng-model="act.Selected" ng-show="Properties.ShowCheckbox" />
+                        </td>
+                        <td><span>{{act.ActionName}}</span> </td>
+                        <td>{{act.Description}}</td>
+                        <td>{{act.Methods}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p ng-show="ctrl.Actions.length==0">No action in this controller</p>
+        </uib-accordion-group>
+    </uib-accordion>
 </div>

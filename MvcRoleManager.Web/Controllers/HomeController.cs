@@ -26,7 +26,7 @@ namespace MvcRoleManager.Controllers
         }
         //[AllowAnonymous]
         [Route("edit/{id:int}")]
-        [HttpGet]
+        [HttpGet,HttpOptions]
         //[ActionName("Edit")]
         public ActionResult Edit(int id)
         { 

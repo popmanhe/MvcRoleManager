@@ -29,6 +29,7 @@ namespace MvcRoleManager.Security.Models
 
         public string ParameterTypes { get; set; }
 
+        public string Methods { get; set; }
         public string ReturnType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

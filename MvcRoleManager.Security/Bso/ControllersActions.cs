@@ -9,6 +9,7 @@ using System.Configuration;
 using System.ComponentModel;
 using MvcRoleManager.Security.Store;
 using MvcRoleManager.Security.ViewModels;
+using System.Web.Http.Controllers;
 
 namespace MvcRoleManager.Security.BSO
 {
@@ -84,14 +85,26 @@ namespace MvcRoleManager.Security.BSO
                             c.AttributeType == typeof(System.Web.Http.AllowAnonymousAttribute)
                                                             || c.AttributeType == typeof(System.Web.Mvc.AllowAnonymousAttribute)
                                                            || c.AttributeType == typeof(System.Web.Http.NonActionAttribute)
-                                                           || c.AttributeType == typeof(System.Web.Mvc.NonActionAttribute) )
+                                                           || c.AttributeType == typeof(System.Web.Mvc.NonActionAttribute))
                                                            );
             if (actions.Count() > 0)
             {
                 controller.Actions = actions.Select(x => new MvcAction
-                {   
-                    ControllerName=controller.ControllerName,
+                {
+                    ControllerName = controller.ControllerName,
                     ActionName = x.Name,
+                    Methods = string.Join(",",x.CustomAttributes.Where(attr=> 
+                    attr.AttributeType == typeof(System.Web.Mvc.HttpGetAttribute) ||
+                    attr.AttributeType == typeof(System.Web.Mvc.HttpPostAttribute) ||
+                    attr.AttributeType == typeof(System.Web.Mvc.HttpPutAttribute) ||
+                    attr.AttributeType == typeof(System.Web.Mvc.HttpDeleteAttribute) ||
+                    attr.AttributeType == typeof(System.Web.Mvc.HttpPatchAttribute) ||
+                    attr.AttributeType == typeof(System.Web.Http.HttpGetAttribute) ||
+                    attr.AttributeType == typeof(System.Web.Http.HttpPutAttribute) ||
+                    attr.AttributeType == typeof(System.Web.Http.HttpDeleteAttribute) ||
+                    attr.AttributeType == typeof(System.Web.Http.HttpPatchAttribute) ||
+                    attr.AttributeType == typeof(System.Web.Http.HttpPostAttribute)
+                    ).Select(attr=>attr.AttributeType.Name.Remove(0,4).Replace("Attribute",""))),
                     Description = x.GetCustomAttribute<DescriptionAttribute>()?.Description,
                     ReturnType = x.ReturnType.ToString(),
                     ParameterTypes = x.GetParameters().Select(p => p.ParameterType.ToString())

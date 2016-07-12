@@ -18,6 +18,7 @@ namespace MvcRoleManager.Security.ViewModels
         public IEnumerable<string> ParameterTypes { get; set; }
         public string ReturnType { get; set; }
 
+        public string Methods { get; set; }
         public bool Selected { get; set; }
         public List<ApplicationRole> Roles { get; set; }
     }
