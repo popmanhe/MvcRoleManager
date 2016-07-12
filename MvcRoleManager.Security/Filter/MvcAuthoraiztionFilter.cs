@@ -22,9 +22,9 @@ namespace MvcRoleManager.Security.Filter
         {
 
             var roleManagerBso = new RoleManagerBso();
-            
+
             //Get id of roles that are assigned to this action
-            var dbRoles = roleManagerBso.GetRolesByAction(action);
+            var dbRoles = roleManagerBso.GetRolesByAction(action).Select(r => r.Name);
             //if no role assigned to this action, it means all roles can have access to this action
             if (dbRoles == null) return true;
             var identity = (httpContext.User.Identity as ClaimsIdentity);

@@ -105,7 +105,7 @@ namespace MvcRoleManager.Security.Api
         }
 
         [HttpPost]
-        public List<string> GetRolesByAction(MvcAction mvcAction)
+        public List<MvcRole> GetRolesByAction(MvcAction mvcAction)
         {
             return RoleManagerBso.GetRolesByAction(mvcAction);
         }

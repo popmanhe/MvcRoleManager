@@ -374,12 +374,11 @@
         };
 
         service.UpdateUser = function (user, callback) {
-            return $http.post('/api/rolemanager/UpdateUser', user)
-
+            return $http.post('/api/rolemanager/UpdateUser', user);
         };
 
         service.DeleteUser = function (user, callback) {
-            return $http.post('/api/rolemanager/DeleteUser', user)
+            return $http.post('/api/rolemanager/DeleteUser', user);
         };
         service.Login = function (user) {
             var loginData = 'grant_type=password&username=' + user.UserName + '&password=' + user.Password;
@@ -432,7 +431,7 @@
             });
 
             modalInstance.result.then(function (password) {
-                if (password != '') {
+                if (password !== '') {
                     user.Password = password;
                     MvcUserService.Login(user)
                .then(

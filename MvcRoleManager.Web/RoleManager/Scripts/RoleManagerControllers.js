@@ -78,6 +78,9 @@
                 //only return selected roles' ids
                 RoleManagerService.GetRolesByAction($scope.selectedAction, function (data) {
                     if (data && data.length > 0) {
+                        data = data.map(function (role) {
+                            return role.Id;
+                        });
                         $scope.Properties.Roles = $scope.Properties.Roles.map(function (role) {
                             role.Selected = data.indexOf(role.Id) > -1;
                             return role;

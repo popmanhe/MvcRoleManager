@@ -26,7 +26,7 @@ namespace MvcRoleManager.Security.Filter
                 ReturnType = actionContext.ActionDescriptor.ReturnType.ToString()
             };
             //Get id of roles that are assigned to this action
-            var dbRoles = roleManagerBso.GetRolesByAction(action);
+            var dbRoles = roleManagerBso.GetRolesByAction(action).Select(r => r.Name);
             //if no role assigned to this action, it means all roles can have access to this action
             if (dbRoles == null) return true;
             var identity = (actionContext.RequestContext.Principal.Identity as ClaimsIdentity);
