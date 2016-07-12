@@ -10,7 +10,7 @@
             </div>
             <div class="checkbox" ng-show="Properties.ShowCheckbox">
                 <label>
-                    <input type="checkbox" ng-model="filters.selectedOnly" 
+                    <input type="checkbox" ng-model="filters.selectedOnly"
                            ng-change="showSelectedOnly()" />Show selected only
                 </label>
             </div>
@@ -28,7 +28,7 @@
                         <strong>Email: {{user.Email}}</strong>
                         <p>User Name: {{user.UserName}}</p>
                         <a class="btn btn-info btn-xs" ng-click="Login(user)">Login</a>
-                        <p class="text-danger small">Passwrod is not verified. Default endpoint: "/Token".</p>
+                        <p class="text-danger small">Default endpoint: "/Token".</p>
                     </div>
                     <div ng-show="user.stat=='edit' || user.stat=='new'">
                         <form name="userForm" novalidate>
@@ -42,7 +42,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" required name="username"
                                        aria-describedby="User Name" ng-model="user.UserName" style="color: black;">
-                                <p ng-show="userForm.username.$invalid && !userForm.username.$pristine" class="help-block"  style="color: #a94442">User name is required.</p>
+                                <p ng-show="userForm.username.$invalid && !userForm.username.$pristine" class="help-block" style="color: #a94442">User name is required.</p>
                             </div>
                             <label>Password</label>
                             <div class="input-group">
@@ -55,7 +55,7 @@
                                 <input type="password" class="form-control" required name="confirmpassword"
                                        aria-describedby="Confirm Password" ng-model="user.ConfirmPassword" style="color: black;">
                                 <p ng-show="userForm.confirmpassword.$invalid && !userForm.confirmpassword.$pristine" class="help-block" style="color: #a94442">Confirm Password is required.</p>
-                               </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -84,3 +84,20 @@
         <button class="btn btn-default" type="button" ng-click="Cancel()">Cancel</button>
     </div>
 </div>
+
+<script type="text/ng-template" id="userPassword.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Enter password</h3>
+    </div>
+    <div class="modal-body">
+        <label>Password</label>
+        <div class="input-group">
+            <input type="password" name="password" class="form-control" required
+                   aria-describedby="Password" ng-model="Password" style="color: black;">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

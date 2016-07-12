@@ -368,40 +368,21 @@
             );
         };
 
-        service.AddUser = function (user, successCallback, failedCallback) {
-            $http.post('/api/rolemanager/AddUser', user)
-            .then(
-            function (result) {
-                successCallback(result.data);
-            },
-            function (result) {
-                var messages = convertModelStatMessage(result.data.ModelState);
-                failedCallback(messages);
-            }
-            );
+        service.AddUser = function (user) {
+            return $http.post('/api/rolemanager/AddUser', user);
+
         };
 
         service.UpdateUser = function (user, callback) {
-            $http.post('/api/rolemanager/UpdateUser', user)
-            .then(
-            function (result) {
-                callback(result.data);
-            },
-            function () { }
-            );
+            return $http.post('/api/rolemanager/UpdateUser', user)
+
         };
 
         service.DeleteUser = function (user, callback) {
-            $http.post('/api/rolemanager/DeleteUser', user)
-            .then(
-                function (result) {
-                    callback(result.data);
-                },
-                function () { }
-                );
+            return $http.post('/api/rolemanager/DeleteUser', user)
         };
         service.Login = function (user) {
-            var loginData = 'grant_type=password&username=' + user.Email + '&password=';
+            var loginData = 'grant_type=password&username=' + user.Email + '&password=' + user.Password;
             return $http({
                 method: 'POST',
                 url: '/Token',
@@ -412,7 +393,7 @@
 
         return service;
     }])
-    .controller('MvcUserCtrl', ['$scope', 'MvcUserService', function ($scope, MvcUserService) {
+    .controller('MvcUserCtrl', ['$scope', 'MvcUserService', '$uibModal', function ($scope, MvcUserService, $uibModal) {
         $scope.selectedUser;
         $scope.filters = {
             Selected: null,
@@ -442,14 +423,29 @@
         };
         var tokenKey = 'accessToken';
         $scope.Login = function (user) {
-            MvcUserService.Login(user)
-            .then(
-            function (result) {
-                sessionStorage.setItem(tokenKey, result.data.access_token);
-            },
-            function (result) {
 
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'userPassword.html',
+                controller: 'UserPasswordModalCtrl',
+                size: 'sm'
             });
+
+            modalInstance.result.then(function (password) {
+                if (password != '') {
+                    user.Password = password;
+                    MvcUserService.Login(user)
+               .then(
+               function (result) {
+                   sessionStorage.setItem(tokenKey, result.data.access_token);
+               },
+               function (result) {
+
+               });
+                }
+            });
+
+           
         };
 
         $scope.AddUser = function () {
@@ -472,32 +468,44 @@
 
         $scope.UpdateUser = function (user) {//Update user's email, name, password only
             if (user.stat === 'new') {
-                MvcUserService.AddUser(user,
-                    function (data) {
-                        user.Id = data;
-                        user.stat = 'view';
-                        $scope.adding = false;
-                    },
-                function (error) {
-
-                });
+                MvcUserService.AddUser(user)
+                    .then(
+                        function (result) {
+                            user.Id = result.data;
+                            user.stat = 'view';
+                            $scope.adding = false;
+                        },
+                        function () { }
+                        );
             }
             else {
                 if (user.Password === 'NotChanged') user.Password = '';
-                MvcUserService.UpdateUser(user, function () {
-                    user.stat = 'view';
-                    $scope.adding = false;
-                });
+                MvcUserService.UpdateUser(user)
+                .then(
+                    function (result) {
+                        user.stat = 'view';
+                        $scope.adding = false;
+                    },
+                    function (result) {
+
+                    }
+                );
+
+
             }
         };
 
         $scope.DeleteUser = function (user) {
             if (confirm("Are you sure to delete user," + user.Name + "?")) {
-                MvcUserService.DeleteUser(user, function () {
+                MvcUserService.DeleteUser(user)
+                .then(
+                function (result) {
                     $scope.Properties.Users = $scope.Properties.Users.filter(function (u) {
                         return u.Id !== user.Id;
                     });
-                });
+                },
+                function () { }
+                );
             }
         };
 
@@ -510,7 +518,6 @@
         };
 
         $scope.SetSelectedUsers = function (selectedUsers) {
-
             $scope.Properties.Users.forEach(function (user) {
                 user.Selected = false;
                 if (selectedUsers)
@@ -520,7 +527,6 @@
                         }
                     });
             });
-
         };
 
 
@@ -565,7 +571,18 @@
                 scope.Properties.Users = [];
             }
         };
-    });
+    })
+    .controller('UserPasswordModalCtrl', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+
+        $scope.Password = '';
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.Password);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    }]);
 
     //messages directive
     app.controller('MessageCtrl', ['$scope', '$attrs', '$interpolate', '$timeout', function ($scope, $attrs, $interpolate, $timeout) {

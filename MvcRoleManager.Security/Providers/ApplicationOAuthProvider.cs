@@ -59,7 +59,7 @@ namespace MvcRoleManager.Security.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            IdentityUser user = await UserManager.FindByEmailAsync(context.UserName);
+            IdentityUser user = await UserManager.FindAsync(context.UserName, context.Password);
             if (user == null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
