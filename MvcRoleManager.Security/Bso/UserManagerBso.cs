@@ -15,17 +15,17 @@ namespace MvcRoleManager.Security.BSO
 {
     public class UserManagerBso
     {
-        private RoleManagerDbContext roleManagerDbContext;
+
         private UserManager<IdentityUser> UserManager { get; set; }
         private RoleManager<ApplicationRole> RoleManager { get; set; }
         private UnitOfWork UnitOfWork { get; set; }
 
         public UserManagerBso()
         {
-            this.roleManagerDbContext = RoleManagerDbContext.Create();
-            this.UserManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(this.roleManagerDbContext));
-            this.RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(this.roleManagerDbContext));
-            this.UnitOfWork = new UnitOfWork(this.roleManagerDbContext);
+            var roleManagerDbContext = RoleManagerDbContext.Create();
+            this.UserManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(roleManagerDbContext));
+            this.RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(roleManagerDbContext));
+            this.UnitOfWork = new UnitOfWork(roleManagerDbContext);
         }
 
         /// <summary>
@@ -106,11 +106,14 @@ namespace MvcRoleManager.Security.BSO
         public async Task UpdateUser(MvcUser user)
         {
             var dbUser = await UserManager.FindByIdAsync(user.Id);
+            if (dbUser == null) return;
+
             dbUser.Email = user.Email;
             dbUser.UserName = user.UserName;
-
             if (!string.IsNullOrEmpty(user.Password))
-            {//reset password instead of changing it
+            {
+                //reset password instead of changing it
+                UserManager.UserTokenProvider = new UserTokenProvider();
                 string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 await UserManager.ResetPasswordAsync(user.Id, token, user.Password);
             }
@@ -176,6 +179,36 @@ namespace MvcRoleManager.Security.BSO
                 this.UnitOfWork.Repository<IdentityUserRole>().Delete(new IdentityUserRole { RoleId = role.RoleId, UserId = userId });
             }
             this.UnitOfWork.Save();
+        }
+    }
+
+    public class UserTokenProvider : IUserTokenProvider<IdentityUser, string>
+    {
+        public Task<string> GenerateAsync(string purpose, UserManager<IdentityUser, string> manager, IdentityUser user)
+        {
+            Guid resetToken = Guid.NewGuid();
+            user.SecurityStamp = resetToken.ToString();
+            manager.UpdateAsync(user);
+            return Task.FromResult<string>(resetToken.ToString());
+        }
+
+        public Task<bool> IsValidProviderForUserAsync(UserManager<IdentityUser, string> manager, IdentityUser user)
+        {
+            if (manager == null) throw new ArgumentNullException();
+            else
+            {
+                return Task.FromResult<bool>(manager.SupportsUserPassword);
+            }
+        }
+
+        public Task NotifyAsync(string token, UserManager<IdentityUser, string> manager, IdentityUser user)
+        {
+            return Task.FromResult<int>(0);
+        }
+
+        public Task<bool> ValidateAsync(string purpose, string token, UserManager<IdentityUser, string> manager, IdentityUser user)
+        {
+            return Task.FromResult<bool>(user.SecurityStamp == token);
         }
     }
 }

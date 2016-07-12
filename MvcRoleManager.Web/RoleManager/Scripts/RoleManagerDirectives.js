@@ -382,7 +382,7 @@
             return $http.post('/api/rolemanager/DeleteUser', user)
         };
         service.Login = function (user) {
-            var loginData = 'grant_type=password&username=' + user.Email + '&password=' + user.Password;
+            var loginData = 'grant_type=password&username=' + user.UserName + '&password=' + user.Password;
             return $http({
                 method: 'POST',
                 url: '/Token',
