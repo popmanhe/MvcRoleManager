@@ -26,12 +26,12 @@ namespace MvcRoleManager.Security.Filter
                 ReturnType = actionContext.ActionDescriptor.ReturnType.ToString()
             };
             //Get id of roles that are assigned to this action
-            var dbRoles = roleManagerBso.GetRolesByAction(action).Select(r => r.Name);
+            var dbRoles = roleManagerBso.GetRolesByAction(action)?.Select(r => r.Name);
             //if no role assigned to this action, it means all roles can have access to this action
             if (dbRoles == null) return true;
             var identity = (actionContext.RequestContext.Principal.Identity as ClaimsIdentity);
             //Get the role claims that are attached to current identity
-            var claimRoles = identity.Claims.Where(c => c.Type == identity.RoleClaimType).Select(r => r.Value).ToList();
+            var claimRoles = identity.Claims.Where(c => c.Type == identity.RoleClaimType).Select(r => r.Value);
             //Check if two sets of roles have something in common.
             return dbRoles.Intersect<string>(claimRoles).Count() > 0;
         }

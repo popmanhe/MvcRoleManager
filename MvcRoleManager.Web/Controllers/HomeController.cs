@@ -26,7 +26,7 @@ namespace MvcRoleManager.Controllers
         }
         //[AllowAnonymous]
         [Route("edit/{id:int}")]
-        [HttpGet,HttpOptions]
+        [HttpGet]
         //[ActionName("Edit")]
         public ActionResult Edit(int id)
         { 
@@ -39,7 +39,7 @@ namespace MvcRoleManager.Controllers
         //[ActionName("Edit")]
         public ActionResult Edit(DateTime name)
         {
-            return View();
+            return View(name);
         }
     }
 }
