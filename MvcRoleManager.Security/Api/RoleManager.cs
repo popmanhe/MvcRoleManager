@@ -6,11 +6,7 @@ using MvcRoleManager.Security.ViewModels;
 using System;
 using System.Data.SqlClient;
 using System.Data.Entity.Infrastructure;
-using Newtonsoft.Json;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
-using Microsoft.Owin.Security;
-using System.Net.Http;
 
 namespace MvcRoleManager.Security.Api
 {
