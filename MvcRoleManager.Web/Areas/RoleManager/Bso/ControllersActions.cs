@@ -69,7 +69,7 @@ namespace MvcRoleManager.Web.Security.BSO
                 _controllers.ForEach(c => this.GetActions(c));
             }
 
-            this._rolePermissionStore.SaveActionPermissions(_controllers);
+            //this._rolePermissionStore.SaveActionPermissions(_controllers);
             return this._controllers;
         }
         public List<MvcAction> GetActions(MvcController controller)

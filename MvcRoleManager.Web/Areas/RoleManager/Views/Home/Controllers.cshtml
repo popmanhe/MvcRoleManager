@@ -20,8 +20,8 @@
             <table class="table table-striped table-hover" ng-show="ctrl.Actions.length>0">
                 <thead>
                     <tr>
-                        <th ng-show="Properties.ShowCheckbox">
-                            <input type="checkbox" ng-click="SelectAll($event, ctrl)" />
+                        <th>
+                            <input type="checkbox" ng-click="SelectAll($event, ctrl)"  ng-show="Properties.ShowCheckbox" />
                         </th>
                         <th width="20%">Action Name</th>
                         <th width="50%">Description</th>
@@ -30,7 +30,7 @@
                 </thead>
                 <tbody>
                     <tr ng-click='ItemClick(ctrl, act)' ng-repeat="act in ctrl.Actions | filter:{ActionName:filters.search}" ng-class="SetItemClass(act)" style="cursor: pointer">
-                        <td ng-show="Properties.ShowCheckbox">
+                        <td>
                             <input type="checkbox" ng-model="act.Selected" ng-show="Properties.ShowCheckbox" />
                         </td>
                         <td><span>{{act.ActionName}}</span> </td>

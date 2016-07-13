@@ -1,20 +1,14 @@
 ﻿'use strict';
 (function () {
     var app = angular.module('RoleManager');
-    var basePath = '/RoleManager/';
+    var basePath = '/RoleManager/Home/';
 
     //roles directive
     app.factory('MvcRoleService', ['$http', function ($http) {
         var service = {};
 
-        service.GetRoles = function (callback) {
-            $http.get('/api/rolemanager/getroles')
-            .then(
-            function (result) {
-                callback(result.data);
-            },
-            function () { }
-            );
+        service.GetRoles = function () {
+            return $http.get('/api/rolemanager/getroles');
         };
 
         service.AddRole = function (role, callback) {
@@ -64,16 +58,22 @@
 
 
         //Directive methods
-        MvcRoleService.GetRoles(function (data) {
-            if (data) {
-                data.forEach(function (g) { g.stat = 'view'; });
-                $scope.Roles = data;
-                if (data && data.length > 0) {
-                    $scope.ItemClick(data[0]);
-                }
+        MvcRoleService.GetRoles()
+        .then(
+            function (result) {
+                var data = result.data;
+                if (data) {
+                    data.forEach(function (g) { g.stat = 'view'; });
+                    $scope.Roles = data;
+                    if (data && data.length > 0) {
+                        $scope.ItemClick(data[0]);
+                    }
+                };
+            },
+            function () { }
+      );
 
-            }
-        });
+
 
         $scope.SetItemClass = function (role) {
             if ($scope.selectedRole === role) {
@@ -236,13 +236,7 @@
         ************************************************/
         var service = {};
         service.GetControllers = function (callback) {
-            $http.get('/api/RoleManager/GetControllers').then(
-                function (result) {//success
-                    callback(result.data);
-                }
-            , function () {//failed
-
-            });
+            return $http.get('/api/RoleManager/GetControllers');
 
         };
         return service;
@@ -296,23 +290,28 @@
         };
 
         $scope.GetControllers = function () {
-            MvcControllersService.GetControllers(function (data) {
-                $scope.Properties.Controllers = data;
-                $scope.Properties.Controllers.forEach(function (ctrl) {
-                    ctrl.status = { 'open': true } // open Accordion header
-                    ;
-                });
-                //select first action of first controller 
-                if ($scope.Properties.SelectFirstItem && $scope.Properties.Controllers.length > 0) {
-                    $scope.selectedController = $scope.Properties.Controllers[0];
+            MvcControllersService.GetControllers()
+            .then(
+                function (result) {
+                    var data = result.data;
+                    $scope.Properties.Controllers = data;
+                    $scope.Properties.Controllers.forEach(function (ctrl) {
+                        ctrl.status = { 'open': true } // open Accordion header
+                        ;
+                    });
+                    //select first action of first controller 
+                    if ($scope.Properties.SelectFirstItem && $scope.Properties.Controllers.length > 0) {
+                        $scope.selectedController = $scope.Properties.Controllers[0];
 
-                    if ($scope.Properties.Controllers[0].Actions.length > 0) {
-                        $scope.selectedAction = $scope.selectedController.Actions[0];
+                        if ($scope.Properties.Controllers[0].Actions.length > 0) {
+                            $scope.selectedAction = $scope.selectedController.Actions[0];
 
-                        $scope.ItemClick($scope.selectedController, $scope.selectedAction);
-                    }
-                }
-            });
+                            $scope.ItemClick($scope.selectedController, $scope.selectedAction);
+                        }
+                    };
+                },
+                function () { }
+            );
         };
         $scope.GetControllers();
 
@@ -446,7 +445,7 @@
                 }
             });
 
-           
+
         };
 
         $scope.AddUser = function () {
