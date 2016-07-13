@@ -2,22 +2,23 @@
 
 namespace MvcRoleManager.Web.Areas.RoleManager
 {
-    public class RoleManagerAreaRegistration : AreaRegistration 
+    public class RoleManagerAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
+        public override string AreaName
         {
-            get 
+            get
             {
                 return "RoleManager";
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "RoleManager_default",
                 "RoleManager/{controller}/{action}/{id}",
-                new { controller="Home", action = "Index", id = UrlParameter.Optional }
+               defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "MvcRoleManager.Web.Areas.RoleManager.Controllers" }
             );
         }
     }

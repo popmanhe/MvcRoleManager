@@ -21,24 +21,13 @@
            });
         };
         service.UpdateRole = function (role, callback) {
-            $http.post('/api/RoleManager/UpdateRole', role).then(
-               function (result) {//success
-                   callback();
-               }
-           , function () {//failed
-
-           });
+            return $http.post('/api/RoleManager/UpdateRole', role);
         };
 
         service.DeleteRole = function (role, callback) {
-            $http.post('/api/RoleManager/DeleteRole', role).then(
-               function (result) {//success
-                   callback();
-               }
-           , function () {//failed
-
-           });
+            return $http.post('/api/RoleManager/DeleteRole', role);
         };
+
         return service;
     }])
     .controller('MvcRoleCtrl', ['$scope', 'MvcRoleService', function ($scope, MvcRoleService) {
@@ -99,34 +88,47 @@
 
         $scope.UpdateRole = function (role) {//Update role's name only
             if (role.stat === 'new') {
-                MvcRoleService.AddRole(role, function (data) {
-                    role.Id = data;
-                    role.stat = 'view';
-                    $scope.adding = false;
-                });
+                MvcRoleService.AddRole(role)
+                 .then(
+                    function (result) {
+                        var data = result.data;
+                        role.Id = data;
+                        role.stat = 'view';
+                        $scope.adding = false;
+                    },
+                    function () { }
+                    );
             }
             else {
                 role.Users = null;
-                MvcRoleService.UpdateRole(role, function () {
-                    role.stat = 'view';
-                    $scope.adding = false;
-                });
+                MvcRoleService.UpdateRole(role)
+                .then(
+                    function () {
+                        role.stat = 'view';
+                        $scope.adding = false;
+                    },
+                    function () { }
+                );
             }
         };
 
         $scope.DeleteRole = function (role) {
             if (confirm("Are you sure to delete role," + role.Name + "?")) {
-                MvcRoleService.DeleteRole(role, function () {
-                    $scope.Roles = $scope.Roles.filter(function (g) {
-                        return g.Name !== role.Name;
-                    });
+                MvcRoleService.DeleteRole(role)
+                .then(
+                    function () {
+                        $scope.Roles = $scope.Roles.filter(function (g) {
+                            return g.Name !== role.Name;
+                        });
 
-                    if ($scope.Roles.length > 0)
-                        $scope.ItemClick($scope.Roles[0]);
-                    $scope.OnItemDelete({
-                        role: $scope.selectedRole
-                    });
-                });
+                        if ($scope.Roles.length > 0)
+                            $scope.ItemClick($scope.Roles[0]);
+                        $scope.OnItemDelete({
+                            role: $scope.selectedRole
+                        });
+                    },
+                    function () { }
+                    );
             }
         };
 
@@ -180,12 +182,16 @@
     app.controller('MvcSimpleRoleCtrl', ['$scope', 'MvcRoleService', function ($scope, MvcRoleService) {
         var self = this;
         //Directive methods
-        MvcRoleService.GetRoles(function (data) {
-            if (data) {
-                data.forEach(function (g) { g.stat = 'view'; });
-                $scope.Properties.Roles = data;
-            }
-        });
+        MvcRoleService.GetRoles().then(
+            function (result) {
+                var data = result.data;
+                if (data) {
+                    data.forEach(function (g) { g.stat = 'view'; });
+                    $scope.Properties.Roles = data;
+                }
+            },
+            function () { }
+            );
 
         this.GetSelectedRoles = function () {
             return $scope.Properties.Roles.filter(function (role) {
@@ -237,7 +243,6 @@
         var service = {};
         service.GetControllers = function (callback) {
             return $http.get('/api/RoleManager/GetControllers');
-
         };
         return service;
     }])

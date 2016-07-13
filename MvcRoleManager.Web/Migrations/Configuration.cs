@@ -1,5 +1,6 @@
 namespace MvcRoleManager.Web.Migrations
 {
+    using Security.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -19,17 +20,18 @@ namespace MvcRoleManager.Web.Migrations
         protected override void Seed(MvcRoleManager.Web.Security.Models.RoleManagerDbContext context)
         {
             //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+#if DEBUG
+            context.Roles.AddOrUpdate(
+                       p => p.Name,
+                       new ApplicationRole { Id = Guid.NewGuid().ToString(), Name = "Admin" },
+                       new ApplicationRole { Id = Guid.NewGuid().ToString(), Name = "User1" },
+                       new ApplicationRole { Id = Guid.NewGuid().ToString(), Name = "Guest" },
+                       new ApplicationRole { Id = Guid.NewGuid().ToString(), Name = "Visitor" },
+                       new ApplicationRole { Id = Guid.NewGuid().ToString(), Name = "Tester" },
+                       new ApplicationRole { Id = Guid.NewGuid().ToString(), Name = "Writer" },
+                       new ApplicationRole { Id = Guid.NewGuid().ToString(), Name = "Reader" },
+                       new ApplicationRole { Id = Guid.NewGuid().ToString(), Name = "No access" });
+#endif
         }
     }
 }
