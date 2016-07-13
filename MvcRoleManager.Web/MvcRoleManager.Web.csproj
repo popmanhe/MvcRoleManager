@@ -204,9 +204,32 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\RoleManager\Api\RoleManager.cs" />
+    <Compile Include="Areas\RoleManager\Bso\ControllersActions.cs" />
+    <Compile Include="Areas\RoleManager\Bso\RoleManagerBso.cs" />
+    <Compile Include="Areas\RoleManager\Bso\UserManagerBso.cs" />
+    <Compile Include="Areas\RoleManager\Controllers\HomeController.cs" />
+    <Compile Include="Areas\RoleManager\DAL\GenericRepository.cs" />
+    <Compile Include="Areas\RoleManager\DAL\UnitOfWork.cs" />
+    <Compile Include="Areas\RoleManager\Filter\ApiAuthoraiztionFilter.cs" />
+    <Compile Include="Areas\RoleManager\Filter\MvcAuthoraiztionFilter.cs" />
+    <Compile Include="Areas\RoleManager\Models\Action.cs" />
+    <Compile Include="Areas\RoleManager\Models\IdentityModels.cs" />
+    <Compile Include="Areas\RoleManager\Models\RoleManagerDBInitializer.cs" />
+    <Compile Include="Areas\RoleManager\Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Areas\RoleManager\RoleManagerAreaRegistration.cs" />
+    <Compile Include="Areas\RoleManager\Store\FileRolePermissionStore.cs" />
+    <Compile Include="Areas\RoleManager\Store\IRolePermissionStore.cs" />
+    <Compile Include="Areas\RoleManager\Store\MySqlRolePermissionStore.cs" />
+    <Compile Include="Areas\RoleManager\Store\SqlserverRolePermissionStore.cs" />
+    <Compile Include="Areas\RoleManager\ViewModels\MvcAction.cs" />
+    <Compile Include="Areas\RoleManager\ViewModels\MvcController.cs" />
+    <Compile Include="Areas\RoleManager\ViewModels\MvcRole.cs" />
+    <Compile Include="Areas\RoleManager\ViewModels\MvcUser.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -215,43 +238,51 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\RoleManager\Views\Home\Controllers.cshtml" />
+    <Content Include="Areas\RoleManager\Views\Home\SimpleRole.cshtml" />
+    <None Include="Areas\RoleManager\Views\Home\Users.cshtml" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="RoleManager\Partials\Controllers.html" />
-    <Content Include="RoleManager\Partials\Roles.html" />
-    <Content Include="RoleManager\Partials\SimpleRole.html" />
-    <Content Include="RoleManager\Partials\RoleUser.html" />
-    <Content Include="RoleManager\Partials\UserRole.html" />
-    <Content Include="RoleManager\Partials\Users.html" />
-    <Content Include="RoleManager\Styles\angular-ui-tree.min.css" />
-    <Content Include="RoleManager\Scripts\angular-ui-tree.min.js" />
-    <Content Include="RoleManager\Scripts\app.js" />
-    <Content Include="RoleManager\Scripts\RoleManagerControllers.js" />
-    <Content Include="RoleManager\Scripts\RoleManagerDirectives.js" />
-    <Content Include="RoleManager\Partials\RoleAction.html" />
-    <Content Include="RoleManager\Scripts\RoleManagerServices.js" />
+    <None Include="Areas\RoleManager\Views\Home\Roles.cshtml" />
+    <None Include="Areas\RoleManager\Views\Home\RoleUser.cshtml" />
+    <None Include="Areas\RoleManager\Views\Home\UserRole.cshtml" />
+    <Content Include="Areas\RoleManager\Styles\angular-ui-tree.min.css" />
+    <Content Include="Areas\RoleManager\Scripts\angular-ui-tree.min.js" />
+    <Content Include="Areas\RoleManager\Scripts\app.js" />
+    <Content Include="Areas\RoleManager\Scripts\RoleManagerControllers.js" />
+    <Content Include="Areas\RoleManager\Scripts\RoleManagerDirectives.js" />
+    <None Include="Areas\RoleManager\Views\Home\RoleAction.cshtml" />
+    <Content Include="Areas\RoleManager\Scripts\RoleManagerServices.js" />
     <Content Include="favicon.ico" />
-    <Content Include="RoleManager\Styles\rolemanager.css" />
+    <Content Include="Areas\RoleManager\Styles\rolemanager.css" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
-    <Content Include="RoleManager\Scripts\angular-mocks.js" />
-    <Content Include="RoleManager\Scripts\angular-sanitize\angular-sanitize.js" />
-    <Content Include="RoleManager\Scripts\angular-sanitize\angular-sanitize.min.js" />
-    <Content Include="RoleManager\Scripts\angular-sanitize\index.js" />
-    <Content Include="RoleManager\Scripts\angular-ui-router.min.js" />
+    <Content Include="Areas\RoleManager\Scripts\angular-mocks.js" />
+    <Content Include="Areas\RoleManager\Scripts\angular-sanitize\angular-sanitize.js" />
+    <Content Include="Areas\RoleManager\Scripts\angular-sanitize\angular-sanitize.min.js" />
+    <Content Include="Areas\RoleManager\Scripts\angular-sanitize\index.js" />
+    <Content Include="Areas\RoleManager\Scripts\angular-ui-router.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="RoleManager\Scripts\angular-ui\ui-bootstrap-tpls.js" />
-    <Content Include="RoleManager\Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
-    <Content Include="RoleManager\Scripts\angular-ui\ui-bootstrap.js" />
-    <Content Include="RoleManager\Scripts\angular-ui\ui-bootstrap.min.js" />
-    <Content Include="RoleManager\Scripts\angular.js" />
-    <Content Include="RoleManager\Scripts\angular.min.js" />
+    <Content Include="Areas\RoleManager\Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Areas\RoleManager\Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Areas\RoleManager\Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Areas\RoleManager\Scripts\angular-ui\ui-bootstrap.min.js" />
+    <Content Include="Areas\RoleManager\Scripts\angular.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\RoleManager\Views\Home\Index.cshtml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\respond.js" />
@@ -275,7 +306,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="RoleManager\permissions\" />
+    <Folder Include="Areas\RoleManager\Partials\" />
+    <Folder Include="Areas\RoleManager\permissions\" />
+    <Folder Include="Areas\RoleManager\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -285,26 +318,21 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Areas\RoleManager\Views\web.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="RoleManager\Scripts\angular-sanitize\.bower.json" />
-    <Content Include="RoleManager\Scripts\angular-sanitize\angular-sanitize.min.js.map" />
-    <Content Include="RoleManager\Scripts\angular-sanitize\bower.json" />
-    <Content Include="RoleManager\Scripts\angular-sanitize\package.json" />
-    <Content Include="RoleManager\Scripts\angular-sanitize\README.md" />
-    <Content Include="RoleManager\index.html" />
+    <Content Include="Areas\RoleManager\Scripts\angular-sanitize\.bower.json" />
+    <Content Include="Areas\RoleManager\Scripts\angular-sanitize\angular-sanitize.min.js.map" />
+    <Content Include="Areas\RoleManager\Scripts\angular-sanitize\bower.json" />
+    <Content Include="Areas\RoleManager\Scripts\angular-sanitize\package.json" />
+    <Content Include="Areas\RoleManager\Scripts\angular-sanitize\README.md" />
     <Content Include="Views\Home\Edit.cshtml" />
-    <Content Include="RoleManager\Scripts\angular.min.js.map" />
-    <Content Include="RoleManager\Partials\ActionRole.html" />
+    <Content Include="Areas\RoleManager\Scripts\angular.min.js.map" />
+    <None Include="Areas\RoleManager\Views\Home\ActionRole.cshtml" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MvcRoleManager.Security\MvcRoleManager.Security.csproj">
-      <Project>{221faaec-fad5-4b7a-bab4-84e9f9bea3f7}</Project>
-      <Name>MvcRoleManager.Security</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

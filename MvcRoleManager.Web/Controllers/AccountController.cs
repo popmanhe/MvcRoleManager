@@ -15,7 +15,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using MvcRoleManager.Web.Models;
 using MvcRoleManager.Web;
-using MvcRoleManager.Security.Providers;
+using MvcRoleManager.Web.Security.Providers;
 using MvcRoleManager.Results;
 using System.ComponentModel;
 using MvcRoleManager.Models;
@@ -83,7 +83,7 @@ namespace MvcRoleManager.Controllers
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
-            IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
             if (user == null)
             {

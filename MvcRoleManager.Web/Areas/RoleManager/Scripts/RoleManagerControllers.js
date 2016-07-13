@@ -1,7 +1,7 @@
 ﻿'use strict';
 (function () {
     var app = angular.module('RoleManager');
-    var basePath = '/RoleManager/partials/';
+    var basePath = '/RoleManager/Home/';
     //Config routes.
     app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
@@ -12,22 +12,22 @@
         $stateProvider
           .state('roleaction', {
               url: "/",
-              templateUrl: basePath + "RoleAction.html",
+              templateUrl: basePath + "RoleAction",
               controller: 'RoleActionCtrl'
           })
         .state('actionrole', {
             url: "/actionrole",
-            templateUrl: basePath + "ActionRole.html",
+            templateUrl: basePath + "ActionRole",
             controller: 'ActionRoleCtrl'
         })
         .state('userrole', {
             url: "/userrole",
-            templateUrl: basePath + "UserRole.html",
+            templateUrl: basePath + "UserRole",
             controller: 'UserRoleCtrl'
         })
         .state('roleuser', {
             url: "/roleuser",
-            templateUrl: basePath + "RoleUser.html",
+            templateUrl: basePath + "RoleUser",
             controller: 'RoleUserCtrl'
         });
     }]);
@@ -76,23 +76,28 @@
                     $scope.selectedAction = action;
                 $scope.Properties.AssignedTo = $scope.selectedAction.ControllerName + '.' + $scope.selectedAction.ActionName;
                 //only return selected roles' ids
-                RoleManagerService.GetRolesByAction($scope.selectedAction, function (data) {
-                    if (data && data.length > 0) {
-                        data = data.map(function (role) {
-                            return role.Id;
-                        });
-                        $scope.Properties.Roles = $scope.Properties.Roles.map(function (role) {
-                            role.Selected = data.indexOf(role.Id) > -1;
-                            return role;
-                        });
-                    }
-                    else {//no role selected
-                        $scope.Properties.Roles = $scope.Properties.Roles.map(function (role) {
-                            role.Selected = false;
-                            return role;
-                        });
-                    }
-                });
+                RoleManagerService.GetRolesByAction($scope.selectedAction)
+                .then(
+                    function (result) {
+                        var data = result.data;
+                        if (data && data.length > 0) {
+                            data = data.map(function (role) {
+                                return role.Id;
+                            });
+                            $scope.Properties.Roles = $scope.Properties.Roles.map(function (role) {
+                                role.Selected = data.indexOf(role.Id) > -1;
+                                return role;
+                            });
+                        }
+                        else {//no role selected
+                            $scope.Properties.Roles = $scope.Properties.Roles.map(function (role) {
+                                role.Selected = false;
+                                return role;
+                            });
+                        }
+                    },
+                    function () { }
+               );
             };
 
             $scope.AddRolesToAction = function (roles) {
@@ -100,7 +105,13 @@
                     return role.Selected;
                 });
 
-                RoleManagerService.AddRolesToAction($scope.selectedAction);
+                RoleManagerService.AddRolesToAction($scope.selectedAction)
+                .then(
+                    function (result) {
+
+                    },
+                    function () { }
+                );
             };
         }]);
 
@@ -176,9 +187,13 @@
          };
 
          $scope.GetUsersByRole = function (role) {
-             RoleManagerService.GetUsersByRole(role, function (data) {
-                 $scope.UserMethods.SetSelectedUsers(data);
-             });
+             RoleManagerService.GetUsersByRole(role)
+             .then(
+                function (result) {
+                    $scope.UserMethods.SetSelectedUsers(result.data);
+                },
+                function () { }
+            );
          };
 
      }]);
@@ -200,20 +215,30 @@
          $scope.AddRolesToUser = function (selectedRoles) {
              self.selectedUser.Roles = selectedRoles;
 
-             RoleManagerService.AddRolesToUser(self.selectedUser);
+             RoleManagerService.AddRolesToUser(self.selectedUser)
+             .then(
+                function (result) {
+
+                },
+                function () { }
+                );
          };
 
          $scope.GetRolesByUser = function (user) {
              if (user)
                  self.selectedUser = user;
-             RoleManagerService.GetRolesByUser(self.selectedUser, function (data) {
-                 if (data) {
-                     $scope.Properties.Roles = $scope.Properties.Roles.map(function (role) {
-                         role.Selected = data.indexOf(role.Id) > -1;
-                         return role;
-                     });
-                 }
-             });
+             RoleManagerService.GetRolesByUser(self.selectedUser)
+              .then(
+                function (result) {
+                    if (result.data) {
+                        $scope.Properties.Roles = $scope.Properties.Roles.map(function (role) {
+                            role.Selected = result.data.indexOf(role.Id) > -1;
+                            return role;
+                        });
+                    }
+                },
+                function () { }
+            );
          };
 
      }]);

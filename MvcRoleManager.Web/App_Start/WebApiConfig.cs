@@ -1,8 +1,6 @@
 ﻿using System.Web.Http;
-using System.Web.Http.Dispatcher;
-using MvcRoleManager.Security;
-using MvcRoleManager.Security.Filter;
 using Microsoft.Owin.Security.OAuth;
+using MvcRoleManager.Web.Security.Filter;
 
 namespace MvcRoleManager
 {
@@ -12,9 +10,6 @@ namespace MvcRoleManager
         {
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
-
-            //Register web apis from external assemblies
-            config.Services.Replace(typeof(IAssembliesResolver), new AssembliesResolver());
 
             config.SuppressDefaultHostAuthentication();
             //This filter would generate identity claim from bearer token

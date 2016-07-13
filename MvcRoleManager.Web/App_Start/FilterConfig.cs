@@ -1,4 +1,4 @@
-﻿using MvcRoleManager.Security.Filter;
+﻿using MvcRoleManager.Web.Security.Filter;
 using System.Web.Mvc;
 
 namespace MvcRoleManager

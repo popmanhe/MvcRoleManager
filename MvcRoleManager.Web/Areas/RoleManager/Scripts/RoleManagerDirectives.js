@@ -1,6 +1,8 @@
 ﻿'use strict';
 (function () {
     var app = angular.module('RoleManager');
+    var basePath = '/RoleManager/';
+
     //roles directive
     app.factory('MvcRoleService', ['$http', function ($http) {
         var service = {};
@@ -170,7 +172,7 @@
                 Methods: '=methods'
             },
             controller: 'MvcRoleCtrl',
-            templateUrl: 'partials/Roles.html'
+            templateUrl: basePath + 'Roles'
         };
     });
 
@@ -218,7 +220,7 @@
                 Properties: '=properties'
             },
             controller: 'MvcSimpleRoleCtrl',
-            templateUrl: 'partials/SimpleRole.html',
+            templateUrl: basePath + 'SimpleRole',
             link: function (scope, element, attrs) {
                 scope.Properties = scope.Properties || {};
                 scope.Properties.Roles = [];
@@ -346,7 +348,7 @@
                 Properties: '=properties'
             },
             controller: 'MvcControllersCtrl',
-            templateUrl: 'partials/Controllers.html',
+            templateUrl: basePath + 'Controllers',
             link: function (scope, element, attrs) {
                 scope.Properties = scope.Properties || {};
                 scope.Properties.Controllers = [];
@@ -564,7 +566,7 @@
                 Properties: '=properties'
             },
             controller: 'MvcUserCtrl',
-            templateUrl: 'partials/Users.html',
+            templateUrl: basePath + 'Users',
             link: function (scope, element, attrs) {
                 scope.Properties = scope.Properties || {};
                 scope.Properties.Users = [];

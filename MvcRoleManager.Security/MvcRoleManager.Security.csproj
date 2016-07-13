@@ -136,7 +136,6 @@
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Filter\ApiAuthoraiztionFilter.cs" />
     <Compile Include="Api\RoleManager.cs" />
-    <Compile Include="AuthorizationManager.cs" />
     <Compile Include="BSO\ControllersActions.cs" />
     <Compile Include="AssembliesResolver.cs" />
     <Compile Include="Migrations\201606180013590_init.cs" />
@@ -155,7 +154,6 @@
     <Compile Include="Store\IRolePermissionStore.cs" />
     <Compile Include="Store\MySqlRolePermissionStore.cs" />
     <Compile Include="Store\SqlserverRolePermissionStore.cs" />
-    <Compile Include="Util.cs" />
     <Compile Include="ViewModels\MvcRole.cs" />
   </ItemGroup>
   <ItemGroup>
