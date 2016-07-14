@@ -32,7 +32,9 @@ Add config.Filters.Add(new ApiAuthoraiztionFilter()); to App_Start\WebApiConfig.
 <li> Add filters.Add(new HandleErrorAttribute()); to App_Start\FilterConfig.cs for MVC web page authorization;
 </li>
 <li>The project will create two new tables, Action and ActionRoles. Action stores actions of controllers that will be configured for authorization; ActionRoles have the links between Actions and roles.</li>
-<li>Configuration page locates at http://yourproject/RoleManager/ . </li>
+<li>Configuration page locates at http://yourproject/RoleManager/ . 
+<a href="https://drive.google.com/a/d3security.com/file/d/0B_vc8f3gs88KbUV4empfQ1k2WEk/view" target=_blank>SCREEN SHOT</a>
+</li>
 </ul>
 <h3>How to use</h3>
 <ul>
