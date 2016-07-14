@@ -18,13 +18,13 @@ The project will provide a generic function with a web page that authorize roles
 These setinggs will be saved to database or a file.
 
 <ul>
-<li><h2>Front end stack</h2> Angular.js, bootstrap, angular ui bootstrap, angular schema form. Try to avoid jquery.</li>
-<li><h2>Back end stack</h2> ASP.NET mvc, web api 2, entityframe work 6, identity framework</li>
-<li><h2>Database</h2> SQL server.  Mysql and more types of databases later.</li>
+<li><h3>Front end stack</h3> Angular.js, bootstrap, angular ui bootstrap, angular schema form. Try to avoid jquery.</li>
+<li><h3>Back end stack</h3> ASP.NET mvc, web api 2, entityframe work 6, identity framework</li>
+<li><h3>Database</h3> SQL server.  Mysql and more types of databases later.</li>
 </ul>
 <h3>What kind of projects can use it?</h3>
 If you are going to create a new project, your project can use it as scaffolding and start from there.
-If you have an existing project, which uses ASP.NET MVC/WEB API as well as asp.net identity framework(Token/Claim based authentication), you can integrate Mvc Role Manager into your project very easily.
+If you have an existing project, which uses <strong>ASP.NET MVC/WEB API</strong> as well as <strong>asp.net identity framework(Token/Claim based authentication)</strong>, you can integrate Mvc Role Manager into your project very easily.
 All you have to do is:
 <ul><li>
 Add config.Filters.Add(new ApiAuthoraiztionFilter()); to App_Start\WebApiConfig.cs file  for web api authorization;
