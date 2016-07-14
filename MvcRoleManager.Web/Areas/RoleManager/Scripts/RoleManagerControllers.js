@@ -79,6 +79,7 @@
                 RoleManagerService.GetRolesByAction($scope.selectedAction)
                 .then(
                     function (result) {
+                        $scope.RoleMethods.ClearMessage();
                         var data = result.data;
                         if (data && data.length > 0) {
                             data = data.map(function (role) {
@@ -107,10 +108,12 @@
 
                 RoleManagerService.AddRolesToAction($scope.selectedAction)
                 .then(
-                    function (result) {
-
-                    },
-                    function () { }
+                      function (result) {//succeeded
+                          $scope.RoleMethods.SetMessage({ 'Type': 'success', 'Content': 'Save Succeeded.' });
+                      },
+                    function (result) {//failed
+                        $scope.RoleMethods.SetMessage({ 'Type': 'danger', 'Content': 'Save failed.' });
+                    }
                 );
             };
         }]);

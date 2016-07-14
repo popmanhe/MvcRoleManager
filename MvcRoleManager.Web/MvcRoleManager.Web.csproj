@@ -229,6 +229,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Migrations\201607140206477_InitialCreate.cs" />
+    <Compile Include="Migrations\201607140206477_InitialCreate.Designer.cs">
+      <DependentUpon>201607140206477_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -306,8 +310,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\RoleManager\Partials\" />
-    <Folder Include="Areas\RoleManager\permissions\" />
     <Folder Include="Areas\RoleManager\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
@@ -333,6 +335,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201607140206477_InitialCreate.resx">
+      <DependentUpon>201607140206477_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
