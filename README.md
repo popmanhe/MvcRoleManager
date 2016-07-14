@@ -31,6 +31,7 @@ Add config.Filters.Add(new ApiAuthoraiztionFilter()); to App_Start\WebApiConfig.
 </li>
 <li> Add filters.Add(new HandleErrorAttribute()); to App_Start\FilterConfig.cs for MVC web page authorization;
 </li>
+<li>Copy Areas/RoleManager folder to your project. MvcRoleManager resides in this folder only. </li>
 <li>The project will create two new tables, Action and ActionRoles. Action stores actions of controllers that will be configured for authorization; ActionRoles have the links between Actions and roles.</li>
 <li>Configuration page locates at http://yourproject/RoleManager/ . 
 <a href="https://drive.google.com/open?id=0B_vc8f3gs88KbUV4empfQ1k2WEk" target=_blank>SCREENSHOT</a>
