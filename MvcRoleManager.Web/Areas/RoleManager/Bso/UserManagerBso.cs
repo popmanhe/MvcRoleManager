@@ -24,7 +24,7 @@ namespace MvcRoleManager.Web.Security.BSO
         public UserManagerBso(ApplicationUserManager userManager)
         {
             var roleManagerDbContext = RoleManagerDbContext.Create();
-            this.UserManager = userManager; 
+            this.UserManager = userManager;
             this.RoleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(roleManagerDbContext));
             this.UnitOfWork = new UnitOfWork(roleManagerDbContext);
         }
@@ -51,9 +51,8 @@ namespace MvcRoleManager.Web.Security.BSO
             if (result.Succeeded)
             {
                 dbUser = await UserManager.FindByEmailAsync(user.Email);
-                if (dbUser == null)
-                    return null;
-                return dbUser.Id;
+                if (dbUser != null)
+                    return dbUser.Id;
             }
 
             throw new Exception("Creating user failed. " + string.Join(",", result.Errors.ToArray()));
@@ -111,14 +110,14 @@ namespace MvcRoleManager.Web.Security.BSO
 
             dbUser.Email = user.Email;
             dbUser.UserName = user.UserName;
+            UserManager.Update(dbUser);
+
             if (!string.IsNullOrEmpty(user.Password))
             {
                 //reset password instead of changing it
-                UserManager.UserTokenProvider = new UserTokenProvider();
                 string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 await UserManager.ResetPasswordAsync(user.Id, token, user.Password);
             }
-            await UserManager.UpdateAsync(dbUser);
         }
 
         /// <summary>
@@ -183,33 +182,4 @@ namespace MvcRoleManager.Web.Security.BSO
         }
     }
 
-    public class UserTokenProvider : IUserTokenProvider<ApplicationUser, string>
-    {
-        public Task<string> GenerateAsync(string purpose, UserManager<ApplicationUser, string> manager, ApplicationUser user)
-        {
-            Guid resetToken = Guid.NewGuid();
-            user.SecurityStamp = resetToken.ToString();
-            manager.UpdateAsync(user);
-            return Task.FromResult<string>(resetToken.ToString());
-        }
-
-        public Task<bool> IsValidProviderForUserAsync(UserManager<ApplicationUser, string> manager, ApplicationUser user)
-        {
-            if (manager == null) throw new ArgumentNullException();
-            else
-            {
-                return Task.FromResult<bool>(manager.SupportsUserPassword);
-            }
-        }
-
-        public Task NotifyAsync(string token, UserManager<ApplicationUser, string> manager, ApplicationUser user)
-        {
-            return Task.FromResult<int>(0);
-        }
-
-        public Task<bool> ValidateAsync(string purpose, string token, UserManager<ApplicationUser, string> manager, ApplicationUser user)
-        {
-            return Task.FromResult<bool>(user.SecurityStamp == token);
-        }
-    }
 }

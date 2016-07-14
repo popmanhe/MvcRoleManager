@@ -42,6 +42,9 @@
             <p>&copy;2016 Mvc Role Manager</p>
         </footer>
     </div>
+    <script type="text/javascript">
+        var virtualPath = '@Request.ApplicationPath' == '/' ? '': '@Request.ApplicationPath';
+    </script>
     <script type="text/javascript" src="@Url.Content("~/Areas/RoleManager/Scripts/angular.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Areas/RoleManager/Scripts/angular-ui-router.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Areas/RoleManager/Scripts/angular-ui/ui-bootstrap.min.js")"></script>

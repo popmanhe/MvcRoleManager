@@ -1,7 +1,7 @@
 ﻿'use strict';
 (function () {
     var app = angular.module('RoleManager');
-    var basePath = '/RoleManager/Home/';
+    var basePath = virtualPath + '/RoleManager/Home/';
     //Config routes.
     app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
