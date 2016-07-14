@@ -33,9 +33,11 @@ Add config.Filters.Add(new ApiAuthoraiztionFilter()); to App_Start\WebApiConfig.
 </li>
 <li>The project will create two new tables, Action and ActionRoles. Action stores actions of controllers that will be configured for authorization; ActionRoles have the links between Actions and roles.</li>
 <li>Configuration page locates at http://yourproject/RoleManager/ . 
-<a href="https://drive.google.com/a/d3security.com/file/d/0B_vc8f3gs88KbUV4empfQ1k2WEk/view" target=_blank>SCREEN SHOT</a>
+<a href="https://drive.google.com/open?id=0B_vc8f3gs88KbUV4empfQ1k2WEk" target=_blank>SCREEN SHOT</a>
+<a href="https://drive.google.com/open?id=0B_vc8f3gs88KZWV1Z3ZuN2dtckU" target=_blank>SCREEN SHOT1</a>
 </li>
 </ul>
+
 <h3>How to use</h3>
 <ul>
 <li>Download the code and open in Visual Studio. </li>
