@@ -4,12 +4,12 @@
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <mvc-controllers on-itemclick="GetRolesByAction(action)" methods="Methods" properties="Properties"></mvc-controllers>
+        <mvc-controllers on-itemclick="GetRolesByAction(action)" methods="ActionMethods" properties="Properties"></mvc-controllers>
     </div>
     <!-- Table -->
     <div class="col-md-4 ">
         <div class="affix" style="width: 19%">
-            <mvc-simpleRoles properties="Properties" on-save='AddRolesToAction(roles)'
+            <mvc-simpleRoles properties="Properties" on-save='AddRolesToAction(roles)' methods="RoleMethods"
                              on-cancel='GetRolesByAction()'></mvc-simpleRoles>
         </div>
     </div>

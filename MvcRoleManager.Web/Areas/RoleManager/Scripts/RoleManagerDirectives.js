@@ -181,6 +181,16 @@
     //simple role directive. share the same service as mvcRoles directive
     app.controller('MvcSimpleRoleCtrl', ['$scope', 'MvcRoleService', function ($scope, MvcRoleService) {
         var self = this;
+        $scope.Message = { Content: '' };
+
+        $scope.Methods = {
+            ClearMessage: function () {
+                $scope.Message.Content = '';
+            },
+            SetMessage: function (message) {
+                $scope.Message = message;
+            }
+        };
         //Directive methods
         MvcRoleService.GetRoles().then(
             function (result) {
@@ -208,10 +218,12 @@
 
         //public events
         $scope.Save = function () {
+            $scope.Methods.ClearMessage();
             $scope.onSave({ roles: self.GetSelectedRoles() });
         };
 
         $scope.Cancel = function () {
+            $scope.Methods.ClearMessage();
             $scope.onCancel();
         };
     }])
@@ -223,7 +235,9 @@
                 onSave: '&',
                 onCancel: '&',
                 //Properties
-                Properties: '=properties'
+                Properties: '=properties',
+                //Methods
+                Methods: '=methods'
             },
             controller: 'MvcSimpleRoleCtrl',
             templateUrl: basePath + 'SimpleRole',
