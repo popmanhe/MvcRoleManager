@@ -44,7 +44,6 @@ Add config.Filters.Add(new ApiAuthoraiztionFilter()); to App_Start\WebApiConfig.
 <li>Download the code and open in Visual Studio. </li>
 <li>Restore dependency files and change the database connection string in web.config.</li>
 <li>Build the solution and you are good for a test ride. </li>
-<li></li>
 </ul>
 
-<p>Any questions, email: popman.he@gmail.com.</p>
+<p>Any questions, create an issue or email: popman.he@gmail.com.</p>
