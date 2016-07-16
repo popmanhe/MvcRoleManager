@@ -214,3 +214,4 @@ ModelManifest.xml
 /*.pem
 /Document
 /.vscode
+/MvcRoleManager.Web/Web.config

@@ -1,18 +1,18 @@
 ﻿'use strict';
 (function () {
     var app = angular.module('RoleManager');
-    var basePath = '/RoleManager/Home/';
-
+    var basePath = virtualPath + '/RoleManager/Home/';
+    var apiPath = virtualPath + '/api/RoleManager/';
     //roles directive
     app.factory('MvcRoleService', ['$http', function ($http) {
         var service = {};
 
         service.GetRoles = function () {
-            return $http.get('/api/rolemanager/getroles');
+            return $http.get(apiPath + 'getroles');
         };
 
         service.AddRole = function (role, callback) {
-            $http.post('/api/RoleManager/AddRole', role).then(
+            $http.post(apiPath + 'AddRole', role).then(
                function (result) {//success
                    callback(result.data);
                }
@@ -21,11 +21,11 @@
            });
         };
         service.UpdateRole = function (role, callback) {
-            return $http.post('/api/RoleManager/UpdateRole', role);
+            return $http.post(apiPath + 'UpdateRole', role);
         };
 
         service.DeleteRole = function (role, callback) {
-            return $http.post('/api/RoleManager/DeleteRole', role);
+            return $http.post(apiPath + 'DeleteRole', role);
         };
 
         return service;
@@ -256,7 +256,7 @@
         ************************************************/
         var service = {};
         service.GetControllers = function (callback) {
-            return $http.get('/api/RoleManager/GetControllers');
+            return $http.get(apiPath + 'GetControllers');
         };
         return service;
     }])
@@ -379,7 +379,7 @@
     app.factory('MvcUserService', ['$http', function ($http) {
         var service = {};
         service.GetUsers = function (callback) {
-            $http.get('/api/rolemanager/getusers')
+            $http.get(apiPath + 'getusers')
             .then(
             function (result) {
                 callback(result.data);
@@ -389,16 +389,16 @@
         };
 
         service.AddUser = function (user) {
-            return $http.post('/api/rolemanager/AddUser', user);
+            return $http.post(apiPath + 'AddUser', user);
 
         };
 
         service.UpdateUser = function (user, callback) {
-            return $http.post('/api/rolemanager/UpdateUser', user);
+            return $http.post(apiPath + 'UpdateUser', user);
         };
 
         service.DeleteUser = function (user, callback) {
-            return $http.post('/api/rolemanager/DeleteUser', user);
+            return $http.post(apiPath + 'DeleteUser', user);
         };
         service.Login = function (user) {
             var loginData = 'grant_type=password&username=' + user.UserName + '&password=' + user.Password;

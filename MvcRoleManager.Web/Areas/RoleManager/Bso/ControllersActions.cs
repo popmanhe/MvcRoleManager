@@ -26,9 +26,15 @@ namespace MvcRoleManager.Web.Security.BSO
 
         public ControllersActions()
         {
-            _dllPath = HttpContext.Current.Server.MapPath("\\bin\\" + ConfigurationManager.AppSettings["ControllersAssembly"] + ".dll");
-            this._assembly = Assembly.LoadFrom(this._dllPath);
-
+            if (ConfigurationManager.AppSettings["ControllersAssembly"] != null)
+            {
+                _dllPath = HttpContext.Current.Request.PhysicalApplicationPath + "\\bin\\" + ConfigurationManager.AppSettings["ControllersAssembly"] + ".dll";
+                this._assembly = Assembly.LoadFrom(this._dllPath);
+            }
+            else
+            {
+                this._assembly = Assembly.GetExecutingAssembly();
+            }
             //will use autofac to inject later
             this._rolePermissionStore = new FileRolePermissionStore();
         }
@@ -92,18 +98,18 @@ namespace MvcRoleManager.Web.Security.BSO
                 {
                     ControllerName = controller.ControllerName,
                     ActionName = x.Name,
-                    Methods = string.Join(",",x.CustomAttributes.Where(attr=> 
-                    attr.AttributeType == typeof(System.Web.Mvc.HttpGetAttribute) ||
-                    attr.AttributeType == typeof(System.Web.Mvc.HttpPostAttribute) ||
-                    attr.AttributeType == typeof(System.Web.Mvc.HttpPutAttribute) ||
-                    attr.AttributeType == typeof(System.Web.Mvc.HttpDeleteAttribute) ||
-                    attr.AttributeType == typeof(System.Web.Mvc.HttpPatchAttribute) ||
-                    attr.AttributeType == typeof(System.Web.Http.HttpGetAttribute) ||
-                    attr.AttributeType == typeof(System.Web.Http.HttpPutAttribute) ||
-                    attr.AttributeType == typeof(System.Web.Http.HttpDeleteAttribute) ||
-                    attr.AttributeType == typeof(System.Web.Http.HttpPatchAttribute) ||
-                    attr.AttributeType == typeof(System.Web.Http.HttpPostAttribute)
-                    ).Select(attr=>attr.AttributeType.Name.Remove(0,4).Replace("Attribute",""))),
+                    Methods = string.Join(",", x.CustomAttributes.Where(attr =>
+                     attr.AttributeType == typeof(System.Web.Mvc.HttpGetAttribute) ||
+                     attr.AttributeType == typeof(System.Web.Mvc.HttpPostAttribute) ||
+                     attr.AttributeType == typeof(System.Web.Mvc.HttpPutAttribute) ||
+                     attr.AttributeType == typeof(System.Web.Mvc.HttpDeleteAttribute) ||
+                     attr.AttributeType == typeof(System.Web.Mvc.HttpPatchAttribute) ||
+                     attr.AttributeType == typeof(System.Web.Http.HttpGetAttribute) ||
+                     attr.AttributeType == typeof(System.Web.Http.HttpPutAttribute) ||
+                     attr.AttributeType == typeof(System.Web.Http.HttpDeleteAttribute) ||
+                     attr.AttributeType == typeof(System.Web.Http.HttpPatchAttribute) ||
+                     attr.AttributeType == typeof(System.Web.Http.HttpPostAttribute)
+                    ).Select(attr => attr.AttributeType.Name.Remove(0, 4).Replace("Attribute", ""))),
                     Description = x.GetCustomAttribute<DescriptionAttribute>()?.Description,
                     ReturnType = x.ReturnType.ToString(),
                     ParameterTypes = x.GetParameters().Select(p => p.ParameterType.ToString())
