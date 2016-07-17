@@ -27,12 +27,12 @@ If you are going to create a new project, your project can use it as scaffolding
 If you have an existing project, which uses <strong>ASP.NET MVC/WEB API</strong> as well as <strong>asp.net identity framework(Token/Claim based authentication)</strong>, you can integrate Mvc Role Manager into your project very easily.
 All you have to do is:
 <ul><li>
-Add config.Filters.Add(new ApiAuthoraiztionFilter()); to App_Start\WebApiConfig.cs file  for web api authorization;
+Add <strong>config.Filters.Add(new ApiAuthoraiztionFilter());</strong> to App_Start\WebApiConfig.cs file to enable web api authorization;
 </li>
-<li> Add filters.Add(new HandleErrorAttribute()); to App_Start\FilterConfig.cs for MVC web page authorization;
+<li> Add <strong>filters.Add(new HandleErrorAttribute());</strong> to App_Start\FilterConfig.cs to enable MVC web page authorization;
 </li>
-<li>Copy Areas/RoleManager folder to your project. MvcRoleManager resides in this folder only. </li>
-<li>The project will create two new tables, Action and ActionRoles. Action stores actions of controllers that will be configured for authorization; ActionRoles have the links between Actions and roles.</li>
+<li>Copy <strong>Areas/RoleManager</strong> folder to the root of your project. MvcRoleManager resides only in this folder . </li>
+<li>The project will create two new tables, <strong>Action</strong> and <strong>ActionRoles</strong>. Action stores actions of controllers that need to be authorized; ActionRoles have the links between Actions and Roles.</li>
 <li>Configuration page locates at http://yourproject/RoleManager/ . 
 <a href="https://drive.google.com/open?id=0B_vc8f3gs88KbUV4empfQ1k2WEk" target=_blank>SCREENSHOT</a>
 <a href="https://drive.google.com/open?id=0B_vc8f3gs88KZWV1Z3ZuN2dtckU" target=_blank>SCREENSHOT1</a>
