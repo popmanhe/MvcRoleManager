@@ -190,6 +190,8 @@
          };
 
          $scope.GetUsersByRole = function (role) {
+             if (!role.Id) //Don't get users for new role
+                 return;
              RoleManagerService.GetUsersByRole(role)
              .then(
                 function (result) {

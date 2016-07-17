@@ -11,14 +11,8 @@
             return $http.get(apiPath + 'getroles');
         };
 
-        service.AddRole = function (role, callback) {
-            $http.post(apiPath + 'AddRole', role).then(
-               function (result) {//success
-                   callback(result.data);
-               }
-           , function (result) {//failed
-               alert(result.data.ExceptionMessage);
-           });
+        service.AddRole = function (role) {
+            return $http.post(apiPath + 'AddRole', role);
         };
         service.UpdateRole = function (role, callback) {
             return $http.post(apiPath + 'UpdateRole', role);
@@ -44,8 +38,6 @@
                 $scope.Message = message;
             }
         };
-
-
         //Directive methods
         MvcRoleService.GetRoles()
         .then(
@@ -61,8 +53,6 @@
             },
             function () { }
       );
-
-
 
         $scope.SetItemClass = function (role) {
             if ($scope.selectedRole === role) {
@@ -95,8 +85,12 @@
                         role.Id = data;
                         role.stat = 'view';
                         $scope.adding = false;
+                        $scope.Message = { Content: 'Role added', Type: 'success' };
                     },
-                    function () { }
+                    function (result) {
+                        if (result.data.ExceptionMessage)
+                            $scope.Message = { Content: 'Add role failed', Type: 'danger' };
+                    }
                     );
             }
             else {
@@ -106,9 +100,12 @@
                     function () {
                         role.stat = 'view';
                         $scope.adding = false;
+                        $scope.Message = { Content: 'Role added', Type: 'success' };
                     },
-                    function () { }
-                );
+                    function (result) {
+                        if (result.data.ExceptionMessage)
+                            $scope.Message = { Content: 'Update role failed', Type: 'danger' };
+                    });
             }
         };
 
@@ -245,6 +242,7 @@
                 scope.Properties = scope.Properties || {};
                 scope.Properties.Roles = [];
                 scope.Properties.AssignedTo = '';
+                scope.Methods = scope.Methods || {};
             }
         };
     });
@@ -379,13 +377,8 @@
     app.factory('MvcUserService', ['$http', function ($http) {
         var service = {};
         service.GetUsers = function (callback) {
-            $http.get(apiPath + 'getusers')
-            .then(
-            function (result) {
-                callback(result.data);
-            },
-            function () { }
-            );
+            return $http.get(apiPath + 'getusers');
+
         };
 
         service.AddUser = function (user) {
@@ -413,6 +406,7 @@
         return service;
     }])
     .controller('MvcUserCtrl', ['$scope', 'MvcUserService', '$uibModal', function ($scope, MvcUserService, $uibModal) {
+        var self = this;
         $scope.selectedUser;
         $scope.filters = {
             Selected: null,
@@ -421,7 +415,9 @@
         };
 
         //Directive methods
-        MvcUserService.GetUsers(function (data) {
+        MvcUserService.GetUsers()
+        .then(function (result) {
+            var data = result.data;
             if (data) {
                 data.forEach(function (u) { u.stat = 'view'; });
                 $scope.Properties.Users = data;
@@ -429,9 +425,9 @@
                     $scope.selectedUser = data[0];
                     $scope.ItemClick($scope.selectedUser);
                 }
-
             }
-        });
+        }
+        , function (result) { });
 
         $scope.SetItemClass = function (user) {
             if ($scope.selectedUser === user) {
@@ -463,8 +459,6 @@
                });
                 }
             });
-
-
         };
 
         $scope.AddUser = function () {
@@ -473,9 +467,11 @@
                 Name: '',
                 Password: '',
                 ConfirmPassword: '',
-                stat: 'new'
+                stat: 'new',
+                Message: { Content: '', Type: '' }
             };
             $scope.Properties.Users.unshift(user);
+            $scope.selectedUser = user;
             $scope.adding = true;
         };
 
@@ -493,8 +489,12 @@
                             user.Id = result.data;
                             user.stat = 'view';
                             $scope.adding = false;
+                            showMessages({ Content: 'User added.', Type: 'success' });
                         },
-                        function () { }
+                        function (result) {
+                            if (result.data.ExceptionMessage)
+                                showMessages({ Content: result.data.ExceptionMessage, Type: 'danger' });
+                        }
                         );
             }
             else {
@@ -504,13 +504,13 @@
                     function (result) {
                         user.stat = 'view';
                         $scope.adding = false;
+                        showMessages({ Content: 'User updated.', Type: 'success' });
                     },
                     function (result) {
-
+                        if (result.data.ExceptionMessage)
+                            showMessages({ Content: result.data.ExceptionMessage, Type: 'danger' });
                     }
                 );
-
-
             }
         };
 
@@ -551,8 +551,11 @@
 
         //private methods
         var showMessages = function (messages) {
-            $scope.Messages = messages;
-        };
+            $scope.selectedUser.Message = messages;
+        },
+            clearMessage = function () {
+                $scope.selectedUser.Message = '';
+            };
 
         //public methods
         $scope.Methods = {
@@ -560,15 +563,19 @@
         };
         //public attributes
         $scope.ItemClick = function (user) {
+            if ($scope.selectedUser != user)
+                clearMessage();
             $scope.selectedUser = user;
             $scope.onItemclick({ user: $scope.selectedUser });
         };
 
         $scope.Save = function () {
+            clearMessage();
             $scope.onSave({ user: $scope.selectedUser });
         };
 
         $scope.Cancel = function () {
+            clearMessage();
             $scope.onCancel({ user: $scope.selectedUser });
         };
     }])
@@ -591,17 +598,17 @@
             }
         };
     })
-    .controller('UserPasswordModalCtrl', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+.controller('UserPasswordModalCtrl', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
 
-        $scope.Password = '';
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.Password);
-        };
+    $scope.Password = '';
+    $scope.ok = function () {
+        $uibModalInstance.close($scope.Password);
+    };
 
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
-        };
-    }]);
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+}]);
 
     //messages directive
     app.controller('MessageCtrl', ['$scope', '$attrs', '$interpolate', '$timeout', function ($scope, $attrs, $interpolate, $timeout) {

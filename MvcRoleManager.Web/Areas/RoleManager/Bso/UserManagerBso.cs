@@ -59,6 +59,27 @@ namespace MvcRoleManager.Web.Security.BSO
         }
 
         /// <summary>
+        /// Update user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task UpdateUser(MvcUser user)
+        {
+            var dbUser = await UserManager.FindByIdAsync(user.Id);
+            if (dbUser == null) return;
+
+            dbUser.Email = user.Email;
+            dbUser.UserName = user.UserName;
+            UserManager.Update(dbUser);
+
+            if (!string.IsNullOrEmpty(user.Password))
+            {
+                //reset password instead of changing it
+                string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                await UserManager.ResetPasswordAsync(user.Id, token, user.Password);
+            }
+        }
+        /// <summary>
         /// Get users who belong to the role
         /// </summary>
         /// <param name="role"></param>
@@ -98,27 +119,6 @@ namespace MvcRoleManager.Web.Security.BSO
         }
 
 
-        /// <summary>
-        /// Update user
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public async Task UpdateUser(MvcUser user)
-        {
-            var dbUser = await UserManager.FindByIdAsync(user.Id);
-            if (dbUser == null) return;
-
-            dbUser.Email = user.Email;
-            dbUser.UserName = user.UserName;
-            UserManager.Update(dbUser);
-
-            if (!string.IsNullOrEmpty(user.Password))
-            {
-                //reset password instead of changing it
-                string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                await UserManager.ResetPasswordAsync(user.Id, token, user.Password);
-            }
-        }
 
         /// <summary>
         /// Add users to role

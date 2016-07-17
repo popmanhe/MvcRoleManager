@@ -166,9 +166,9 @@ namespace MvcRoleManager.Web.Security.Api
                     string userId = await UserManagerBso.AddUser(user);
                     return Ok<string>(userId);
                 }
-                catch
+                catch(Exception ex)
                 {
-                    throw;
+                    return InternalServerError(ex);
                 }
             }
             else
@@ -182,9 +182,9 @@ namespace MvcRoleManager.Web.Security.Api
                 await UserManagerBso.DeleteUser(user);
                 return Ok<string>(user.Id);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                return InternalServerError(ex);
             }
         }
 
@@ -197,40 +197,33 @@ namespace MvcRoleManager.Web.Security.Api
         [HttpPost]
         public async Task<IHttpActionResult> UpdateUser(MvcUser user)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await UserManagerBso.UpdateUser(user);
-                return Ok();
+                try
+                {
+                    await UserManagerBso.UpdateUser(user);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return InternalServerError(ex);
+                }
             }
-            catch
-            {
-                return InternalServerError();
-            }
+            else
+            { return BadRequest(ModelState); }
         }
         [HttpPost]
         public List<string> GetUsersByRole(MvcRole role)
         {
-            try
-            {
                 return UserManagerBso.GetUsersByRole(role);
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         [HttpGet]
         public async Task<List<string>> GetRolesByUser(string id)
         {
-            try
-            {
+           
                 return await UserManagerBso.GetRolesByUser(id);
-            }
-            catch
-            {
-                return null;
-            }
+            
         }
 
 
@@ -242,9 +235,9 @@ namespace MvcRoleManager.Web.Security.Api
                 await UserManagerBso.AddRolesToUser(user);
                 return Ok();
             }
-            catch
+            catch (Exception ex)
             {
-                return InternalServerError();
+                return InternalServerError(ex);
             }
         }
         [HttpPost]
@@ -255,9 +248,9 @@ namespace MvcRoleManager.Web.Security.Api
                 await UserManagerBso.AddUsersToRole(role);
                 return Ok();
             }
-            catch
+            catch (Exception ex)
             {
-                return InternalServerError();
+                return InternalServerError(ex);
             }
         }
 

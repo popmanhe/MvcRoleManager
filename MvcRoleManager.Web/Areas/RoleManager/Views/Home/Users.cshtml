@@ -1,102 +1,103 @@
-﻿    <!-- Users directive -->
+﻿<!-- Users directive -->
 <div class="panel panel-default">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
-        <h4>Users </h4>
-        <div class="row">
-            <div class="form-group col-md-4">
-                <label class="sr-only">Search</label>
-                <input type="text" class="form-control" ng-model="filters.search" placeholder="Search">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
+    <h4>Users </h4>
+    <div class="row">
+      <div class="form-group col-md-4">
+        <label class="sr-only">Search</label>
+        <input type="text" class="form-control" ng-model="filters.search" placeholder="Search">
             </div>
-            <div class="checkbox" ng-show="Properties.ShowCheckbox">
-                <label>
-                    <input type="checkbox" ng-model="filters.selectedOnly"
-                           ng-change="showSelectedOnly()" />Show selected only
-                </label>
-            </div>
+      <div class="checkbox" ng-show="Properties.ShowCheckbox">
+        <label>
+          <input type="checkbox" ng-model="filters.selectedOnly"
+                 ng-change="showSelectedOnly()" />Show selected only
+        </label>
+      </div>
+    </div>
+    <a href="" ng-click="AddUser()" ng-show="!adding">
+      <i class="glyphicon glyphicon-plus"></i>Add New User
+    </a>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item" style="cursor: pointer" ng-repeat="user in Properties.Users | filter:filters.search"
+        ng-click="ItemClick(user)" ng-class="SetItemClass(user)">
+      <div class="row">
+        <div class="col-md-8">
+          <div ng-show="user.stat=='view'">
+            <strong>Email: {{user.Email}}</strong>
+            <p>User Name: {{user.UserName}}</p>
+            <a class="btn btn-info btn-xs" ng-click="Login(user)">Login</a>
+            <p class="text-danger small">Default endpoint: "/Token".</p>
+          </div>
+          <div ng-show="user.stat=='edit' || user.stat=='new'">
+            <form name="userForm" novalidate="">
+              <label>Email</label>
+              <div class="input-group">
+                <input type="email" name="email" class="form-control" required=""
+                       aria-describedby="Email" ng-model="user.Email" style="color: black;">
+                  <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block" style="color: #a94442">Email is required.</p>
+                </div>
+              <label>User Name</label>
+              <div class="input-group">
+                <input type="text" class="form-control" required="" name="username"
+                       aria-describedby="User Name" ng-model="user.UserName" style="color: black;">
+                  <p ng-show="userForm.username.$invalid && !userForm.username.$pristine" class="help-block" style="color: #a94442">User name is required.</p>
+                </div>
+              <label>Password</label>
+              <div class="input-group">
+                <input type="password" name="password" class="form-control" required=""
+                       aria-describedby="Password" ng-model="user.Password" style="color: black;">
+                  <p ng-show="userForm.password.$invalid && !userForm.password.$pristine" class="help-block" style="color: #a94442">Password is required.</p>
+                </div>
+              <label>Confirm Password</label>
+              <div class="input-group">
+                <input type="password" class="form-control" required="" name="confirmpassword"
+                       aria-describedby="Confirm Password" ng-model="user.ConfirmPassword" style="color: black;">
+                  <p ng-show="userForm.confirmpassword.$invalid && !userForm.confirmpassword.$pristine" class="help-block" style="color: #a94442">Confirm Password is required.</p>
+                </div>
+            </form>
+          </div>
         </div>
-        <a href="" ng-click="AddUser()" ng-show="!adding">
-            <i class="glyphicon glyphicon-plus"></i>Add New User
-        </a>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item" style="cursor: pointer" ng-repeat="user in Properties.Users | filter:filters.search"
-            ng-click="ItemClick(user)" ng-class="SetItemClass(user)">
-            <div class="row">
-                <div class="col-md-8">
-                    <div ng-show="user.stat=='view'">
-                        <strong>Email: {{user.Email}}</strong>
-                        <p>User Name: {{user.UserName}}</p>
-                        <a class="btn btn-info btn-xs" ng-click="Login(user)">Login</a>
-                        <p class="text-danger small">Default endpoint: "/Token".</p>
-                    </div>
-                    <div ng-show="user.stat=='edit' || user.stat=='new'">
-                        <form name="userForm" novalidate>
-                            <label>Email</label>
-                            <div class="input-group">
-                                <input type="email" name="email" class="form-control" required
-                                       aria-describedby="Email" ng-model="user.Email" style="color: black;">
-                                <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block" style="color: #a94442">Email is required.</p>
-                            </div>
-                            <label>User Name</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" required name="username"
-                                       aria-describedby="User Name" ng-model="user.UserName" style="color: black;">
-                                <p ng-show="userForm.username.$invalid && !userForm.username.$pristine" class="help-block" style="color: #a94442">User name is required.</p>
-                            </div>
-                            <label>Password</label>
-                            <div class="input-group">
-                                <input type="password" name="password" class="form-control" required
-                                       aria-describedby="Password" ng-model="user.Password" style="color: black;">
-                                <p ng-show="userForm.password.$invalid && !userForm.password.$pristine" class="help-block" style="color: #a94442">Password is required.</p>
-                            </div>
-                            <label>Confirm Password</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" required name="confirmpassword"
-                                       aria-describedby="Confirm Password" ng-model="user.ConfirmPassword" style="color: black;">
-                                <p ng-show="userForm.confirmpassword.$invalid && !userForm.confirmpassword.$pristine" class="help-block" style="color: #a94442">Confirm Password is required.</p>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-md-1" ng-show="Properties.ShowCheckbox">
-                    <input type="checkbox" ng-model="user.Selected" />
-                </div>
-                <div class="col-md-3">
-                    <div ng-show="user.stat=='view'">
-                        <div class="btn-group" User="group">
-                            <button type="button" class="btn btn-default btn-sm" ng-click="EditUser(user)">Edit</button>
-                            <button type="button" class="btn btn-default btn-sm" ng-click="DeleteUser(user)">Delete</button>
-                        </div>
-                    </div>
-                    <div ng-show="user.stat=='edit' || user.stat=='new'">
-                        <div class="btn-group-vertical" User="group">
-                            <button type="button" class="btn btn-default btn-sm" ng-click="UpdateUser(user)" ng-disabled="userForm.$invalid">Save</button>
-                            <button type="button" class="btn btn-default btn-sm" ng-click="CancelUpdate(user)">Cancel </button>
-                        </div>
-                    </div>
-                </div>
+        <div class="col-md-1" ng-show="Properties.ShowCheckbox">
+          <input type="checkbox" ng-model="user.Selected" />
+        </div>
+        <div class="col-md-3">
+          <div ng-show="user.stat=='view'">
+            <div class="btn-group" User="group">
+              <button type="button" class="btn btn-default btn-sm" ng-click="EditUser(user)">Edit</button>
+              <button type="button" class="btn btn-default btn-sm" ng-click="DeleteUser(user)">Delete</button>
             </div>
-        </li>
-    </ul>
-    <div class="panel-footer" ng-show="showfooter == 'true'">
-        <button class="btn btn-primary" type="button" ng-click="Save()">Save</button>
-        <button class="btn btn-default" type="button" ng-click="Cancel()">Cancel</button>
-    </div>
+          </div>
+          <div ng-show="user.stat=='edit' || user.stat=='new'">
+            <div class="btn-group-vertical" User="group">
+              <button type="button" class="btn btn-default btn-sm" ng-click="UpdateUser(user)" ng-disabled="userForm.$invalid">Save</button>
+              <button type="button" class="btn btn-default btn-sm" ng-click="CancelUpdate(user)">Cancel </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <uib-alert type="{{user.Message.Type}}"  ng-show="user.Message && user.Message.Content!=''" close="user.Message.Content = ''">{{user.Message.Content}}</uib-alert>
+    </li>
+  </ul>
+  <div class="panel-footer" ng-show="showfooter == 'true'">
+    <button class="btn btn-primary" type="button" ng-click="Save()">Save</button>
+    <button class="btn btn-default" type="button" ng-click="Cancel()">Cancel</button>
+  </div>
 </div>
 
 <script type="text/ng-template" id="userPassword.html">
-    <div class="modal-header">
-        <h4 class="modal-title">Enter password</h4>
-    </div>
-    <div class="modal-body">
-        <div class="input-group">
-            <input type="password" name="password" placeholder="Password" class="form-control" required
-                   aria-describedby="Password" ng-model="Password" style="color: black;">
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-    </div>
+  <div class="modal-header">
+    <h4 class="modal-title">Enter password</h4>
+  </div>
+  <div class="modal-body">
+    <div class="input-group">
+      <input type="password" name="password" placeholder="Password" class="form-control" required=""
+             aria-describedby="Password" ng-model="Password" style="color: black;">
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+  </div>
 </script>
