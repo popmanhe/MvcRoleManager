@@ -34,8 +34,8 @@ Add <strong>config.Filters.Add(new ApiAuthoraiztionFilter());</strong> to App_St
 <li>Copy <strong>Areas/RoleManager</strong> folder to the root of your project. MvcRoleManager resides only in this folder . </li>
 <li>The project will create two new tables, <strong>Action</strong> and <strong>ActionRoles</strong>. Action stores actions of controllers that need to be authorized; ActionRoles have the links between Actions and Roles.</li>
 <li>Configuration page locates at http://yourproject/RoleManager/ . 
-<a href="https://drive.google.com/open?id=0B_vc8f3gs88KbUV4empfQ1k2WEk" target=_blank>SCREENSHOT</a>
-<a href="https://drive.google.com/open?id=0B_vc8f3gs88KZWV1Z3ZuN2dtckU" target=_blank>SCREENSHOT1</a>
+<strong><a href="https://drive.google.com/open?id=0B_vc8f3gs88KbUV4empfQ1k2WEk" target=_blank>SCREENSHOT</a></strong>
+<strong><a href="https://drive.google.com/open?id=0B_vc8f3gs88KZWV1Z3ZuN2dtckU" target=_blank>SCREENSHOT1</a></strong>
 </li>
 </ul>
 
