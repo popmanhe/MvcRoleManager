@@ -12,7 +12,8 @@ namespace MvcRoleManager.Web.Security.ViewModels
         [DataType(DataType.EmailAddress, ErrorMessage = "Email address is not valid")]
         public string Email { get; set; }
         public string Password { get; set; }
-
+        [Compare("Password")]
+        public string ConfirmPassword { get; set; }
         public List<MvcRole> Roles { get; set; }
         public bool Selected { get; set; }
     }
