@@ -1,6 +1,6 @@
 # Mvc Role Manager
 
-<h4>This project provides a functionality that can authorize roles to controller/actions dynamically via a web page.</h4> 
+<h4>This project provides a functionality that can authorize roles to controllers/actions dynamically via a web page.</h4> 
 <p>It is using Asp.net MVC, Identity framework, OAuth security, Token/Claims based authentication/authorization, Owin, Web Api2 and Angular.js.</p>
 
 Asp.net mvc provides an authorization featuers based on roles/users for controllers and actions. 
